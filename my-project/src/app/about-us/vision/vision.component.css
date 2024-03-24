@@ -1,0 +1,119 @@
+.vision {
+    display: flex;
+    position: relative
+}
+
+.vision-content {
+    margin: 172px auto 0 auto;
+    background-color: #FFCE34;
+    width: 98%;
+    height: auto;
+    border-radius: 32px;
+    position: relative;
+}
+
+.vision-content h1 {
+    color: #000000;
+    font-size: 40px;
+    line-height: 44px;
+    width: 55%;
+    text-transform: uppercase;
+    padding-left: 40px;
+    padding-top: 38px;
+    word-spacing: 10px;
+}
+
+.vision-content p {
+    font-size: 16px;
+    width: 40%;
+    line-height: 24px;
+    color: #000000;
+    padding-left: 40px;
+}
+
+.vision-image {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.vision-image img {
+    height: 574px;
+    padding-right: 60px;
+    padding-top: 25px;
+    position: absolute;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1050px) {
+    .vision-image img {
+        width: 50%;
+        padding-right: 0px;
+        height: 70%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .vision {
+        flex-direction: column;
+        height: auto;
+        width: 90%;
+        margin: 0 auto;
+        position: relative;
+
+    }
+
+    .vision-content {
+        width: 100%;
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+        margin-top: 0;
+        height: 700px; 
+        display: flex; 
+        flex-direction: column;
+        justify-content: flex-end; 
+        align-items: center; 
+        text-align: center; 
+        background-color: #FFCE34; 
+        border-radius: 32px; 
+        margin-bottom: 20px; 
+    }
+
+    .vision-content h1 {
+        font-size: 24px;
+        line-height: 26.4px;
+        padding-top: 20px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .vision-content p {
+        font-size: 16px;
+        line-height: 24px;
+        width: 90%;
+        margin: 0;
+        width: 95%;
+        margin-right: 10px;
+        padding-left: 0px;
+    }
+
+    .vision-content button {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .vision-image {
+        position: absolute; 
+        top: 0; 
+        left: 40%;
+        margin: 0 auto;
+        width: 70%; 
+        text-align: center; 
+        z-index: 3; 
+    }
+
+    .vision-image img {
+        max-width: 100%; 
+        height: auto;
+    }
+}
+

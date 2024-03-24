@@ -1,0 +1,43 @@
+.images {
+    display: flex;
+    flex-direction: column;
+    padding: 80px 0px 0px 20px;
+    width: 95%;
+}
+
+.images__text h2 {
+    font-size: 20px;
+    line-height: 30px;
+    color: #FFFF;
+}
+
+.images__text p {
+    font-size: 16px;
+    line-height: 24px;
+    color: #BBBBBB;
+    width: 60%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.images__img {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.images__img img {
+    width: calc(50% - 30px);
+    margin: 5px;
+    border-radius: 24px;
+    max-height: 400px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out; 
+}
+
+.images__img img:hover {
+    transform: scale(1.05); 
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}

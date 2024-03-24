@@ -1,0 +1,65 @@
+.challenges {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding-top: 5rem;
+    padding: 50px 30px 0px 50px;
+    margin: 0 auto;
+}
+
+.challenges__description {
+    align-items: flex-start; 
+}
+
+
+.challenges__description .par {
+    font-size: 20px;
+    line-height: 30px;
+    color: #BBBBBB;
+    width: 90%;
+}
+
+.challenges__line {
+border: 1px solid #333333;
+margin-top: 5rem;
+margin-bottom: 5rem;
+}
+
+.challenge__description-divs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.challenges__info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.challenges__info-title {
+    width: 30%; 
+
+    h2{
+        font-size: 20px;
+        line-height: 30px;
+        color: #FFFF;
+    }
+}
+
+.challenges__info-content {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.challenges__info-content  p{
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffff;
+}
+
+.challenges__info-content p span {
+    color: yellow; 
+}

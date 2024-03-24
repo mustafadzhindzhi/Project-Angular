@@ -1,0 +1,75 @@
+.our_work {
+    padding: 35px 0px 0px 30px;
+    height: auto;
+    width: 98%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.buttons {
+    display: flex;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; 
+}
+
+.right-end {
+    margin-left: auto; 
+    align-self: flex-end; 
+}
+
+.our_work h2 {
+    font-size: 70px;
+    font-weight: 700;
+    line-height: 88px;
+    color: #FFFF;
+}
+
+.our_work__btn {
+    width: 145px;
+    height: 32px;
+    border-radius: 6px;
+    padding: 9px 12px 9px 12px;
+    background-color: #FFCE34;
+    border: none;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.our_work__btn:hover,
+.our_work__btn-right:hover {
+    cursor: pointer;
+    background-color: #deac09;
+    transition: 0.3s ease-in-out;
+}
+
+.our_work__btn-right {
+    width: 200px;
+    height: 42px;
+    border-radius: 6px;
+    padding: 9px 12px 9px 12px;
+    background-color: #FFCE34;
+    border: none;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-right: 2rem;
+}
+
+@media screen and (max-width:768px) {
+    .our_work h2 {
+        font-size: 50px;
+    }
+    .our_work__btn {
+        margin-top: 20px;
+    }
+
+    .our_work__btn-right{
+        width: 100%;
+        font-size: 12px;
+    }
+}

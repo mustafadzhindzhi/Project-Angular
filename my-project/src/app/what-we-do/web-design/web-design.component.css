@@ -1,0 +1,99 @@
+.web__design {
+    display: flex;
+    width: 100%;
+    padding: 115px 0 0 60px;
+}
+
+.right-side {
+    width: 38%;
+}
+
+.left-side {
+    width: 62%;
+}
+
+.web__design-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.web__design-content h4 {
+    font-size: 20px;
+    line-height: 22px;
+    color: #999999;
+    margin: 16px 0;
+    cursor: pointer;
+    position: relative;
+    transition: left 0.3s ease;
+}
+
+.web__design-content h4.active::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -40px;
+    height: 10%;
+    width: 35px;
+    background-color: yellow;
+}
+
+.web__design-content h4.active {
+    left: 40px;
+    color: #FFCE34;
+}
+
+.web__design-ilu {
+    display: flex;
+    flex-direction: column;
+}
+
+.web__design-ilu img {
+    width: 40%;
+}
+
+.web__design-ilu h2 {
+    margin: 0;
+    font-size: 40px;
+    line-height: 44px;
+    color: #F1F1F1;
+    padding-top: 40px;
+    padding-left: 10px;
+}
+
+.web__design-ilu p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+    color: #BBBBBB;
+    padding-top: 20px;
+    padding-left: 10px;
+    width: 85%;
+    padding-bottom: 35px;
+}
+
+.web__design-ilu .button {
+    width: 20%;
+    height: 30px;
+    border: none;
+}
+
+@media screen and (max-width:768px) {
+    .web__design {
+        padding-top: 50px;
+        flex-direction: column;
+        padding-left: 20px;
+    }
+
+    .right-side,
+    .left-side {
+        width: 100%;
+    }
+
+    .web__design-ilu img {
+        width: 100%;
+    }
+
+    .web__design-ilu .button {
+        width: 50%;
+    }
+}

@@ -1,0 +1,17 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ProjectsComponent } from './projects.component';
+import { ProjectsRouting } from './projects.routing.module';
+import { WorkComponent } from './work/work.component';
+import { FeaturesCardsComponent } from './features-cards/features-cards.component';
+import { CurrentProjectModule } from './current-project/current-project.module';
+
+@NgModule({
+  declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent],
+  imports: [
+    CommonModule,
+    ProjectsRouting,
+    CurrentProjectModule,
+  ]
+})
+export class ProjectsModule { }

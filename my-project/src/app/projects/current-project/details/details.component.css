@@ -1,0 +1,144 @@
+.details__name{
+    text-align: center;
+}
+
+.details__name h2{
+    font-size: 70px;
+    color: #FFFFFF;    
+}
+
+.details__name p{
+    font-size: 16px;
+    color: #FFFFFF; 
+    width: 70%;      
+    margin: 0 auto;
+}
+
+.details__name img{
+    width: 95%;
+    margin-top: 5rem;
+    height: 790px;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.details__project-info {
+    width: 90%;
+    background-color: #252525;
+    border-radius: 24px;
+    height: 380px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    margin: 0 auto;
+}
+
+.details__project-info_left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 57%;
+    justify-content: space-between;
+}
+
+.details__project-info_left h3{
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 5px;
+}
+.details__project-info_left p{
+    font-size: 64px;
+    line-height: 70.4px;
+    font-weight: 700;
+    color: #0DB14B;
+    margin: 5px;
+}
+
+.details__project-info_left-line {
+    border: 1px solid #444444;
+    width: 100%;
+}
+
+.details__project-info_left-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 50%; 
+}
+
+.details__project-info_left-info:last-child {
+    justify-content: flex-end; 
+}
+
+.details__project-info-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40%;
+}
+
+.details__project-info-right_text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.details__project-info-right-info p{
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+}   
+
+.details__project-info-right-info h2{
+    font-size: 20px;
+    line-height: 30px;
+    color: #FFFFFF;
+}
+.details__project-info-right-info_button {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    background-color: #FFCE34;
+    padding: 14px 16px 14px 24px;
+    border-radius: 24px; 
+    align-items: center;
+    transition: background-color 0.3s ease-in-out; 
+    cursor: pointer; 
+
+    h2 {
+        font-size: 14px;
+        line-height: 20.3px;
+        color: #000000;
+        transition: color 0.3s ease-in-out; 
+    }
+
+    .toggle-button {
+        background-color: transparent;
+        border: none;
+        transition: transform 0.3s ease-in-out; 
+    }
+
+    .toggle-button span {
+        font-size: 30px;
+        padding-right: 1rem;
+    }
+
+    /* Hover effect */
+    &:hover {
+        background-color: #deac09; 
+    }
+
+    &:hover h2 {
+        color: #FFFFFF; 
+    }
+
+    &:hover .toggle-button {
+        transform: translateY(-3px); 
+    }
+}
+
+
+ 
+

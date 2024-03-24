@@ -8,12 +8,13 @@ import { PowersComponent } from './powers/powers.component';
 import { FeaturesComponent } from './features/features.component';
 import { WorkComponent } from './work/work.component';
 import { BlogComponent } from './blog/blog.component';
-import { ReadyComponent } from './ready/ready.component';
+import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
 
 @NgModule({
-  declarations: [HomeComponent, AppFirstSectionComponent, ServicesComponent, ScreenshotComponent, PowersComponent, FeaturesComponent, WorkComponent, BlogComponent, ReadyComponent],
+  declarations: [HomeComponent, AppFirstSectionComponent, ServicesComponent, ScreenshotComponent, PowersComponent, FeaturesComponent, WorkComponent, BlogComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedComponentsModule 
   ],
   exports: [HomeComponent]
 })
