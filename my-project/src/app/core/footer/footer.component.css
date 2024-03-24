@@ -1,0 +1,180 @@
+.footer {
+    display: flex;
+    width: 98%;
+    height: auto;
+    background-color: #111111;
+    margin: 0 auto;
+    padding-top: 15px;
+    border-radius: 32px;
+    margin-top: 220px;
+    flex-wrap: wrap;
+}
+
+.logo-footer  {
+    width: 100%;
+    height: 50%;
+}
+
+.logo-footer img{
+    width: 100%;
+    height: 100%;
+}
+
+.left-part {
+    padding-left: 55px;
+    width: 16.6%;
+}
+
+.icons .icons-logos {
+    display: flex;
+    max-width: 100%;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; 
+}
+
+.icons h3 {
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #F9F9F9;
+}
+
+.icon {
+    display: inline-flex; /* Use inline-flex to ensure icons stay in a line */
+    flex-wrap: wrap;
+}
+
+.icon li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.icon li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333333;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+}
+
+.icon li a i {
+    font-size: 24px;
+    color: white;
+}
+
+.icon li a i:hover {
+    color: #007bff;
+}
+
+.line {
+    width: 1px;
+    background-color: #333333;
+    height: 65%;
+    margin-top: 45px;
+}
+
+.footer-nav {
+    width: 12.6%;
+    padding-top: 25px;
+}
+
+.footer-nav ul {
+    list-style-type: none;
+}
+
+.footer-nav ul li {
+    color: #F9F9F9;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 8.5px;
+}
+
+.right-part h2 {
+    font-size: 60px;
+    line-height: 66px;
+    color: #0DB14B;
+}
+
+.footer-contacts {
+    display: flex;
+    gap: 30px;
+    padding-left: 0px;
+    margin-top: -5px;
+    padding-left: 40px;
+
+}
+
+.footer-contacts h2 {
+    font-size: 14px;
+    margin-bottom: -25px;
+    color: #F9F9F9;
+}
+
+.footer-contacts p {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #F9F9F9;
+}
+
+@media screen and (max-width:768px) {
+    .footer {
+        flex-direction: column;
+        height: auto;
+        margin-top: 70px;
+    }
+
+    .icons {
+        padding-top: 20px;
+    }
+
+    .icon {
+        display: flex;
+    }
+
+    .line {
+        display: flex;
+        width: 100%;
+        height: 2px;
+    }
+
+    .footer-nav {
+        width: 100%;
+    }
+
+    .right-part h2 {
+        font-size: 20px;
+        line-height: 22px;
+        padding-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .footer-contacts {
+        flex-direction: column;
+    }
+
+    .call {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .call h2 {
+        margin-bottom: 5px;
+        text-align: start;
+        padding-top: 0;
+    }
+
+    .call p {
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .call:last-child {
+        margin-bottom: 20px;
+    }
+}

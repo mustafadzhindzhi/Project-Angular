@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Spartan', sans-serif;
+}
+
+body {
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #050505;
+    border-radius: 20px;
+    z-index: -1;
+}
+
+
+.button {
+    border-radius: 38px;
+    font-family: 'Roc Grotesk', sans-serif;
+    font-weight: 700;
+    size: 14px;
+    line-height: 20.3px;
+    color: #000000;
+    background-color: #FFCE34;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #c49300;
+    transition: 0.3s ease-in;
+}
+
+.primary-color {
+    color: #FFCE34;
+}
+
+h2 {
+    font-weight: 700;
+}
+
+h4 {
+    font-weight: 500;
+}
+
+p {
+    font-weight: 400;
+}
+
+h5 {
+    font-weight: 300;
+}

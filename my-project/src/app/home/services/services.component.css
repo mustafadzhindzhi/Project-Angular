@@ -1,0 +1,157 @@
+.services {
+    display: flex;
+    flex-direction: column;
+    width: 93%;
+    padding: 73px 0px 0px 55px;
+    height: 120vh;
+}
+
+.services__contain {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+}
+
+.services__contain-first {
+    display: flex;
+    flex-direction: column;
+}
+
+.services__contain-first h2 {
+    font-size: 32px;
+    line-height: 35.2px;
+    color: #0DB14B;
+    text-transform: uppercase;
+}
+
+.services__contain-first p {
+    font-size: 16px;
+    line-height: 24px;
+    color: #BBBBBB;
+    width: 60%;
+    margin-top: -2px;
+    margin-bottom: 40px;
+}
+
+.services__contain-second {
+    padding-top: 20px;
+}
+
+.services__contain-second button {
+    width: 160px;
+    height: 40px;
+    border-radius: 38px;
+    border: 1px solid #FFCE34;
+    background-color: #050505;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20.3px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin-top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+.services__contain-second button:hover {
+    background-color: #1b1414;
+    transition: 0.3s ease-in-out;
+}
+
+.services__design {
+    display: flex;
+    align-items: center;
+    height: 176px;
+    justify-content: space-between;
+}
+
+.services__design p {
+    font-size: 32px;
+    line-height: 35.2px;
+    color: #FFFFFF;
+    padding-left: 40px;
+}
+
+.services__designs .services__design button {
+    background-color: #050505;
+    color: #FFCE34;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    margin-right: 65px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+}
+
+.services__design button span {
+    transform: rotate(220deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.services__design.clicked button span {
+    transform: rotate(30deg);
+}
+
+.services__design .hidden-space {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    background-color: #333333;
+    color: #FFFFFF;
+    margin-top: 10px;
+}
+
+.services__design .hidden-space h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.hidden-space h2 {
+    color: white;
+}
+
+.services__design.clicked {
+    background-color: rgb(31, 31, 31) !important;
+}
+
+@media screen and (max-width:768px) {
+    .services {
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        padding: 73px 0px 0px 0px;
+        width: 100%;
+    }
+
+    .services__contain {
+        display: flex;
+        flex-direction: column;
+        padding-left: 35px;
+    }
+
+    .services__contain-first h2 {
+        font-size: 32px;
+        line-height: 35.2px;
+    }
+
+    .services__contain-first p {
+        width: 98%;
+    }
+
+    .services__design p {
+        font-size: 24px;
+        line-height: 26.4px;
+    }
+
+    .services__designs .services__design button {
+        margin-right: 55px;
+    }
+
+    .services__design.clicked {
+        height: 88px;
+        margin-top: 20px;
+    }
+}

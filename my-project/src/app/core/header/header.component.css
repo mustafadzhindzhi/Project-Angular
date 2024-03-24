@@ -1,0 +1,179 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 30px 0px 30px;
+    max-height: 7.5rem;
+}
+
+.nav-container nav {
+    padding-top: 15px;
+    width: 55%;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}
+
+nav ul li a {
+    color: #FFFFFF;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #FFCE34;
+    transition: 0.2s ease-in-out;
+}
+
+.logo-wrapper {
+    padding: 0;
+    margin: 0;
+    width: 150px;
+}
+
+.logo-wrapper img {
+    cursor: pointer;
+    width: 100%;
+    height: auto; 
+}
+
+.button {
+    width: 180px;
+    height: 40px;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+.mobile-nav {
+    width: 50px;
+    height: 50px;
+    display: none;
+}
+
+@media screen and (max-width:1000px) {
+    .nav-container nav {
+        width: 70%;
+    }
+
+    nav ul {
+        gap: 20px;
+    }
+
+    .button {
+        width: 100%;
+        height: 80%;
+        line-height: 12px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        display: none;
+    }
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-btn {
+        margin-left: auto; 
+        width: 18%;
+        padding-bottom: 10px;
+    }
+
+    .header-btn button {
+        width: 100%;
+        height: 30px;
+    }
+
+    .btn__header {
+        display: block;
+    }
+
+    .mobile-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: none;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        margin-right: 10px; 
+    }
+
+    .menu-toggle:focus {
+        outline: none;
+    }
+
+    #main-nav ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-toggle.active+#main-nav {
+        display: block;
+    }
+
+    body.nav-active {
+        overflow: hidden;
+    }
+
+    #main-nav {
+        display: none;
+        background: #333;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+    }
+
+    #main-nav.active {
+        display: block;
+    }
+
+    #main-nav ul {
+        padding: 10px;
+        list-style: none;
+        text-align: center;
+        margin: 0;
+        padding-top: 40px;
+    }
+
+    #main-nav ul li {
+        margin-bottom: 10px;
+    }
+
+    #main-nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        display: block;
+        padding: 10px;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+}
