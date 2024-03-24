@@ -1,0 +1,39 @@
+.work {
+    padding: 30px 0px 0px 60px;
+    height: 73vh;
+}
+
+.features__contain {
+    display: flex;
+    justify-content: space-between;
+}
+
+.features__logos {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    padding-top: 70px;
+}
+
+.features__logos img {
+    width: 142.61px;
+    height: 47.05px;
+}
+
+@media screen and (max-width:768px) {
+    .work {
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        height: auto;
+    }
+
+    .features__logos {
+        flex-wrap: wrap;
+    }
+
+    .features__logos img {
+        width: 48%;
+        margin-bottom: 20px;
+    }
+}

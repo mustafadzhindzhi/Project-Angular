@@ -1,0 +1,146 @@
+.ready {
+    display: flex;
+    padding: 125px 20px 0 64px;
+    justify-content: space-between;
+}
+
+.ready__content {
+    background-color: #FFFFFF;
+    width: 98%;
+    height: 424px;
+    border-radius: 32px;
+    margin: 100px auto 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.ready__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 77%;
+    height: 100%;
+}
+
+.ready__text h2 {
+    font-size: 40px;
+    line-height: 44px;
+    color: #000000;
+    padding-left: 35px;
+    margin-top: 10px;
+
+}
+
+.ready__text p {
+    font-size: 16px;
+    line-height: 24px;
+    width: 50%;
+    margin-left: 170px;
+    margin-top: 0px;
+    color: #000000;
+    margin-top: -10px;
+}
+
+.ready__image {
+    display: flex;
+    justify-items: flex-start;
+}
+
+.ready__image img {
+    height: 538px;
+    position: absolute;
+    padding-top: 40px;
+    padding-left: 78px;
+    filter: grayscale(100%);
+}
+
+.ready__content-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    gap: 10px;
+    padding-left: 160px;
+}
+
+.ready__content-buttons button:first-child {
+    background-color: #050505;
+    color: #FFFFFF;
+    width: 293px;
+    height: 40px;
+    border-radius: 38px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20.3px;
+    cursor: pointer;
+    border: none;
+}
+
+.ready__content-buttons button:first-child:hover {
+    background-color: #735252;
+    transition: 0.3s ease-in;
+}
+
+.button {
+    height: 40px;
+    border: none;
+}
+
+.ready__content-buttons span {
+    line-height: 40px;
+}
+
+@media screen and (max-width: 768px) {
+    .ready {
+        padding: 70px 0px 0 20px;
+        height: auto;
+        flex-direction: column;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .ready__image img {
+        width: 278px;
+        height: 217px;
+    }
+
+    .ready__text p {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .ready__content {
+        margin-top: 0;
+        height: auto
+    }
+
+    .ready__content-buttons {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .ready__text {
+        width: 95%;
+        padding-top: 16rem;
+    }
+
+    .ready__text h2 {
+        padding-left: 0;
+    }
+
+    .ready__text p {
+        margin-right: 10px;
+    }
+
+    .ready__content-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #drop__btn {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+}
