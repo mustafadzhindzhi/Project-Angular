@@ -25,9 +25,9 @@ export class LoginComponent {
       return
     }
 
-    const {name, email, password, tel, rePassword } = form.value;
+    const {username, email, password, tel, rePassword } = form.value;
 
-    this.userService.register(name, email, tel, password, rePassword).subscribe(() => {
+    this.userService.register(username, email, tel, password, rePassword).subscribe(() => {
       this.router.navigate(['/home'])
 
     })

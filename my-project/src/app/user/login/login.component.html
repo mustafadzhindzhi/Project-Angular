@@ -11,7 +11,7 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registeration</span>
-                <input type="text" name="name" placeholder="Name" ngModel #inputName="ngModel" required>
+                <input type="text" name="username" placeholder="Username" ngModel #inputName="ngModel" required>
                 <ng-container *ngIf="inputName.touched">
                     <p *ngIf="inputName.errors?.['required']">Name is required</p>
                 </ng-container>
