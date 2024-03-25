@@ -113,31 +113,6 @@ function like(req, res, next) {
         .catch(next);
 }
 
-function getUserProfiles(req, res, next) {
-    userModel.find()
-        .populate('projects')
-        .then(usersWithProjects => {
-            res.json(usersWithProjects);
-        })
-        .catch(error => {
-            console.error('Error fetching user profiles:', error);
-            res.status(500).json({ error: 'Failed to fetch user profiles' });
-        });
-}
-
-function getUserProjects(req, res, next) {
-    const userId = req.params.userId;
-
-    projectModel.find({ userId: userId })
-        .then(projects => {
-            res.json(projects);
-        })
-        .catch(error => {
-            console.error('Error fetching user projects:', error);
-            res.status(500).json({ error: 'Failed to fetch user projects' });
-        });
-}
-
 module.exports = {
     getProjects,
     getProject,
@@ -146,7 +121,5 @@ module.exports = {
     deleteProject,
     getLatestProjects,
     like,
-    getUserProfiles,
-    getUserProjects
 }
 

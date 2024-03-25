@@ -1,6 +1,7 @@
 const {
     userModel,
-    tokenBlacklistModel
+    tokenBlacklistModel,
+    projectModel
 } = require('../models');
 
 const utils = require('../utils');
@@ -84,27 +85,36 @@ function logout(req, res) {
         .catch(err => res.send(err));
 }
 
-function getProfileInfo(req, res, next) {
-    const { _id: userId } = req.user;
-
-    userModel.findOne({ _id: userId }, { password: 0, __v: 0 })
-        .then(user => { res.status(200).json(user) })
-        .catch(next);
+function getUserProfiles(req, res, next) {
+    userModel.find()
+        .populate('projects')
+        .then(usersWithProjects => {
+            res.json(usersWithProjects);
+        })
+        .catch(error => {
+            console.error('Error fetching user profiles:', error);
+            res.status(500).json({ error: 'Failed to fetch user profiles' });
+        });
 }
 
-function editProfileInfo(req, res, next) {
-    const { _id: userId } = req.user;
-    const { tel, username, email } = req.body;
+function getUserProjects(req, res, next) {
+    const userId = req.params.userId;
 
-    userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true })
-        .then(x => { res.status(200).json(x) })
-        .catch(next);
+    projectModel.find({ userId: userId })
+        .then(projects => {
+            res.json(projects);
+        })
+        .catch(error => {
+            console.error('Error fetching user projects:', error);
+            res.status(500).json({ error: 'Failed to fetch user projects' });
+        });
 }
+
 
 module.exports = {
     login,
     register,
     logout,
-    getProfileInfo,
-    editProfileInfo,
+    getUserProfiles, 
+    getUserProjects
 }

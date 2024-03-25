@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { auth } = require('../utils');
-const { postController } = require('../controllers');
+const {auth} = require('../utils');
+const {projectController} = require('../controllers');
 
-router.put('/:projectId', auth(), )
+router.put('/:projectId', auth(), projectController.like);
 
 module.exports = router;
