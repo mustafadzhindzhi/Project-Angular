@@ -28,7 +28,7 @@ import { ContactsModule } from './contacts/contacts.module';
     CustomersModule,
     ProjectsModule,
     AboutUsModule, 
-    ContactsModule
+    ContactsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

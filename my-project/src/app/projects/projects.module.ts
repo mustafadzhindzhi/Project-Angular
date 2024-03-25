@@ -5,6 +5,7 @@ import { ProjectsRouting } from './projects.routing.module';
 import { WorkComponent } from './work/work.component';
 import { FeaturesCardsComponent } from './features-cards/features-cards.component';
 import { CurrentProjectModule } from './current-project/current-project.module';
+import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
 
 @NgModule({
   declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent],
