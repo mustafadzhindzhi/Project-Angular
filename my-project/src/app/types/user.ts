@@ -10,7 +10,7 @@ export interface User{
     __v: number;
 }
 
-export interface UseForAuth {
+export interface UserForAuth {
     username: string;
     email: string;
     tel: string;

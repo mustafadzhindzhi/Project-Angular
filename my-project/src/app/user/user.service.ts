@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { UseForAuth } from '../types/user';
+import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
 
@@ -7,10 +7,10 @@ import { BehaviorSubject, Subscription, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService implements OnDestroy {
-  private user$$ = new BehaviorSubject<UseForAuth | undefined>(undefined);
+  private user$$ = new BehaviorSubject<UserForAuth | undefined>(undefined);
   private user$ = this.user$$.asObservable();
 
-  user: UseForAuth | undefined;
+  user: UserForAuth | undefined;
   USER_KEY = '[user]';
 
   userSubscription: Subscription;
@@ -27,14 +27,14 @@ export class UserService implements OnDestroy {
 
   login(email: string, password: string) {
     return this.http
-      .post<UseForAuth>('/api/login', { email, password })
+      .post<UserForAuth>('/api/login', { email, password })
       .pipe(tap((user) => this.user$$.next(user)));
   }
 
-  register(username: string, email: string, tel: string, password: string, rePassword: string) {
+  register(name: string, email: string, tel: string, password: string, rePassword: string) {
     return this.http
-      .post<UseForAuth>('/api/regiser', {
-        username,
+      .post<UserForAuth>('/api/register', {
+        name,
         email,
         tel,
         password,
@@ -51,13 +51,13 @@ export class UserService implements OnDestroy {
 
   getProfile() {
     return this.http
-      .get<UseForAuth>('/api/users/profile')
+      .get<UserForAuth>('/api/users/profile')
       .pipe(tap((user) => this.user$$.next(user)));
   }
 
   updateProfile(username: string, email: string, tel?: string) {
     return this.http
-      .put<UseForAuth>('/api/users/profile', {
+      .put<UserForAuth>('/api/users/profile', {
         username,
         email,
         tel,
