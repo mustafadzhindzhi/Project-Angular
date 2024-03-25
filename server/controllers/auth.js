@@ -46,32 +46,42 @@ function register(req, res, next) {
 
 function login(req, res, next) {
     const { email, password } = req.body;
+    console.log('Login request received:', req.body); 
 
     userModel.findOne({ email })
         .then(user => {
-            return Promise.all([user, user ? user.matchPassword(password) : false]);
-        })
-        .then(([user, match]) => {
-            if (!match) {
-                res.status(401)
-                    .send({ message: 'Wrong email or password' });
-                return
+            console.log('User found:', user); // Log user object
+            if (!user) {
+                // User not found
+                res.status(401).json({ message: 'User not found' });
+                return;
             }
-            user = bsonToJson(user);
-            user = removePassword(user);
+            user.matchPassword(password)
+                .then(match => {
+                    if (!match) {
+                        // Incorrect password
+                        res.status(401).json({ message: 'Wrong email or password' });
+                        return;
+                    }
 
-            const token = utils.jwt.createToken({ id: user._id });
+                    // Authentication successful
+                    user = bsonToJson(user);
+                    user = removePassword(user);
 
-            if (process.env.NODE_ENV === 'production') {
-                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
-            } else {
-                res.cookie(authCookieName, token, { httpOnly: true })
-            }
-            res.status(200)
-                .send(user);
+                    const token = utils.jwt.createToken({ id: user._id });
+
+                    if (process.env.NODE_ENV === 'production') {
+                        res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
+                    } else {
+                        res.cookie(authCookieName, token, { httpOnly: true })
+                    }
+                    res.status(200).json(user);
+                })
+                .catch(next); // Catch any errors from matchPassword
         })
-        .catch(next);
+        .catch(next); // Catch any errors from findOne
 }
+
 
 function logout(req, res) {
     const token = req.cookies[authCookieName];

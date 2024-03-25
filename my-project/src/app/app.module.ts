@@ -12,6 +12,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { AboutUsModule } from './about-us/about-us.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { UserModule } from './user/user.module';
+import { appInterceptorProvider } from './app.interceptor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,9 +30,11 @@ import { UserModule } from './user/user.module';
     ProjectsModule,
     AboutUsModule, 
     ContactsModule,
-    UserModule
+    UserModule,    
+    FormsModule
+
   ],
-  providers: [],
+  providers: [appInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

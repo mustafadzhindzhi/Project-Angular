@@ -5,8 +5,8 @@ const likes = require('./likes');
 const test = require('./test');
 const {authController} = require('../controllers');
 
-router.post('/auth/register', authController.register);
-router.post('/auth/login', authController.login);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 
 router.use('/customers', users);

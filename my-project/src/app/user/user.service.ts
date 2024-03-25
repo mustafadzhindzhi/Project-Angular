@@ -16,13 +16,13 @@ export class UserService implements OnDestroy {
   userSubscription: Subscription;
 
   get isLogged(): boolean {
-    return !!this.user
+    return !!this.user;
   }
 
   constructor(private http: HttpClient) {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
-    })
+    });
   }
 
   login(email: string, password: string) {
@@ -31,7 +31,13 @@ export class UserService implements OnDestroy {
       .pipe(tap((user) => this.user$$.next(user)));
   }
 
-  register(username: string, email: string, tel: string, password: string, rePassword: string) {
+  register(
+    username: string,
+    email: string,
+    tel: string,
+    password: string,
+    rePassword: string
+  ) {
     return this.http
       .post<UserForAuth>('/api/register', {
         username,

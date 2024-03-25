@@ -23,10 +23,10 @@ export class HeaderComponent {
   logout() {
     this.userService.logout().subscribe({
       next: () => {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/signUp']);
       },
       error: () => {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/signUp']);
       }
     })
   }

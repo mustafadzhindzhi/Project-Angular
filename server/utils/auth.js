@@ -4,7 +4,6 @@ const {
     userModel,
     tokenBlackListModel
 } = require('../models');
-const { log } = require('console');
 
 function auth(redirectUnauthenticated = true) {
     return function (req, res, next) {

@@ -16,8 +16,12 @@ dbConnector()
         credentials: true,
     }));
 
+    app.get('/', (req, res) => {
+        res.send('Welcome to the backend server!');
+    });
+
     app.use('/api', apiRouter);
     app.use(errorHandler);
     app.listen(config.port, console.log(`Listening on port ${config.port}`));
 })
-.catch(console.error)
+.catch(console.error);
