@@ -9,12 +9,13 @@ import { FeaturesComponent } from './features/features.component';
 import { WorkComponent } from './work/work.component';
 import { BlogComponent } from './blog/blog.component';
 import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
-
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [HomeComponent, AppFirstSectionComponent, ServicesComponent, ScreenshotComponent, PowersComponent, FeaturesComponent, WorkComponent, BlogComponent],
   imports: [
     CommonModule,
-    SharedComponentsModule 
+    SharedComponentsModule,
+    RouterModule
   ],
   exports: [HomeComponent]
 })

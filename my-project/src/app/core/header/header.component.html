@@ -1,68 +1,58 @@
 <header>
-    <div class="nav-container">
-        <div class="logo-wrapper">
-            <a routerLink="/home">
-                <img src="/assets/logo.png" alt="">
-            </a>
-        </div>
-        <nav *ngIf="!isLoggedIn">
-            <ul>
-                <li><a routerLink="/whatWeDo">What We Do</a></li>
-                <li><a routerLink="/projects">Projects</a></li>
-                <li><a routerLink="/projects">Personal Projects</a></li>
-                <li><a routerLink="/customers">Customers</a></li>
-                <!-- <li><a href="#">Our Approach</a></li> -->
-                <li><a routerLink="/aboutUs">About Us</a></li>
-                <!-- <li><a href="#">Blog</a></li> -->
-                <li><a routerLink="/contacts">Contacts</a></li>
-                <li><a routerLink="/auth/signUp">Sign Up</a></li>
-            </ul>
-        </nav>
-        <nav *ngIf="isLoggedIn">
-            <ul>
-                <li><a routerLink="/whatWeDo">What We Do</a></li>
-                <li><a routerLink="/projects">Projects</a></li>
-                <li><a routerLink="/projects">Personal Projects</a></li>
-                <li><a routerLink="/customers">Customers</a></li>
-                <!-- <li><a href="#">Our Approach</a></li> -->
-                <li><a routerLink="/aboutUs">About Us</a></li>
-                <!-- <li><a href="#">Blog</a></li> -->
-                <li><a routerLink="/contacts">Contacts</a></li>
-                <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
-                <li (click)="logout()"><a>Logout</a></li>
-            </ul>
-        </nav>
-        <div class="header-btn">
-            <button class="button btn__header">Let's Talk</button>
-        </div>
-        <div class="mobile-nav">
-            <button class="menu-toggle" onclick="toggleMenu()" id="menuBtn">&#9776;</button>
-            <nav id="main-nav" *ngIf="!isLoggedIn">
-                <span class="close-btn" onclick="toggleMenu()">&times;</span>
-                <ul>
-                    <li><a routerLink="/whatWeDo">What We Do</a></li>
-                    <!-- <li><a routerLink="/ourWork">Our Work</a></li> -->
-                    <!-- <li><a routerLink="/customers">Customers</a></li> -->
-                    <!-- <li><a href="#">Our Approach</a></li> -->
-                    <li><a routerLink="/aboutUs">About Us</a></li>
-                    <!-- <li><a href="#">Blog</a></li> -->
-                    <li><a routerLink="/contacts">Contacts</a></li>
-                </ul>
-            </nav>
-            <nav id="main-nav" *ngIf="isLoggedIn">
-                <span class="close-btn" onclick="toggleMenu()">&times;</span>
-                <ul>
-                    <li><a routerLink="/whatWeDo">What We Do</a></li>
-                    <li><a routerLink="/ourWork">Our Work</a></li>
-                    <li><a routerLink="/customers">Customers</a></li>
-                    <!-- <li><a href="#">Our Approach</a></li> -->
-                    <li><a routerLink="/aboutUs">About Us</a></li>
-                    <!-- <li><a href="#">Blog</a></li> -->
-                    <li><a routerLink="/contacts">Contacts</a></li>
-                    <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
-                    <li (click)="logout()"><a>Logout</a></li>
-                </ul>
-            </nav>
-        </div>
+  <div class="nav-container">
+    <div class="logo-wrapper">
+      <a routerLink="/home">
+        <img src="/assets/logo.png" alt="">
+      </a>
     </div>
+    <nav *ngIf="!isLoggedIn">
+      <ul>
+        <li><a routerLink="/whatWeDo">What We Do</a></li>
+        <li><a routerLink="/aboutUs">About Us</a></li>
+        <li><a routerLink="/contacts">Contacts</a></li>
+        <li><a routerLink="/auth/signUp">Sign Up</a></li>
+      </ul>
+    </nav>
+    <nav *ngIf="isLoggedIn">
+      <ul>
+        <li><a routerLink="/whatWeDo">What We Do</a></li>
+        <li><a routerLink="/projects">Projects</a></li>
+        <li><a routerLink="/projects">Personal Projects</a></li>
+        <li><a routerLink="/auth/profile">Customers</a></li>
+        <li><a routerLink="/aboutUs">About Us</a></li>
+        <li><a routerLink="/contacts">Contacts</a></li>
+        <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
+        <li (click)="logout()"><a>Logout</a></li>
+      </ul>
+    </nav>
+    <div class="header-btn">
+      <button class="button btn__header">Let's Talk</button>
+    </div>
+    <div class="mobile-nav">
+      <button class="menu-toggle" onclick="toggleMenu()" id="menuBtn">&#9776;</button>
+      <nav id="main-nav" *ngIf="!isLoggedIn">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+          <li><a routerLink="/whatWeDo">What We Do</a></li>
+          <li><a routerLink="/aboutUs">About Us</a></li>
+          <li><a routerLink="/contacts">Contacts</a></li>
+          <li><a routerLink="/auth/signUp">Sign Up</a></li>
+        </ul>
+      </nav>
+      <nav id="main-nav" *ngIf="isLoggedIn">
+        <span class="close-btn" onclick="toggleMenu()">&times;</span>
+        <ul>
+          <li><a routerLink="/whatWeDo">What We Do</a></li>
+          <li><a routerLink="/ourWork">Our Work</a></li>
+          <li><a routerLink="/profile">Customers</a></li>
+          <!-- <li><a href="#">Our Approach</a></li> -->
+          <li><a routerLink="/aboutUs">About Us</a></li>
+          <!-- <li><a href="#">Blog</a></li> -->
+          <li><a routerLink="/contacts">Contacts</a></li>
+          <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
+          <li (click)="logout()"><a>Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>

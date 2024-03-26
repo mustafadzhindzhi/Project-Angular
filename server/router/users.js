@@ -3,7 +3,7 @@ const router = express.Router();
 const { authController } = require('../controllers');
 const { auth } = require('../utils')
 
-router.get('/users', auth(), authController.getUserProfiles);
-router.get('/users/:userId', auth(), authController.getUserProjects);
+router.get('/profile', auth(), authController.getProfileInfo);
+router.get('/profile', auth(), authController.editProfileInfo);
 
 module.exports = router;

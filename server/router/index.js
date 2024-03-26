@@ -9,7 +9,7 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 
-router.use('/customers', users);
+router.use('/users', users);
 router.use('/projects', projects);
 router.use('/likes', likes);
 router.use('/test', test);
