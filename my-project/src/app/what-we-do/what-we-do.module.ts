@@ -6,6 +6,7 @@ import { WhatWeDoComponent } from './what-we-do.component';
 import { FirstSectionComponent } from './first-section/first-section.component';
 import { WebDesignComponent } from './web-design/web-design.component';
 import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [WhatWeDoComponent, FirstSectionComponent, WebDesignComponent ],
@@ -13,7 +14,8 @@ import { SharedComponentsModule } from '../shared/shared-components/shared-compo
     CommonModule,
     WhatWeDoRouting,
     FormsModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    RouterModule
   ], 
   exports: [WhatWeDoComponent]
 })
