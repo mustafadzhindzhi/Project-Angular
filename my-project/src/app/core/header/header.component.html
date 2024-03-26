@@ -15,7 +15,7 @@
                 <li><a routerLink="/aboutUs">About Us</a></li>
                 <!-- <li><a href="#">Blog</a></li> -->
                 <li><a routerLink="/contacts">Contacts</a></li>
-                <li><a routerLink="/signUp">Sign Up</a></li>
+                <li><a routerLink="/auth/signUp">Sign Up</a></li>
             </ul>
         </nav>
         <nav *ngIf="isLoggedIn">
@@ -28,7 +28,7 @@
                 <li><a routerLink="/aboutUs">About Us</a></li>
                 <!-- <li><a href="#">Blog</a></li> -->
                 <li><a routerLink="/contacts">Contacts</a></li>
-                <li><a routerLink="/auth/profile">{{username}}'s Profile</a></li>
+                <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
                 <li (click)="logout()"><a>Logout</a></li>
             </ul>
         </nav>
@@ -59,7 +59,7 @@
                     <li><a routerLink="/aboutUs">About Us</a></li>
                     <!-- <li><a href="#">Blog</a></li> -->
                     <li><a routerLink="/contacts">Contacts</a></li>
-                    <li><a routerLink="/auth/profile">{{username}}'s Profile</a></li>
+                    <li><a routerLink="/auth/profile">{{ username ? username + '\'s Profile' : '' }}</a></li>
                     <li (click)="logout()"><a>Logout</a></li>
                 </ul>
             </nav>

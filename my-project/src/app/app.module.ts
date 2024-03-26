@@ -11,13 +11,14 @@ import { SharedComponentsModule } from './shared/shared-components/shared-compon
 import { ProjectsModule } from './projects/projects.module';
 import { AboutUsModule } from './about-us/about-us.module';
 import { ContactsModule } from './contacts/contacts.module';
-import { UserModule } from './user/user.module';
 import { appInterceptorProvider } from './app.interceptor';
 import { FormsModule } from '@angular/forms';
+import { AuthenticateComponent } from './authenticate/authenticate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AuthenticateComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +31,6 @@ import { FormsModule } from '@angular/forms';
     ProjectsModule,
     AboutUsModule, 
     ContactsModule,
-    UserModule,    
     FormsModule
 
   ],

@@ -1,7 +1,6 @@
 const {
     userModel,
-    tokenBlacklistModel,
-    projectModel
+    tokenBlacklistModel
 } = require('../models');
 
 const utils = require('../utils');
@@ -46,42 +45,32 @@ function register(req, res, next) {
 
 function login(req, res, next) {
     const { email, password } = req.body;
-    console.log('Login request received:', req.body); 
 
     userModel.findOne({ email })
         .then(user => {
-            console.log('User found:', user); // Log user object
-            if (!user) {
-                // User not found
-                res.status(401).json({ message: 'User not found' });
-                return;
-            }
-            user.matchPassword(password)
-                .then(match => {
-                    if (!match) {
-                        // Incorrect password
-                        res.status(401).json({ message: 'Wrong email or password' });
-                        return;
-                    }
-
-                    // Authentication successful
-                    user = bsonToJson(user);
-                    user = removePassword(user);
-
-                    const token = utils.jwt.createToken({ id: user._id });
-
-                    if (process.env.NODE_ENV === 'production') {
-                        res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
-                    } else {
-                        res.cookie(authCookieName, token, { httpOnly: true })
-                    }
-                    res.status(200).json(user);
-                })
-                .catch(next); // Catch any errors from matchPassword
+            return Promise.all([user, user ? user.matchPassword(password) : false]);
         })
-        .catch(next); // Catch any errors from findOne
-}
+        .then(([user, match]) => {
+            if (!match) {
+                res.status(401)
+                    .send({ message: 'Wrong email or password' });
+                return
+            }
+            user = bsonToJson(user);
+            user = removePassword(user);
 
+            const token = utils.jwt.createToken({ id: user._id });
+
+            if (process.env.NODE_ENV === 'production') {
+                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
+            } else {
+                res.cookie(authCookieName, token, { httpOnly: true })
+            }
+            res.status(200)
+                .send(user);
+        })
+        .catch(next);
+}
 
 function logout(req, res) {
     const token = req.cookies[authCookieName];
@@ -95,36 +84,27 @@ function logout(req, res) {
         .catch(err => res.send(err));
 }
 
-function getUserProfiles(req, res, next) {
-    userModel.find()
-        .populate('projects')
-        .then(usersWithProjects => {
-            res.json(usersWithProjects);
-        })
-        .catch(error => {
-            console.error('Error fetching user profiles:', error);
-            res.status(500).json({ error: 'Failed to fetch user profiles' });
-        });
+function getProfileInfo(req, res, next) {
+    const { _id: userId } = req.user;
+
+    userModel.findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v
+        .then(user => { res.status(200).json(user) })
+        .catch(next);
 }
 
-function getUserProjects(req, res, next) {
-    const userId = req.params.userId;
+function editProfileInfo(req, res, next) {
+    const { _id: userId } = req.user;
+    const { tel, username, email } = req.body;
 
-    projectModel.find({ userId: userId })
-        .then(projects => {
-            res.json(projects);
-        })
-        .catch(error => {
-            console.error('Error fetching user projects:', error);
-            res.status(500).json({ error: 'Failed to fetch user projects' });
-        });
+    userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true })
+        .then(x => { res.status(200).json(x) })
+        .catch(next);
 }
-
 
 module.exports = {
     login,
     register,
     logout,
-    getUserProfiles, 
-    getUserProjects
+    getProfileInfo,
+    editProfileInfo,
 }

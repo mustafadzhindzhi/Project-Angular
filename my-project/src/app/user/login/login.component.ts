@@ -10,8 +10,9 @@ import { UserService } from '../user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = ''; 
+  email: string = '';
   password: string = '';
+
   
   domains = EMAIL_DOMAINS;
 
@@ -35,18 +36,11 @@ export class LoginComponent {
     // if (form.invalid) {
     //   return;
     // }
-  
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
-  
-    this.userService.login(this.email, this.password).subscribe(
-      () => {
-        console.log('Login successful');
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        console.error('Login error:', error);
-      }
-    );
+
+    const { email, password } = form.value;
+    this.userService.login(this.email, this.password).subscribe(() => {
+      console.log('Login successful');
+      this.router.navigate(['/']);
+    });
   }
 }

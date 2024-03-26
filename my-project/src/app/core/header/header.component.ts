@@ -13,7 +13,7 @@ export class HeaderComponent {
   }
 
   get isLoggedIn(): boolean {
-    return this.userService.isLogged;
+    return this.userService.isLoggedIn;
   }
 
   get username(): string {
@@ -23,10 +23,10 @@ export class HeaderComponent {
   logout() {
     this.userService.logout().subscribe({
       next: () => {
-        this.router.navigate(['/signUp']);
+        this.router.navigate(['/auth/signUp']);
       },
       error: () => {
-        this.router.navigate(['/signUp']);
+        this.router.navigate(['/auth/signUp']);
       }
     })
   }

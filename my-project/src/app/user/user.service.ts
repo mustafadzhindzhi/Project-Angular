@@ -10,19 +10,18 @@ export class UserService implements OnDestroy {
   private user$$ = new BehaviorSubject<UserForAuth | undefined>(undefined);
   private user$ = this.user$$.asObservable();
 
-  user: UserForAuth | undefined;
-  USER_KEY = '[user]';
-
   userSubscription: Subscription;
 
-  get isLogged(): boolean {
+  get user(): UserForAuth | undefined {
+    return this.user$$.value;
+  }
+
+  get isLoggedIn(): boolean {  
     return !!this.user;
   }
 
   constructor(private http: HttpClient) {
-    this.userSubscription = this.user$.subscribe((user) => {
-      this.user = user;
-    });
+    this.userSubscription = this.user$.subscribe();
   }
 
   login(email: string, password: string) {
