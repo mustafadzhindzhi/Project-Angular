@@ -16,7 +16,7 @@ export class LoginComponent {
   domains = EMAIL_DOMAINS;
 
   isSignDivVisiable: boolean = true;
-  selectedImage: File | null = null; // Property to store the selected image file
+  selectedImage: File | null = null; 
 
   constructor(private userService: UserService, private router: Router) { }
 
