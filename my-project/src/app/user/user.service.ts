@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -40,7 +40,8 @@ export class UserService implements OnDestroy {
     email: string,
     tel: string,
     password: string,
-    rePassword: string
+    rePassword: string,
+    image: string
   ) {
     return this.http
       .post<UserForAuth>('/api/register', {
@@ -49,6 +50,7 @@ export class UserService implements OnDestroy {
         tel,
         password,
         rePassword,
+        image
       })
       .pipe(tap((user) => this.user$$.next(user)));
   }
@@ -67,6 +69,11 @@ export class UserService implements OnDestroy {
       .get<UserForAuth>('/api/users/profile')
       .pipe(tap((user) => this.user$$.next(user)));
   }
+
+  getProfiles(): Observable<UserForAuth[]> {
+    return this.http.get<UserForAuth[]>('/api/users/profiles');
+  }
+
 
   updateProfile(username: string, email: string, tel?: string) {
     return this.http

@@ -4,6 +4,7 @@ const { authController } = require('../controllers');
 const { auth } = require('../utils')
 
 router.get('/profile', auth(), authController.getProfileInfo);
+router.get('/profiles', auth(), authController.getAllProfiles);
 router.put('/profile', auth(), authController.editProfileInfo);
 
 module.exports = router;

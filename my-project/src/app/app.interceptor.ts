@@ -37,14 +37,12 @@ export class AppInterceptor implements HttpInterceptor {
         console.error('Error occurred in request:', error);
         if (error.status === 401) {
           console.log('Redirecting to login page due to 401 error');
-          // Add console.log statements to debug the flow
           console.log('Error response:', error);
         } else {
           console.log('Redirecting to error page due to other error');
-          // Add console.log statements to debug the flow
           console.log('Error response:', error);
         }
-        return throwError(error); // Pass the error down the chain for handling in components
+        return throwError(error);
       })
     );
   }

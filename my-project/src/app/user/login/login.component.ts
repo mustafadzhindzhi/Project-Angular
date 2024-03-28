@@ -13,23 +13,36 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  
   domains = EMAIL_DOMAINS;
 
   isSignDivVisiable: boolean = true;
+  selectedImage: File | null = null; // Property to store the selected image file
 
-  constructor(private userService: UserService,private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   onRegister(form: NgForm) {
     if (form.invalid) {
       return;
     }
-
+  
     const { username, email, tel, password, rePassword } = form.value;
-
-    this.userService.register(username, email, tel, password, rePassword).subscribe(() => {
-      this.router.navigate(['/']);
-    });
+  
+    let imageData: string = ''; 
+    if (this.selectedImage) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.selectedImage);
+      reader.onload = () => {
+        imageData = reader.result as string;
+  
+        this.userService.register(username, email, tel, password, rePassword, imageData).subscribe(() => {
+          this.router.navigate(['/']);
+        });
+      };
+    } else {
+      this.userService.register(username, email, tel, password, rePassword, imageData).subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
   }
 
   onLogin(form: NgForm) {
@@ -42,5 +55,12 @@ export class LoginComponent {
       console.log('Login successful');
       this.router.navigate(['/']);
     });
+  }
+
+  onImageSelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedImage = files[0];
+    }
   }
 }

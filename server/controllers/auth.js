@@ -13,9 +13,9 @@ const removePassword = (data) => {
 }
 
 function register(req, res, next) {
-    const { tel, email, username, password, repeatPassword } = req.body;
+    const { tel, email, username, password,image, repeatPassword } = req.body;
 
-    return userModel.create({ tel, email, username, password })
+    return userModel.create({ tel, email, username, password,image })
         .then((createdUser) => {
             createdUser = bsonToJson(createdUser);
             createdUser = removePassword(createdUser);
@@ -45,29 +45,21 @@ function register(req, res, next) {
 
 function login(req, res, next) {
     const { email, password } = req.body;
-
     userModel.findOne({ email })
         .then(user => {
-            return Promise.all([user, user ? user.matchPassword(password) : false]);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            return Promise.all([user, user.matchPassword(password)]);
         })
         .then(([user, match]) => {
             if (!match) {
-                res.status(401)
-                    .send({ message: 'Wrong email or password' });
+                res.status(401).send({ message: 'Wrong email or password' });
                 return;
             }
-            user = bsonToJson(user);
-            user = removePassword(user);
-
             const token = utils.jwt.createToken({ id: user._id });
-
-            if (process.env.NODE_ENV === 'production') {
-                res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'none', secure: true })
-            } else {
-                res.cookie(authCookieName, token, { httpOnly: true })
-            }
-            res.status(200)
-                .send(user);
+            res.cookie(authCookieName, token, { httpOnly: true });
+            res.status(200).send(user);
         })
         .catch(next);
 }
@@ -75,21 +67,27 @@ function login(req, res, next) {
 
 function logout(req, res) {
     const token = req.cookies[authCookieName];
-
     tokenBlacklistModel.create({ token })
         .then(() => {
-            res.clearCookie(authCookieName)
-                .status(204)
-                .send({ message: 'Logged out!' });
+            res.clearCookie(authCookieName).status(204).send({ message: 'Logged out!' });
         })
         .catch(err => res.send(err));
 }
+
 
 function getProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
 
     userModel.findOne({ _id: userId }, { password: 0, __v: 0 })
         .then(user => { res.status(200).json(user) })
+        .catch(next);
+}
+
+function getAllProfiles(req, res, next) {
+    userModel.find({}, { password: 0, __v: 0 })
+        .then(users => { 
+            res.status(200).json(users);
+        })
         .catch(next);
 }
 
@@ -107,5 +105,6 @@ module.exports = {
     register,
     logout,
     getProfileInfo,
+    getAllProfiles,
     editProfileInfo,
 }

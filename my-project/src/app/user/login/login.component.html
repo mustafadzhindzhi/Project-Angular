@@ -18,6 +18,7 @@
         <ng-container *ngIf="inputEmail.touched">
           <p *ngIf="inputEmail.errors?.['required']">Email is required</p>
         </ng-container>
+        <input type="file" name="image" (change)="onImageSelected($event)" accept="image/*">
         <input type="tel" name="tel" placeholder="Tel" ngModel #inputTel="ngModel" required>
         <ng-container *ngIf="inputTel.touched">
           <p *ngIf="inputTel.errors?.['required']">Telephone is required</p>
@@ -31,8 +32,8 @@
       </form>
     </div>
     <div class="form-container sign-in">
-        <form #form="ngForm" (ngSubmit)="onLogin(form)">
-          <h1>Sign In</h1>
+      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+        <h1>Sign In</h1>
           <div class="social-icons">
             <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
             <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
