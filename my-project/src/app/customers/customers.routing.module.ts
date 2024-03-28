@@ -1,14 +1,15 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ContactsComponent } from "./contacts.component";
+import { CustomersComponent } from "./customers.component";
+import { AuthActivate } from "../guards/auth.activate";
 
 const routes: Routes = [
     {
-        path:'contacts', 
+        path:'customers', 
         children: [
-            {path: '', pathMatch:'full', component: ContactsComponent}
+            {path: '', pathMatch:'full', component: CustomersComponent},
         ]
-    }
+    },
 ];
 
 @NgModule({
@@ -16,4 +17,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class ContactsRouting {}
+export class CustomerRouting {}

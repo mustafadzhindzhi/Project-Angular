@@ -11,9 +11,9 @@ import { SharedComponentsModule } from '../shared/shared-components/shared-compo
   declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent],
   imports: [
     CommonModule,
-    ProjectsRouting,
     CurrentProjectModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    ProjectsRouting
   ]
 })
 export class ProjectsModule { }

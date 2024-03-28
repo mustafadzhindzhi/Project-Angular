@@ -6,6 +6,7 @@ import { FirstSectionComponent } from './first-section/first-section.component';
 import { WebDesignComponent } from './web-design/web-design.component';
 import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
 import { RouterModule } from '@angular/router';
+import { WhatWeDoRouting } from './what-we-do.routing.module';
 
 @NgModule({
   declarations: [WhatWeDoComponent, FirstSectionComponent, WebDesignComponent ],
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     SharedComponentsModule,
-    RouterModule
+    RouterModule,
+    WhatWeDoRouting
   ], 
   exports: [WhatWeDoComponent]
 })

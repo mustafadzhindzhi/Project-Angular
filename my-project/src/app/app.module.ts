@@ -15,7 +15,8 @@ import { appInterceptorProvider } from './app.interceptor';
 import { FormsModule } from '@angular/forms';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
+import { CustomerModule } from './customers/customers.module';
+import { PersonalProjectsModule } from './personal-projects/personal-projects.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,8 +34,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ProjectsModule,
     AboutUsModule, 
     ContactsModule,
-    FormsModule
-
+    FormsModule,
+    CustomerModule,
+    PersonalProjectsModule
   ],
   providers: [appInterceptorProvider],
   bootstrap: [AppComponent]
