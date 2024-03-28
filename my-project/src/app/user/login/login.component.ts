@@ -33,9 +33,9 @@ export class LoginComponent {
   }
 
   onLogin(form: NgForm) {
-    // if (form.invalid) {
-    //   return;
-    // }
+    if (form.invalid) {
+      return;
+    }
 
     const { email, password } = form.value;
     this.userService.login(this.email, this.password).subscribe(() => {
