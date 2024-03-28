@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WhatWeDoRouting } from './what-we-do.routing.module';
 import { FormsModule } from '@angular/forms';
 import { WhatWeDoComponent } from './what-we-do.component';
 import { FirstSectionComponent } from './first-section/first-section.component';
@@ -12,7 +11,6 @@ import { RouterModule } from '@angular/router';
   declarations: [WhatWeDoComponent, FirstSectionComponent, WebDesignComponent ],
   imports: [
     CommonModule,
-    WhatWeDoRouting,
     FormsModule,
     SharedComponentsModule,
     RouterModule

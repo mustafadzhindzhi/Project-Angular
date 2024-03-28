@@ -14,11 +14,13 @@ import { ContactsModule } from './contacts/contacts.module';
 import { appInterceptorProvider } from './app.interceptor';
 import { FormsModule } from '@angular/forms';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticateComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

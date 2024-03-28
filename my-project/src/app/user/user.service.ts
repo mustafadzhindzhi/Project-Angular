@@ -4,30 +4,35 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService implements OnDestroy {
   private user$$ = new BehaviorSubject<UserForAuth | undefined>(undefined);
   private user$ = this.user$$.asObservable();
 
+  user: UserForAuth | undefined;
+  USER_KEY = '[user]';
+
   userSubscription: Subscription;
 
-  get user(): UserForAuth | undefined {
-    return this.user$$.value;
-  }
-
-  get isLoggedIn(): boolean {  
+  get isLogged(): boolean {
     return !!this.user;
   }
 
   constructor(private http: HttpClient) {
-    this.userSubscription = this.user$.subscribe();
+    console.log('UserService initialized');
+    this.userSubscription = this.user$.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   login(email: string, password: string) {
-    return this.http
-      .post<UserForAuth>('/api/login', { email, password })
-      .pipe(tap((user) => this.user$$.next(user)));
+    return this.http.post<UserForAuth>('/api/login', { email, password }).pipe(
+      tap((user) => {
+        this.user$$.next(user);
+        console.log('User logged in:', user);
+      })
+    );
   }
 
   register(
@@ -49,9 +54,12 @@ export class UserService implements OnDestroy {
   }
 
   logout() {
-    return this.http
-      .post('/api/logout', {})
-      .pipe(tap(() => this.user$$.next(undefined)));
+    return this.http.post('/api/logout', {}).pipe(
+      tap(() => {
+        this.user$$.next(undefined);
+        console.log('User logged out');
+      })
+    );
   }
 
   getProfile() {
@@ -71,6 +79,8 @@ export class UserService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('UserService destroyed');
+
     this.userSubscription.unsubscribe();
   }
 }

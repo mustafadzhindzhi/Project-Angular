@@ -13,6 +13,7 @@ import { SharedComponentsModule } from '../shared/shared-components/shared-compo
     CommonModule,
     ProjectsRouting,
     CurrentProjectModule,
+    SharedComponentsModule
   ]
 })
 export class ProjectsModule { }

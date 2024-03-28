@@ -54,7 +54,7 @@ function login(req, res, next) {
             if (!match) {
                 res.status(401)
                     .send({ message: 'Wrong email or password' });
-                return
+                return;
             }
             user = bsonToJson(user);
             user = removePassword(user);
@@ -71,6 +71,7 @@ function login(req, res, next) {
         })
         .catch(next);
 }
+
 
 function logout(req, res) {
     const token = req.cookies[authCookieName];

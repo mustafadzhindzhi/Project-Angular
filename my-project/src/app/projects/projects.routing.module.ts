@@ -8,15 +8,10 @@ const routes: Routes = [
     {
         path:'projects', 
         children: [
-            {path: '', pathMatch:'full', component: ProjectsComponent}
+            {path: '', pathMatch:'full', component: ProjectsComponent},
+            {path: ':projectId', component: CurrentProjectComponent, canActivate:[AuthActivate]}
         ]
     },
-    {
-        path: 'projects/details',
-        children: [
-            {path:'', pathMatch:'full', component: CurrentProjectComponent }
-        ]
-    }
 ];
 
 @NgModule({

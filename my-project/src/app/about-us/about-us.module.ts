@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AboutUsRouting } from './about-us.routing.module';
+import { AboutUsRoutingModule } from './about-us.routing.module';
 import { FormsModule } from '@angular/forms';
 import { AboutUsComponent } from './about-us.component';
 import { FirstSectionComponent } from './first-section/first-section.component';
@@ -14,7 +14,7 @@ import { SharedComponentsModule } from '../shared/shared-components/shared-compo
   declarations: [AboutUsComponent, FirstSectionComponent, TeamComponent, ValuesComponent, VisionComponent,NewValuesComponent],
   imports: [
     CommonModule,
-    AboutUsRouting,
+    AboutUsRoutingModule,
     FormsModule,
     SharedComponentsModule 
   ]
