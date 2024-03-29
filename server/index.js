@@ -1,3 +1,4 @@
+global.__basedir = __dirname;
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -6,12 +7,13 @@ const dbConnector = require('./config/db');
 const apiRouter = require('./router');
 const cors = require('cors');
 const { errorHandler } = require('./utils');
+const expressConfig = require('./config/express'); // Import the express configuration module
 
 dbConnector()
   .then(() => {
     const config = require('./config/config');
-    const app = require('express')();
-    require('./config/express')(app);
+    const app = express(); // Use express directly
+    expressConfig(app, __dirname); // Pass __dirname to the express configuration module
 
     app.use(cors({
       origin: config.origin,
@@ -22,7 +24,7 @@ dbConnector()
     app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(cookieParser(process.env.COOKIESECRET));
 
-    app.use('/images', express.static(path.resolve(__dirname, 'images')));
+    app.use('/images', express.static(path.resolve(__dirname, 'images'))); // Correct the path here
 
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
