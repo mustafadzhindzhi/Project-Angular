@@ -3,6 +3,7 @@ import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -23,11 +24,15 @@ export class UserService implements OnDestroy {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
     });
+    this.loadUserFromCookie(); 
   }
 
   login(email: string, password: string) {
-    return this.http.post<UserForAuth>('/api/login', { email, password }).pipe(
+    return this.http.post<UserForAuth>('/api/login', { email, password }, { withCredentials: true }).pipe(
       tap((user) => {
+        console.log('User:', user);
+        const token = this.parseCookie('auth-cookie');
+        console.log('Token:', token);
         this.user$$.next(user);
       })
     );
@@ -48,13 +53,13 @@ export class UserService implements OnDestroy {
         tel,
         password,
         rePassword,
-        image
+        image,
       })
       .pipe(tap((user) => this.user$$.next(user)));
   }
 
   logout() {
-    return this.http.post('/api/logout', {}).pipe(
+    return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
         this.user$$.next(undefined);
       })
@@ -63,14 +68,13 @@ export class UserService implements OnDestroy {
 
   getProfile() {
     return this.http
-      .get<UserForAuth>('/api/users/profile')
+      .get<UserForAuth>('/api/users/profile', { withCredentials: true })
       .pipe(tap((user) => this.user$$.next(user)));
   }
 
   getProfiles(): Observable<UserForAuth[]> {
     return this.http.get<UserForAuth[]>('/api/users/profiles');
   }
-
 
   updateProfile(username: string, email: string, tel?: string) {
     return this.http
@@ -85,4 +89,31 @@ export class UserService implements OnDestroy {
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
+
+  private loadUserFromCookie(): void {
+    const cookieData = this.parseCookie('auth-cookie');
+    if (cookieData) {
+      this.user$$.next(cookieData);
+    } else {
+      this.user$$.next(undefined);
+    }
+  }
+
+  private parseCookie(cookieName: string): UserForAuth | null {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split(';');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === cookieName) {
+        try {
+          return JSON.parse(decodeURIComponent(value));
+        } catch (error) {
+          console.error('Error parsing cookie:', error);
+          return null;
+        }
+      }
+    }
+    return null;
+  }
+  
 }
