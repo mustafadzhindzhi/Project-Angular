@@ -12,18 +12,19 @@ export class AuthenticateComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    console.log('Attempting to fetch user profile...');
+    if (!this.userService.isLogged) {
+      this.isAuthenticating = false;
+      return;
+    }
+
     this.userService.getProfile().subscribe({
-      next: (user) => {
-        console.log('User profile retrieved:', user);
+      next: () => {
         this.isAuthenticating = false;
       },
-      error: (error) => {
-        console.error('Error fetching user profile:', error);
+      error: () => {
         this.isAuthenticating = false;
       },
       complete: () => {
-        console.log('Profile retrieval completed');
         this.isAuthenticating = false;
       },
     });

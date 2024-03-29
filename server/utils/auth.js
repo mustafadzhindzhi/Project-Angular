@@ -1,4 +1,3 @@
-
 const jwt = require('./jwt');
 const { authCookieName } = require('../app-config');
 const {
@@ -7,41 +6,39 @@ const {
 } = require('../models');
 
 function auth(redirectUnauthenticated = true) {
+
     return function (req, res, next) {
-        if (req.originalUrl.startsWith('/api')) { 
-            const token = req.cookies[authCookieName] || '';
-            if (token) {
-                jwt.verifyToken(token)
-                    .then(data => {
-                        userModel.findById(data.id)
-                            .then(user => {
-                                req.user = user;
-                                req.isLoggedIn = true;
-                                next();
-                            })
-                            .catch(() => {
-                                res.status(401).send({ message: 'Unauthorized: Invalid token!' });
-                            });
+        const token = req.cookies[authCookieName] || '';
+        Promise.all([
+            jwt.verifyToken(token),
+            tokenBlacklistModel.findOne({ token })
+        ])
+            .then(([data, blacklistedToken]) => {
+                if (blacklistedToken) {
+                    return Promise.reject(new Error('blacklisted token'));
+                }
+                userModel.findById(data.id)
+                    .then(user => {
+                        req.user = user;
+                        req.isLogged = true;
+                        next();
                     })
-                    .catch(err => {
-                        if (!redirectUnauthenticated) {
-                            next();
-                            return;
-                        }
-                        console.error(err);
-                        res.status(401).send({ message: 'Unauthorized: Invalid token!' });
-                    });
-            } else {
+            })
+            .catch(err => {
                 if (!redirectUnauthenticated) {
                     next();
                     return;
                 }
-                res.status(401).send({ message: 'Unauthorized: No token provided!' });
-            }
-        } else {
-            next();
-        }
-    };
+                if (['token expired', 'blacklisted token', 'jwt must be provided'].includes(err.message)) {
+                    console.error(err);
+                    res
+                        .status(401)
+                        .send({ message: "Invalid token!" });
+                    return;
+                }
+                next(err);
+            });
+    }
 }
 
 module.exports = auth;

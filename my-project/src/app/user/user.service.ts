@@ -20,7 +20,6 @@ export class UserService implements OnDestroy {
   }
 
   constructor(private http: HttpClient) {
-    console.log('UserService initialized');
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
     });
@@ -30,7 +29,6 @@ export class UserService implements OnDestroy {
     return this.http.post<UserForAuth>('/api/login', { email, password }).pipe(
       tap((user) => {
         this.user$$.next(user);
-        console.log('User logged in:', user);
       })
     );
   }
@@ -59,7 +57,6 @@ export class UserService implements OnDestroy {
     return this.http.post('/api/logout', {}).pipe(
       tap(() => {
         this.user$$.next(undefined);
-        console.log('User logged out');
       })
     );
   }
@@ -86,8 +83,6 @@ export class UserService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('UserService destroyed');
-
     this.userSubscription.unsubscribe();
   }
 }

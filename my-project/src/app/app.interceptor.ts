@@ -5,8 +5,8 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable, Provider } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { ErrorService } from './core/error/error.service';
 import { Router } from '@angular/router';
@@ -30,26 +30,23 @@ export class AppInterceptor implements HttpInterceptor {
       });
     }
 
-    console.log('Request intercepted:', req.url);
-
     return next.handle(req).pipe(
-      catchError((error) => {
-        console.error('Error occurred in request:', error);
-        if (error.status === 401) {
-          console.log('Redirecting to login page due to 401 error');
-          console.log('Error response:', error);
+      catchError((err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/auth/login']);
         } else {
-          console.log('Redirecting to error page due to other error');
-          console.log('Error response:', error);
+          this.errorService.setError(err);
+          this.router.navigate(['/error']);
         }
-        return throwError(error);
+
+        return [err];
       })
     );
   }
 }
 
-export const appInterceptorProvider: Provider = {
-  provide: HTTP_INTERCEPTORS,
+export const appInterceptorProvider = {
   useClass: AppInterceptor,
   multi: true,
+  provide: HTTP_INTERCEPTORS,
 };
