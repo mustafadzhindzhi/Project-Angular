@@ -7,13 +7,13 @@ const dbConnector = require('./config/db');
 const apiRouter = require('./router');
 const cors = require('cors');
 const { errorHandler } = require('./utils');
-const expressConfig = require('./config/express'); // Import the express configuration module
+const expressConfig = require('./config/express'); 
 
 dbConnector()
   .then(() => {
     const config = require('./config/config');
-    const app = express(); // Use express directly
-    expressConfig(app, __dirname); // Pass __dirname to the express configuration module
+    const app = express(); 
+    expressConfig(app, __dirname); 
 
     app.use(cors({
       origin: config.origin,

@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        minLength: [4, 'Username should be at least 4 characters long.'],
+        minLength: [2, 'Username should be at least 2 characters long.'],
         validate: {
             validator: function (v) {
                 return /[a-zA-Z0-9]+/g.test(v);
