@@ -2,9 +2,11 @@ const { projectModel } = require('../models');
 
 function getProjects(req, res, next) {
     projectModel.find()
-        .populate('userId')
+        .populate({
+            path: '_ownerId',
+            select: 'username' 
+        })
         .then(projects => {
-            console.log('Projects:', projects); // Log the projects retrieved from the database
             res.json(projects);
         })
         .catch(next);

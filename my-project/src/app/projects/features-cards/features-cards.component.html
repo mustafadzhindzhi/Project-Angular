@@ -1,79 +1,13 @@
 <section class="features__cards">
-    <div class="features__cards-card ">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
+    <div class="features__cards-card" *ngFor="let project of projects">
+        <img src="{{project.mainPhoto}}" alt="Customer Image">
+        <div class="name" >
+            <h2>{{project.projectName}}</h2>
             <div class="data">
-                <p>UI/UX</p>
+                <p>{{project.industry}}</p>
                 <a routerLink="/projects/details"><button>Show Details</button></a>
-
-                <p>Peter</p>
+                <p>{{ project._ownerId.username }}</p>
             </div>
         </div>
     </div>
-    <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
-            <div class="data">
-                <p>eCommerce</p>
-                <a href="details.html"><button>Show Details</button></a>
-
-                <p>Mustafa</p>
-            </div>
-        </div>
-    </div>
-    <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
-            <div class="data">
-                <button>UI/UX</button>
-                <button>eCommerce</button>
-                <a href="details.html"><button>Show Details</button></a>
-
-                <p>Berlin, Germany</p>
-            </div>
-        </div>
-    </div>
-    <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
-            <div class="data">
-                <button>UI/UX</button>
-                <button>eCommerce</button>
-                <a href="details.html"><button>Show Details</button></a>
-
-                <p>Berlin, Germany</p>
-            </div>
-        </div>
-    </div>
-    <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
-            <div class="data">
-                <button>UI/UX</button>
-                <button>eCommerce</button>
-                <a href="details.html"><button>Show Details</button></a>
-
-                <p>Berlin, Germany</p>
-            </div>
-        </div>
-    </div>
-    <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="Customer Image">
-        <div class="name">
-            <h2>PROJECT NAME</h2>
-            <div class="data">
-                <button>UI/UX</button>
-                <button>eCommerce</button>
-                <a href="details.html"><button>Show Details</button></a>
-
-                <p>Berlin, Germany</p>
-            </div>
-        </div>
-    </div>
-
 </section>

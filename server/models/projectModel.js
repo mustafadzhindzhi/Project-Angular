@@ -50,10 +50,15 @@ const projectSchema = new Schema({
         type: Number,
         default: 0,
     },
-    userId: {
+    _ownerId: {
         type: Types.ObjectId,
         ref: 'User',
-    }
+        required: true,
+    },
+    username: {
+        type: String, 
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('Project', projectSchema);
