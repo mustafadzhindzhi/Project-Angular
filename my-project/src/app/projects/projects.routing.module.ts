@@ -8,15 +8,13 @@ const routes: Routes = [
     {
         path:'projects', 
         children: [
-            {path: '', pathMatch:'full', component: ProjectsComponent},
-            {path: ':projectId', component: CurrentProjectComponent, canActivate:[AuthActivate]}
+            { path: '', pathMatch:'full', component: ProjectsComponent },
+            { path: ':projectId', component: CurrentProjectComponent, canActivate: [AuthActivate] }
         ]
     },
 ];
-
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-
 export class ProjectsRouting {}

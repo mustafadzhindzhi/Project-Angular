@@ -16,10 +16,10 @@ export class ApiService {
   }
 
   getProject(id: string) {
+    console.log('Fetching project with id:', id);
     const { apiUrl } = environment;
     return this.http.get<Project>(`${apiUrl}/projects/${id}`);
-  }
-
+}
   createProject(projectName: string) {
     return this.http.post<Project>(`/api/projects`, { projectName });
   }

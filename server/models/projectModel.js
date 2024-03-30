@@ -55,10 +55,6 @@ const projectSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    username: {
-        type: String, 
-        required: true,
-    },
 });
 
 module.exports = mongoose.model('Project', projectSchema);

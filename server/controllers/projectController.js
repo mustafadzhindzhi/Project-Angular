@@ -1,4 +1,5 @@
 const { projectModel } = require('../models');
+const mongoose = require('mongoose');
 
 function getProjects(req, res, next) {
     projectModel.find()
@@ -12,15 +13,29 @@ function getProjects(req, res, next) {
         .catch(next);
 }
 
-function getProject(projectId) {
-    const project = projectModel.findById(projectId);
+function getProject(req, res, next) {
+    const { projectId } = req.params;
 
-    if (!project) {
-        throw new Error('Project not found')
-    }
-
-    return project;
+    projectModel.findById(projectId)
+        .then(project => res.json(project))
+        .catch(next);
 }
+
+// function getProject(req, res, next) {
+//     const { projectId } = req.params;
+
+//     const objectId = mongoose.Types.ObjectId.createFromHexString(projectId);
+
+//     projectModel.findById(objectId)
+//         .then(project => {
+//             if (!project) {
+//                 return res.status(404).json({ error: 'Project not found' });
+//             }
+//             res.json(project);
+//         })
+//         .catch(next);
+// }
+
 
 function createProject(req, res, next) {
     const { projectName, miniDescription, largeDescription, images } = req.body;

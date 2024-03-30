@@ -6,8 +6,8 @@
             <div class="data">
                 <p>{{project.createdAt | dateFormat}}</p>
                  <p>{{project.industry}}</p>
-                <a routerLink="/projects/details"><button>Show Details</button></a>
-                <p>{{ project._ownerId.username }}</p>
+                 <a [routerLink]="project._id"><button>Show Details</button></a>
+                 <p>{{ project._ownerId.username }}</p>
             </div>
         </div>
     </div>
