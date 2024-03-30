@@ -1,29 +1,57 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema.Types;
+const { Schema, Types } = mongoose;
 
-const projectSchema = new mongoose.Schema({
+const projectSchema = new Schema({
     projectName: {
         type: String,
         required: true,
     },
-    miniDescription: {
+    mainPhoto: {
         type: String,
         required: true,
     },
-    largeDescription: {
+    smallDesc: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    industry: {
+        type: String,
+        required: true,
+    },
+    deliverables: {
+        type: String,
+        required: true,
+    },
+    systems: [{
+        type: String,
+        required: true,
+    }],
+    bigDescription: {
+        type: String,
+        required: true,
+    },
+    challenges: [{
+        id: Number,
+        description: String,
+    }],
+    approach: {
         type: String,
         required: true,
     },
     images: [{
-        type: String, 
+        type: String,
         required: true,
     }],
-    likes: [{
-        type: ObjectId,
-        ref: 'User',
-    }],
+    likes: {
+        type: Number,
+        default: 0,
+    },
     userId: {
-        type: ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
     }
 });

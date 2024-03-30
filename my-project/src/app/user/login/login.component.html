@@ -10,7 +10,7 @@
           <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
         <span>or use your email for registration</span>
-        <input type="text" formControlName="username" placeholder="Username">
+        <input type="text" name="username" placeholder="Username" formControlName="username">
         <ng-container *ngIf="registerForm.controls['username']">
           <p *ngIf="registerForm.controls['username'].invalid && registerForm.controls['username'].touched">
             <span *ngIf="registerForm.controls['username'].errors?.['required']">Username is required</span>
@@ -18,7 +18,7 @@
             <span *ngIf="registerForm.controls['username'].errors?.['pattern']">Username must contain only alphanumeric characters</span>
           </p>
         </ng-container>
-        <input type="email" formControlName="email" placeholder="Email">
+        <input type="email" name="email" formControlName="email" placeholder="Email">
         <ng-container *ngIf="registerForm.controls['email']">
           <p *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched">
             <span *ngIf="registerForm.controls['email'].errors?.['required']">Email is required</span>
@@ -26,13 +26,16 @@
           </p>
         </ng-container>
         <input type="file" name="image" (change)="onImageSelected($event)" accept="image/*">
+        <div *ngIf="selectedImage" class="image-preview">
+          <img [src]="imageSrc" alt="Preview">
+        </div>
         <input type="tel" formControlName="tel" placeholder="Tel">
         <ng-container *ngIf="registerForm.controls['tel']">
           <p *ngIf="registerForm.controls['tel'].invalid && registerForm.controls['tel'].touched">
             <span *ngIf="registerForm.controls['tel'].errors?.['required']">Telephone is required</span>
           </p>
         </ng-container>
-        <input type="password" formControlName="password" placeholder="Password">
+        <input type="password" name="password" formControlName="password" placeholder="Password">
         <ng-container *ngIf="registerForm.controls['password']">
           <p *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">
             <span *ngIf="registerForm.controls['password'].errors?.['required']">Password is required</span>
@@ -40,7 +43,7 @@
             <span *ngIf="registerForm.controls['password'].errors?.['pattern']">Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character</span>
           </p>
         </ng-container>
-        <input type="password" formControlName="rePassword" placeholder="Confirm Password">
+        <input type="password" name="rePassword" formControlName="rePassword" placeholder="Confirm Password">
         <ng-container *ngIf="registerForm.controls['rePassword']">
           <p *ngIf="registerForm.controls['rePassword'].invalid && registerForm.controls['rePassword'].touched">
             <span *ngIf="registerForm.controls['rePassword'].errors?.['required']">Confirm Password is required</span>
@@ -60,14 +63,14 @@
           <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
         <span>or use your email and password</span>
-        <input type="email" name="email" placeholder="Email" ngModel required>
+        <input type="email" name="email" formControlName="email" placeholder="Email" ngModel required>
         <ng-container *ngIf="loginForm.controls['email']">
           <p *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched">
             <span *ngIf="loginForm.controls['email'].errors?.['required']">Email is required</span>
             <span *ngIf="loginForm.controls['email'].errors?.['email']">Invalid email format</span>
           </p>
         </ng-container>
-        <input type="password" name="password" placeholder="Password" ngModel required>
+        <input type="password" name="password" formControlName="password" placeholder="Password" ngModel required>
         <ng-container *ngIf="loginForm.controls['password']">
           <p *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
             <span *ngIf="loginForm.controls['password'].errors?.['required']">Password is required</span>
@@ -77,6 +80,7 @@
         <button [disabled]="loginForm.invalid">Sign In</button>
       </form>
     </div>
+    
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">

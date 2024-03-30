@@ -1,9 +1,12 @@
-const { projectModel, userModel } = require('../models');
+const { projectModel } = require('../models');
 
 function getProjects(req, res, next) {
     projectModel.find()
         .populate('userId')
-        .then(projects => res.json(projects))
+        .then(projects => {
+            console.log('Projects:', projects); // Log the projects retrieved from the database
+            res.json(projects);
+        })
         .catch(next);
 }
 
