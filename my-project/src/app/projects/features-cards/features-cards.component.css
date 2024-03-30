@@ -49,7 +49,6 @@
 .features__cards-card .name .data {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 15px;
 }
 
 .features__cards-card .name .data p {

@@ -6,14 +6,15 @@ import { WorkComponent } from './work/work.component';
 import { FeaturesCardsComponent } from './features-cards/features-cards.component';
 import { CurrentProjectModule } from './current-project/current-project.module';
 import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
-
+import { DateFormatPipe } from '../shared/pipes/time.pipe';
 @NgModule({
-  declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent],
+  declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent, DateFormatPipe],
   imports: [
     CommonModule,
     CurrentProjectModule,
     SharedComponentsModule,
-    ProjectsRouting
-  ]
+    ProjectsRouting,
+  ],
+  exports: [FeaturesCardsComponent] 
 })
 export class ProjectsModule { }
