@@ -26,7 +26,7 @@ export class CurrentProjectComponent implements OnInit {
   getProject(projectId: string): void {
     this.apiService.getProject(projectId).subscribe(
       (project: Project) => {
-        this.project = project;
+        this.project = project; // Assign fetched project data
       },
       (error) => {
         console.error('Error fetching project details:', error);
