@@ -14,8 +14,10 @@
         <ng-container *ngIf="registerForm.controls['username']">
           <p *ngIf="registerForm.controls['username'].invalid && registerForm.controls['username'].touched">
             <span *ngIf="registerForm.controls['username'].errors?.['required']">Username is required</span>
-            <span *ngIf="registerForm.controls['username'].errors?.['minlength']">Username should be at least 2 characters long</span>
-            <span *ngIf="registerForm.controls['username'].errors?.['pattern']">Username must contain only alphanumeric characters</span>
+            <span *ngIf="registerForm.controls['username'].errors?.['minlength']">Username should be at least 2
+              characters long</span>
+            <span *ngIf="registerForm.controls['username'].errors?.['pattern']">Username must contain only alphanumeric
+              characters</span>
           </p>
         </ng-container>
         <input type="email" name="email" formControlName="email" placeholder="Email">
@@ -29,26 +31,29 @@
         <div *ngIf="selectedImage" class="image-preview">
           <img [src]="imageSrc" alt="Preview">
         </div>
-        <input type="tel" formControlName="tel" placeholder="Tel">
+        <input type="tel" formControlName="tel" placeholder="Tel" maxlength="10">
         <ng-container *ngIf="registerForm.controls['tel']">
           <p *ngIf="registerForm.controls['tel'].invalid && registerForm.controls['tel'].touched">
             <span *ngIf="registerForm.controls['tel'].errors?.['required']">Telephone is required</span>
           </p>
         </ng-container>
-        <input type="password" name="password" formControlName="password" placeholder="Password">
+        <input type="password" name="password" formControlName="password" placeholder="Password"
+          autocomplete="password">
         <ng-container *ngIf="registerForm.controls['password']">
           <p *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">
-            <span *ngIf="registerForm.controls['password'].errors?.['required']">Password is required</span>
-            <span *ngIf="registerForm.controls['password'].errors?.['minlength']">Password should be at least 8 characters long</span>
-            <span *ngIf="registerForm.controls['password'].errors?.['pattern']">Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character</span>
+            <span *ngIf="registerForm.controls['password'].errors?.['required']">Password is required</span><br>
+            <span *ngIf="registerForm.controls['password'].errors?.['minlength']">Password should be at least 8
+              characters long</span><br>
+            <span *ngIf="registerForm.controls['password'].errors?.['invalidPassword']">Password must contain at least
+              one lowercase letter, one uppercase letter, one numeric digit, and one special character</span>
           </p>
         </ng-container>
-        <input type="password" name="rePassword" formControlName="rePassword" placeholder="Confirm Password">
-        <ng-container *ngIf="registerForm.controls['rePassword']">
-          <p *ngIf="registerForm.controls['rePassword'].invalid && registerForm.controls['rePassword'].touched">
-            <span *ngIf="registerForm.controls['rePassword'].errors?.['required']">Confirm Password is required</span>
-            <span *ngIf="registerForm.controls['rePassword'].errors?.['notMatch']">Passwords do not match</span>
-          </p>
+
+        <input type="password" name="rePassword" formControlName="rePassword" placeholder="Confirm Password"
+          autocomplete="password">
+        <ng-container
+          *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.value && registerForm.hasError('mismatch')">
+          <p>Passwords do not match</p>
         </ng-container>
         <button [disabled]="registerForm.invalid">Sign Up</button>
       </form>
@@ -63,14 +68,16 @@
           <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
         <span>or use your email and password</span>
-        <input type="email" name="email" formControlName="email" placeholder="Email" ngModel required>
+        <input type="email" name="email" formControlName="email" placeholder="Email">
         <ng-container *ngIf="loginForm.controls['email']">
           <p *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched">
             <span *ngIf="loginForm.controls['email'].errors?.['required']">Email is required</span>
             <span *ngIf="loginForm.controls['email'].errors?.['email']">Invalid email format</span>
           </p>
         </ng-container>
-        <input type="password" name="password" formControlName="password" placeholder="Password" ngModel required>
+
+        <input type="password" name="password" formControlName="password" placeholder="Password"
+          autocomplete="password">
         <ng-container *ngIf="loginForm.controls['password']">
           <p *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
             <span *ngIf="loginForm.controls['password'].errors?.['required']">Password is required</span>
@@ -80,7 +87,7 @@
         <button [disabled]="loginForm.invalid">Sign In</button>
       </form>
     </div>
-    
+
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">

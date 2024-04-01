@@ -1,13 +1,11 @@
 const { projectModel } = require('../models');
 const mongoose = require('mongoose')
-const fs = require('fs');
-const path = require('path');
 
 function getProjects(req, res, next) {
     projectModel.find()
         .populate({
             path: '_ownerId',
-            select: 'username'
+            select: 'username' 
         })
         .then(projects => {
             res.json(projects);
@@ -18,7 +16,7 @@ function getProjects(req, res, next) {
 function getProject(req, res, next) {
     const { projectId } = req.params;
 
-    console.log('Requested projectId:', projectId);
+    console.log('Requested projectId:', projectId); 
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
         console.log('Invalid projectId format');
@@ -26,7 +24,7 @@ function getProject(req, res, next) {
     }
 
     if (!req.user || !req.user._id) {
-        console.log('User not authenticated');
+        console.log('User not authenticated'); 
         return res.status(401).json({ error: 'User not authenticated' });
     }
 
@@ -44,7 +42,7 @@ function getProject(req, res, next) {
                 console.log('Unauthorized access to project'); // Log unauthorized access
                 return res.status(403).json({ error: 'Unauthorized access to project' });
             }
-
+            
             console.log('Project found:', project); // Log fetched project
             res.json(project);
         })
@@ -56,32 +54,35 @@ function getProject(req, res, next) {
 
 function createProject(req, res, next) {
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
-    const { _id: userId } = req.user;
+    const { _id: userId } = req.user; 
 
+    const mainPhotoFilename = `${Date.now()}_main_photo.jpg`;
+    fs.writeFileSync(path.join(__dirname, 'images', mainPhotoFilename), mainPhoto, 'base64');
+    
     const projectData = {
-        projectName,
-        smallDesc,
-        bigDescription,
-        images: images,
-        mainPhoto: mainPhoto,
-        industry,
-        deliverables,
-        systems,
-        challenges,
-        approach,
-        _ownerId: userId,
+      projectName,
+      smallDesc,
+      bigDescription,
+      images: images,
+      mainPhoto: `images/${mainPhotoFilename}`, 
+      industry,
+      deliverables,
+      systems,
+      challenges,
+      approach,
+      _ownerId: userId, 
     };
-
+  
     projectModel.create(projectData)
-        .then(project => {
-            res.status(201).json({ project: project });
-        })
-        .catch(err => {
-            res.status(500).json({ error: 'Failed to create project' });
-        });
-}
-
-
+      .then(project => {
+        res.status(201).json({ project: project });
+      })
+      .catch(err => {
+        console.error('Error creating project:', err);
+        res.status(500).json({ error: 'Failed to create project' });
+      });
+  }
+  
 function editProject(req, res, next) {
     const projectId = req.params.projectId;
     const userId = req.userId._id;
@@ -164,4 +165,3 @@ module.exports = {
     getLatestProjects,
     like,
 }
-

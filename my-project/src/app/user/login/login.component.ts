@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { UserService } from '../user.service';
 import { EMAIL_DOMAINS } from 'src/app/constants';
 import { phoneNumberValidator } from 'src/app/shared/utils/phone-number.validator';
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       tel: ['', [Validators.required, phoneNumberValidator]],
       password: ['', [Validators.required, Validators.minLength(8), passwordValidator]],
       rePassword: ['', Validators.required],
-    });
+    }, { validator: this.passwordMatchValidator });
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -43,6 +43,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  passwordMatchValidator(control: AbstractControl) {
+    const password = control.get('password')?.value;
+    const rePassword = control.get('rePassword')?.value;
+    return password === rePassword ? null : { mismatch: true };
+  }
 
   onRegister() {
     if (this.registerForm.invalid) {

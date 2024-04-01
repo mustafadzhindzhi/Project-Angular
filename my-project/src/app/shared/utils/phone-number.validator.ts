@@ -1,9 +1,11 @@
 import { FormControl } from '@angular/forms';
 
 export function phoneNumberValidator(control: FormControl): { [s: string]: boolean } | null {
-  if (!control.value || !control.value.match(/^\d{10}$/)) {
-    return { invalidPhoneNumber: true };
-  }
+  const value = control.value;
   
-  return null; 
+  if (!value || (value.length >= 3 && value.length <= 10 && /^\d+$/.test(value))) {
+    return null;
+  } else {
+    return { invalidPhoneNumber: true }; 
+  }
 }
