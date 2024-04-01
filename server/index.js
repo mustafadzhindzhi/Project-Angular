@@ -7,13 +7,13 @@ const dbConnector = require('./config/db');
 const apiRouter = require('./router');
 const cors = require('cors');
 const { errorHandler } = require('./utils');
-const expressConfig = require('./config/express'); 
+const expressConfig = require('./config/express');
 
 dbConnector()
   .then(() => {
     const config = require('./config/config');
-    const app = express(); 
-    expressConfig(app, __dirname); 
+    const app = express();
+    expressConfig(app, __dirname);
 
     app.use(cors({
       origin: config.origin,
@@ -24,7 +24,7 @@ dbConnector()
     app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(cookieParser(process.env.COOKIESECRET));
 
-    app.use('/images', express.static(path.resolve(__dirname, 'images'))); 
+    app.use('/images', express.static(path.resolve(__dirname, 'images')));
 
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {

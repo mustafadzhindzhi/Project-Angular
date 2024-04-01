@@ -35,8 +35,8 @@ const projectSchema = new Schema({
         required: true,
     },
     challenges: [{
-        id: Number,
-        description: String,
+        type: String,
+        required: true,
     }],
     approach: {
         type: String,
@@ -44,7 +44,7 @@ const projectSchema = new Schema({
     },
     images: [{
         type: String,
-        required: true,
+        // required: true,
     }],
     likes: {
         type: Number,

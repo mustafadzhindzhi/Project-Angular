@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { ApiService } from 'src/app/api-service.service';
 import { Router } from '@angular/router';
-import { Project } from 'src/app/types/project';
+
 @Component({
   selector: 'app-work',
   templateUrl: './work.component.html',
@@ -25,7 +25,7 @@ export class WorkComponent {
       systems: this.fb.array([this.fb.control('')]),
       challenges: this.fb.array([this.fb.control('')]),
       approach: ['', Validators.required],
-      images: this.fb.array([this.fb.control('')]),
+      images: this.fb.array([])
     });
   }
 
@@ -38,13 +38,12 @@ export class WorkComponent {
   }
 
   getFormArrayControls(formArrayName: string): AbstractControl[] {
-    const formArray = this.projectForm.get(formArrayName);
-    return (formArray instanceof FormArray) ? formArray.controls : [];
+    return (this.projectForm.get(formArrayName) as FormArray).controls;
   }
 
   addInput(controlName: string) {
     const controlArray = this.projectForm.get(controlName) as FormArray;
-    controlArray.push(this.fb.control('')); 
+    controlArray.push(this.fb.control(''));
   }
 
   onImageSelected(event: any, index: number) {
@@ -52,7 +51,12 @@ export class WorkComponent {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageSrc[index] = reader.result;
+        const imageData = reader.result;
+        if (typeof imageData === 'string') {
+          this.imageSrc[index] = imageData;
+          const imagesArray = this.projectForm.get('images') as FormArray;
+          imagesArray.push(this.fb.control(imageData));
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -69,48 +73,36 @@ export class WorkComponent {
     }
   }
 
- submitProject() {
-  console.log("Submitting project...");
+  submitProject() {
+    const imagesArray = this.projectForm.get('images') as FormArray;
 
-  // Ensure mainPhoto and at least one image are provided
-  if (!this.mainPhotoSrc) {
-    console.error("Main photo is required");
-    return;
+    if (imagesArray.controls.length === 0 || imagesArray.value.every((image: string | null) => !image)) {
+      console.error("At least one image is required");
+      return;
+    }
+
+    const imagesData = this.imageSrc.map((image: string | ArrayBuffer | null) => image?.toString());
+
+    const { projectName, smallDesc, bigDescription, industry, deliverables, systems, challenges, approach } = this.projectForm.value;
+
+    const projectData = {
+      projectName,
+      smallDesc,
+      bigDescription,
+      industry,
+      deliverables,
+      systems,
+      challenges,
+      approach,
+      mainPhoto: this.mainPhotoSrc?.toString(),
+      images: imagesData
+    };
+
+    this.apiService.createProject(projectData).subscribe(() => {
+      this.closeModal();
+      this.router.navigate(['/projects']);
+    }, (error) => {
+      console.error("Error creating project:", error);
+    });
   }
-
-  const imagesArray = this.projectForm.get('images') as FormArray;
-  if (imagesArray.length === 0 || !imagesArray.value[0]) {
-    console.error("At least one image is required");
-    return;
-  }
-
-  const imagesData = this.imageSrc.map(image => image?.toString());
-
-  const { projectName, smallDesc, bigDescription, industry, deliverables, systems, challenges, approach } = this.projectForm.value;
-
-  const projectData = {
-    projectName,
-    smallDesc,
-    bigDescription,
-    industry,
-    deliverables,
-    systems,
-    challenges,
-    approach,
-    mainPhoto: this.mainPhotoSrc.toString(),
-    images: imagesData 
-  };
-
-  this.apiService.createProject(projectData).subscribe(() => {
-    this.closeModal();
-    this.router.navigate(['/projects']);
-  }, (error) => {
-    console.error("Error creating project:", error);
-  });
-}
-
-  
-  
-  
-  
 }
