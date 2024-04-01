@@ -55,37 +55,15 @@ function getProject(req, res, next) {
 }
 
 function createProject(req, res, next) {
-    console.log("Received request to create project");
-
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
     const { _id: userId } = req.user;
-
-    console.log("User ID:", userId);
-
-    const mainPhotoFilename = `${Date.now()}_main_photo.jpg`;
-    const imagesDirectory = path.join(__dirname, 'images'); 
-
-    console.log("Images directory:", imagesDirectory);
-
-    if (!fs.existsSync(imagesDirectory)) {
-        console.log("Images directory does not exist, creating...");
-        fs.mkdirSync(imagesDirectory);
-    } else {
-        console.log("Images directory already exists");
-    }
-
-    console.log("Writing main photo to file:", mainPhotoFilename);
-
-    fs.writeFileSync(path.join(imagesDirectory, mainPhotoFilename), mainPhoto, 'base64');
-
-    console.log("Main photo written successfully");
 
     const projectData = {
         projectName,
         smallDesc,
         bigDescription,
         images: images,
-        mainPhoto: `images/${mainPhotoFilename}`,
+        mainPhoto: mainPhoto,
         industry,
         deliverables,
         systems,
@@ -94,15 +72,11 @@ function createProject(req, res, next) {
         _ownerId: userId,
     };
 
-    console.log("Creating project data:", projectData);
-
     projectModel.create(projectData)
         .then(project => {
-            console.log("Project created successfully:", project);
             res.status(201).json({ project: project });
         })
         .catch(err => {
-            console.error('Error creating project:', err);
             res.status(500).json({ error: 'Failed to create project' });
         });
 }

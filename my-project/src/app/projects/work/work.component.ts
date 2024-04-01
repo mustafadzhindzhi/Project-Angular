@@ -13,6 +13,7 @@ export class WorkComponent {
   isModalOpen: boolean = false;
   imageSrc: (string | ArrayBuffer | null)[] = [];
   mainPhotoSrc: string | ArrayBuffer | null = null;
+  selectedImage: File | null = null;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.projectForm = this.fb.group({
@@ -63,14 +64,23 @@ export class WorkComponent {
   }
 
   onMainPhotoSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.mainPhotoSrc = reader.result;
-      };
-      reader.readAsDataURL(file);
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedImage = files[0];
+      if (this.selectedImage) {
+        this.readImage(this.selectedImage);
+      }
     }
+  }
+  
+  readImage(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        this.mainPhotoSrc = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   submitProject() {
