@@ -12,7 +12,6 @@ function getProjects(req, res, next) {
         })
         .catch(next);
 }
-
 function getProject(req, res, next) {
     const { projectId } = req.params;
 
@@ -22,6 +21,9 @@ function getProject(req, res, next) {
         console.log('Invalid projectId format');
         return res.status(400).json({ error: 'Invalid projectId format' });
     }
+
+    // Debugging: Log the user object to see if it's correctly populated
+    console.log('User:', req.user);
 
     if (!req.user || !req.user._id) {
         console.log('User not authenticated'); 
@@ -33,24 +35,24 @@ function getProject(req, res, next) {
     projectModel.findById(projectId)
         .then(project => {
             if (!project) {
-                console.log('Project not found'); // Log if project not found
+                console.log('Project not found');
                 return res.status(404).json({ error: 'Project not found' });
             }
 
-            // Check if the user is authorized to view the project
             if (project._ownerId.toString() !== userId) {
-                console.log('Unauthorized access to project'); // Log unauthorized access
+                console.log('Unauthorized access to project');
                 return res.status(403).json({ error: 'Unauthorized access to project' });
             }
             
-            console.log('Project found:', project); // Log fetched project
+            console.log('Project found:', project);
             res.json(project);
         })
         .catch(error => {
-            console.error('Error fetching project:', error); // Log any errors
-            next(error); // Pass the error to the error handler middleware
+            console.error('Error fetching project:', error);
+            next(error);
         });
 }
+
 
 function createProject(req, res, next) {
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;

@@ -31,13 +31,21 @@ export class UserService implements OnDestroy {
     return this.http.post<UserForAuth>('/api/login', { email, password }, { withCredentials: true }).pipe(
       tap((user) => {
         console.log('User:', user);
-        const token = this.parseCookie('auth-cookie');
-        console.log('Token:', token);
+        const token = user.token;
+        this.setCookie('auth-cookie', token);
+        
+        // Retrieve and log the cookie value after setting it
+        const cookieValue = this.getCookie('auth-cookie');
+        console.log('Cookie value:', cookieValue);
+        
         this.user$$.next(user);
       })
     );
+  }  
+  
+  private setCookie(name: string, value: string) {
+    document.cookie = `${name}=${value}; path=/;`;
   }
-
   register(
     username: string,
     email: string,
@@ -91,8 +99,12 @@ export class UserService implements OnDestroy {
   }
 
   private loadUserFromCookie(): void {
-    const cookieData = this.parseCookie('auth-cookie');
+    const cookieName = 'auth-cookie'; 
+    const cookieData = this.parseCookie(cookieName);
+    console.log(cookieData);
+    
     if (cookieData) {
+      console.log(`${cookieName} value:`, cookieData);
       this.user$$.next(cookieData);
     } else {
       this.user$$.next(undefined);
@@ -115,5 +127,20 @@ export class UserService implements OnDestroy {
     }
     return null;
   }
+
+  private getCookie(name: string): string | null {
+    const cookieString = document.cookie;
+    console.log('Cookie string:', cookieString);
+    const cookies = cookieString.split(';');
+    console.log('Cookies:', cookies);
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.trim().split('=');
+      if (cookieName === name) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
+  
   
 }

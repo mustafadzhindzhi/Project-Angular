@@ -17,6 +17,7 @@ export interface UserForAuth {
     password: string;
     id: string;
     image: string; 
+    token: string;
 }
 
 
