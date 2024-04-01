@@ -8,7 +8,7 @@ import { User } from './types/user';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProjects() {
     const { apiUrl } = environment;
@@ -19,9 +19,10 @@ export class ApiService {
     console.log('Fetching project with id:', id);
     const { apiUrl } = environment;
     return this.http.get<Project>(`${apiUrl}/projects/${id}`);
-}
-  createProject(projectName: string) {
-    return this.http.post<Project>(`/api/projects`, { projectName });
+  }
+  createProject(projectData: any) { 
+    console.log("Creating project...", projectData); // Add this line
+    return this.http.post<Project>(`/api/projects`, projectData);
   }
 
   updateProject(projectId: string, postId: string, postText: string) {
@@ -36,6 +37,6 @@ export class ApiService {
 
   getUserById(_ownerId: string) {
     const { apiUrl } = environment;
-    return this.http.get<User>(`${apiUrl}/users/${_ownerId }`);
+    return this.http.get<User>(`${apiUrl}/users/${_ownerId}`);
   }
 }

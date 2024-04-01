@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path:'aboutUs', 
         children: [
-            {path: '', pathMatch:'full', component: AboutUsComponent,}
+            {path: '', pathMatch:'full', component: AboutUsComponent,canActivate: [AuthActivate]}
         ]
     }
 ];

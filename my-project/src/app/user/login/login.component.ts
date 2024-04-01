@@ -40,15 +40,6 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, passwordValidator]],
       rememberMe: [false] 
     });
-    
-    const rememberedUser = this.getRememberedUser();
-    if (rememberedUser) {
-      this.loginForm.patchValue({
-        email: rememberedUser.email,
-        password: rememberedUser.password,
-        rememberMe: true
-      });
-    }
   }
 
   ngOnInit(): void {}
@@ -81,17 +72,10 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const { email, password, rememberMe } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
     this.userService.login(email, password).subscribe(() => {
-      console.log('Login successful');
       this.router.navigate(['/']);
     });
-
-    if (rememberMe) {
-      this.setRememberedUser(email, password);
-    } else {
-      this.clearRememberedUser();
-    }
   }
 
   onImageSelected(event: any) {
@@ -113,28 +97,4 @@ export class LoginComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
-
-  private setRememberedUser(email: string, password: string): void {
-    // Set a cookie with user's email and password
-    document.cookie = `rememberedUser=${email}:${password};max-age=${30 * 24 * 60 * 60}`;
-  }
-
-  private getRememberedUser(): { email: string, password: string } | null {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-      const [name, value] = cookie.split('=');
-      if (name.trim() === 'rememberedUser') {
-        const [email, password] = value.split(':');
-        return { email, password };
-      }
-    }
-    return null;
-  }
-
-  private clearRememberedUser(): void {
-    // Clear the remembered user cookie
-    document.cookie = 'rememberedUser=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-  }
 }
-
-

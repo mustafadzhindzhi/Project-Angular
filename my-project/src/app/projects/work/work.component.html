@@ -1,14 +1,93 @@
 <section class="our_work">
-    <h2>Our Customers Work</h2>
-    <div class="buttons">
-        <div class="button-container">
-            <button class="our_work__btn">All Projects</button>
-            <button class="our_work__btn">Website Development</button>
-            <button class="our_work__btn">UX/UI Design</button>
-            <button class="our_work__btn">eCommerce</button>
-        </div>
-    <div class="right-end">
-        <button class="our_work__btn-right">Share your projects with US!</button>
+  <h2>Our Customers Work</h2>
+  <div class="buttons">
+    <div class="button-container">
+      <button class="our_work__btn">All Projects</button>
+      <button class="our_work__btn">Website Development</button>
+      <button class="our_work__btn">UX/UI Design</button>
+      <button class="our_work__btn">eCommerce</button>
     </div>
-</div>
+    <div class="right-end">
+      <button class="our_work__btn-right" (click)="openShareProjectModal()">Share your projects with US!</button>
+    </div>
+  </div>
 </section>
+
+
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <form [formGroup]="projectForm" (ngSubmit)="submitProject()">
+        <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input type="text" id="projectName" formControlName="projectName" name="projectName"
+          placeholder="Enter Project Name">
+      </div>
+
+      <div class="form-group">
+        <label for="mainPhoto">Main Photo</label>
+        <input type="file" id="mainPhoto" (change)="onMainPhotoSelected($event)" accept="image/*">
+        <div class="main-photo-preview" *ngIf="mainPhotoSrc">
+          <img [src]="mainPhotoSrc" alt="Main Photo Preview">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bigDescription">Main Description</label>
+        <textarea id="bigDescription" formControlName="bigDescription" name="bigDescription" placeholder="More Information"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="smallDesc">Small Description</label>
+        <textarea id="smallDesc" formControlName="smallDesc" name="smallDesc"
+          placeholder="More Details"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="industry">Industry</label>
+        <input type="text" id="industry" formControlName="industry" name="industry" placeholder="Enter The Industry">
+      </div>
+
+      <div class="form-group">
+        <label for="deliverables">Deliverables</label>
+        <input type="text" id="deliverables" formControlName="deliverables" name="deliverables"
+          placeholder="Enter Deliverables">
+      </div>
+
+      <div formArrayName="systems">
+        <label for="approach">Systems</label>
+        <div *ngFor="let system of getFormArrayControls('systems'); let i = index">
+            <input type="text" [formControlName]="i" id="system{{i}}" placeholder="Enter Your Used Systems">
+        </div>
+        <button type="button" [disabled]="getFormArrayControls('systems').length >= 3" class="add-button" (click)="addInput('systems')">+</button>
+    </div>
+
+    <div formArrayName="challenges">
+        <label for="approach">Challenges</label>
+        <div *ngFor="let challenge of getFormArrayControls('challenges'); let i = index">
+            <input type="text" [formControlName]="i" id="challenge{{i}}" placeholder="Enter Your Challenges">
+        </div>
+        <button type="button" [disabled]="getFormArrayControls('challenges').length >= 3" class="add-button" (click)="addInput('challenges')">+</button>
+    </div>
+
+      <div class="form-group">
+        <label for="approach">Approach</label>
+        <input type="text" id="approach" formControlName="approach" name="approach" placeholder="Enter Your Approach">
+      </div>
+
+      <div formArrayName="images">
+        <label for="images">Images</label>
+        <div *ngFor="let image of getFormArrayControls('images'); let i = index">
+          <input type="file" (change)="onImageSelected($event, i)" accept="image/*">
+          <div class="image-preview" *ngIf="imageSrc[i]">
+            <img [src]="imageSrc[i]" alt="Image Preview">
+          </div>
+        </div>
+        <button type="button" [disabled]="getFormArrayControls('images').length >= 3" class="add-button" (click)="addInput('images')">+</button>
+      </div>
+
+      <button class="submit" type="submit">Submit</button>
+      <button class="cancel" type="submit" (click)="closeModal()">Cancel</button>
+    </form>
+  </div>
+</div>

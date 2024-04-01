@@ -30,7 +30,7 @@ export class UserService implements OnDestroy {
   login(email: string, password: string) {
     return this.http.post<UserForAuth>('/api/login', { email, password }, { withCredentials: true }).pipe(
       tap((user) => {
-        console.log('User logged in:', user);
+        console.log('User:', user);
         const token = this.parseCookie('auth-cookie');
         console.log('Token:', token);
         this.user$$.next(user);
@@ -55,28 +55,21 @@ export class UserService implements OnDestroy {
         rePassword,
         image,
       })
-      .pipe(tap((user) => {
-        console.log('User registered:', user);
-        this.user$$.next(user);
-      }));
+      .pipe(tap((user) => this.user$$.next(user)));
   }
 
   logout() {
     return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
-        console.log('User logged out');
         this.user$$.next(undefined);
       })
     );
   }
-  
+
   getProfile() {
     return this.http
       .get<UserForAuth>('/api/users/profile', { withCredentials: true })
-      .pipe(tap((user) => {
-        console.log('User profile retrieved:', user);
-        this.user$$.next(user);
-      }));
+      .pipe(tap((user) => this.user$$.next(user)));
   }
 
   getProfiles(): Observable<UserForAuth[]> {
@@ -90,10 +83,7 @@ export class UserService implements OnDestroy {
         email,
         tel,
       })
-      .pipe(tap((user) => {
-        console.log('User profile updated:', user);
-        this.user$$.next(user);
-      }));
+      .pipe(tap((user) => this.user$$.next(user)));
   }
 
   ngOnDestroy(): void {
@@ -103,8 +93,9 @@ export class UserService implements OnDestroy {
   private loadUserFromCookie(): void {
     const cookieData = this.parseCookie('auth-cookie');
     if (cookieData) {
-      console.log('User loaded from cookie:', cookieData);
       this.user$$.next(cookieData);
+    } else {
+      this.user$$.next(undefined);
     }
   }
 
@@ -124,4 +115,5 @@ export class UserService implements OnDestroy {
     }
     return null;
   }
+  
 }

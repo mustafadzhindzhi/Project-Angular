@@ -24,7 +24,7 @@ dbConnector()
     app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(cookieParser(process.env.COOKIESECRET));
 
-    app.use('/images', express.static(path.resolve(__dirname, 'images'))); // Correct the path here
+    app.use('/images', express.static(path.resolve(__dirname, 'images'))); 
 
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
