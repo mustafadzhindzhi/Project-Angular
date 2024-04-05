@@ -21,7 +21,7 @@ export class ApiService {
     return this.http.get<Project>(`${apiUrl}/projects/${id}`);
   }
   createProject(projectData: any) { 
-    console.log("Creating project...", projectData); // Add this line
+    console.log("Creating project...", projectData); 
     return this.http.post<Project>(`/api/projects`, projectData);
   }
 

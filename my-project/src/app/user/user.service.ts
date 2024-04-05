@@ -24,7 +24,7 @@ export class UserService implements OnDestroy {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
     });
-    this.loadUserFromCookie(); 
+   
   }
 
   login(email: string, password: string) {
@@ -32,9 +32,9 @@ export class UserService implements OnDestroy {
       tap((user) => {
         console.log('User:', user);
         const token = user.token;
-        this.setCookie('auth-cookie', token);
+        // this.setCookie('auth-cookie', token);
+        this.loadUserFromCookie(); 
         
-        // Retrieve and log the cookie value after setting it
         const cookieValue = this.getCookie('auth-cookie');
         console.log('Cookie value:', cookieValue);
         
@@ -43,9 +43,10 @@ export class UserService implements OnDestroy {
     );
   }  
   
-  private setCookie(name: string, value: string) {
-    document.cookie = `${name}=${value}; path=/;`;
-  }
+  // private setCookie(name: string, value: string) {
+  //   document.cookie = `${name}=${value}; path=/;`;
+  // }
+
   register(
     username: string,
     email: string,
