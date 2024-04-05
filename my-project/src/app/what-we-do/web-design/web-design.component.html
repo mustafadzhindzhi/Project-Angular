@@ -1,31 +1,38 @@
 <section class="web__design">
     <div class="right-side">
         <div class="web__design-content">
-            <h4 data-content="Content for Web Design">Web Design</h4>
-            <h4 data-content="Content for UX/UI Design">UX/UI Design</h4>
-            <h4 data-content="Content for Website Development">Website Development</h4>
+            <h4 (click)="selectedContent = 'webDesignContent'">Web Design</h4>
+            <h4 (click)="selectedContent = 'uxUiDesignContent'">UX/UI Design</h4>
+            <h4 (click)="selectedContent = 'webDevelopment'">Website Development</h4>
             <h4 data-content="Content for Website Maintenance">Website Maintenance</h4>
             <h4 data-content="Content for eCommerce Development">eCommerce Development</h4>
             <h4 data-content="Content for Technical Consultation">Technical Consultation</h4>
         </div>
 </div>
 <div class="left-side">
-    <div class="web__design-ilu" id="webDesignContent">
+    <div class="web__design-ilu" *ngIf="selectedContent === 'webDesignContent'">
         <img src="/assets/design.png" alt="">
         <h2>WEB DESIGN</h2>
         <p>Our platform empowers student designers to unleash their creativity and craft modern, high-quality UI projects. Whether you're looking for a responsive design, a powerful content management system, or an eCommerce solution that stands out, we've got everything you need. Say goodbye to cookie-cutter designs and hello to customized solutions tailored to your unique vision.</p>
-        <button class="button">
+        <button routerLink="/aboutUs" class="button">
             LEARN MORE
         </button>
     </div>
 
-    <div class="web__design-ilu" id="uxUiDesignContent" style="display: none;">
+    <div class="web__design-ilu" *ngIf="selectedContent === 'uxUiDesignContent'">
         <h2>UI/UX Design</h2>
         <p>example</p>
-        <button class="button">
+        <button routerLink="/aboutUs" class="button">
             LEARN MORE
         </button>
     </div>
 
+    <div class="web__design-ilu" *ngIf="selectedContent === 'webDevelopment'">
+        <h2>Web Development</h2>
+        <p>example....</p>
+        <button routerLink="/aboutUs" class="button">
+            LEARN MORE
+        </button>
+    </div>
 </div>
 </section>

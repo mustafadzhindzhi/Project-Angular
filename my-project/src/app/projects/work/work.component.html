@@ -1,17 +1,15 @@
 <section class="our_work">
   <h2>Our Customers Work</h2>
-  <div class="buttons">
-    <div class="button-container">
-      <button class="our_work__btn">All Projects</button>
-      <button class="our_work__btn">Website Development</button>
-      <button class="our_work__btn">UX/UI Design</button>
-      <button class="our_work__btn">eCommerce</button>
-    </div>
+  <div class="buttons">    
     <div class="right-end">
       <button class="our_work__btn-right" (click)="openShareProjectModal()">Share your projects with US!</button>
     </div>
   </div>
 </section>
+<div class="search-container">
+  <input type="text" class="search-input" placeholder="Search..." [(ngModel)]="searchTerm">
+  <button class="search-button" (click)="searchProjects()">Search</button>
+</div>
 
 
 <div class="modal" *ngIf="isModalOpen">

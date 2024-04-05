@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./web-design.component.css']
 })
 export class WebDesignComponent {
-
+  selectedContent: string = 'webDesignContent'; 
 }

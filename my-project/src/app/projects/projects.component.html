@@ -1,4 +1,5 @@
 <div>
-    <app-work/>
+    <app-work (search)="searchProjects($event)"></app-work>
     <app-features-cards [projects]="projects"></app-features-cards>
 </div>
+

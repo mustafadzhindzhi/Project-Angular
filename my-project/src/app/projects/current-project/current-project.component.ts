@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from 'src/app/api-service.service';
+import { ApiService } from 'src/app/api.service';
 import { Project } from 'src/app/types/project';
 
 @Component({
@@ -26,7 +26,7 @@ export class CurrentProjectComponent implements OnInit {
   getProject(projectId: string): void {
     this.apiService.getProject(projectId).subscribe(
       (project: Project) => {
-        this.project = project; // Assign fetched project data
+        this.project = project; 
       },
       (error) => {
         console.error('Error fetching project details:', error);

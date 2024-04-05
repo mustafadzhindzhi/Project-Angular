@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { ApiService } from 'src/app/api-service.service';
+import { ApiService } from 'src/app/api.service';
 import { Router } from '@angular/router';
+import { Project } from 'src/app/types/project';
 
 @Component({
   selector: 'app-work',
@@ -14,6 +15,10 @@ export class WorkComponent {
   imageSrc: (string | ArrayBuffer | null)[] = [];
   mainPhotoSrc: string | ArrayBuffer | null = null;
   selectedImage: File | null = null;
+  projects: Project[] = [];
+  searchTerm: string = '';
+
+  @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.projectForm = this.fb.group({
@@ -28,6 +33,39 @@ export class WorkComponent {
       approach: ['', Validators.required],
       images: this.fb.array([])
     });
+  }
+
+  ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  loadProjects(): void {
+    this.apiService.getProjects().subscribe(
+      (projects: Project[]) => {
+        this.projects = projects;
+      },
+      (error) => {
+        console.error('Error fetching projects:', error);
+      }
+    );
+  }
+
+  searchProjects(): void {
+    const searchTermProcessed = this.searchTerm.trim().toLowerCase().replace(/\s+/g, '');
+  
+    this.apiService.getProjects().subscribe(
+      (projects: Project[]) => {
+        this.projects = projects.filter((project: Project) =>
+          project.projectName.toLowerCase().replace(/\s+/g, '').includes(searchTermProcessed)
+        );
+      },
+      (error) => {
+        console.error('Error fetching projects:', error);
+      }
+    );
+  
+    this.search.emit(this.searchTerm);
+    this.searchTerm = '';
   }
 
   openShareProjectModal() {

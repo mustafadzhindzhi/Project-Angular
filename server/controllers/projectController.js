@@ -2,16 +2,31 @@ const { projectModel } = require('../models');
 const mongoose = require('mongoose')
 
 function getProjects(req, res, next) {
-    projectModel.find()
+    const searchTerm = req.query.searchTerm;
+
+    let query = {};
+
+    if (searchTerm) {
+        query = {
+            $or: [
+                { projectName: { $regex: searchTerm, $options: 'i' } },
+                { industry: { $regex: searchTerm, $options: 'i' } },
+                //da dobavq drugi
+
+            ],
+        };
+    }
+    projectModel.find(query)
         .populate({
             path: '_ownerId',
-            select: 'username' 
+            select: 'username'
         })
         .then(projects => {
             res.json(projects);
         })
         .catch(next);
 }
+  
 function getProject(req, res, next) {
     const { projectId } = req.params;
 
@@ -22,7 +37,6 @@ function getProject(req, res, next) {
         return res.status(400).json({ error: 'Invalid projectId format' });
     }
 
-    // Debugging: Log the user object to see if it's correctly populated
     console.log('User:', req.user);
 
     if (!req.user || !req.user._id) {

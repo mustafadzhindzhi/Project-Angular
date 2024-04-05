@@ -1,4 +1,4 @@
-<section class="features" *ngIf="isLoggedIn">
+<section class="features" >
     <div class="features__contain">
         <div class="features__contain-first">
             <h2>Best Projects for this month</h2>
@@ -9,9 +9,9 @@
         </div>
     </div>
 
-    <div class="features__cards-container">
+    <div class="features__cards-container" #cardsContainer>
 
-        <div class="features__cards">
+        <div class="features__cards" #cardsContainer>
 
             <div class="features__cards-card">
                 <img src="/assets/laptop.jpeg" alt="">
@@ -63,8 +63,8 @@
     </div>
     <div class="feature__button">
         <div class="circle-button">
-            <button class="arrow-button">&#8249;</button>
-            <button class="arrow-button">&#8250;</button>
+          <button class="arrow-button arrow-button--prev" (click)="moveProjects('left')">&#8249;</button>
+          <button class="arrow-button arrow-button--next" (click)="moveProjects('right')">&#8250;</button>
         </div>
-    </div>
+      </div>
 </section>

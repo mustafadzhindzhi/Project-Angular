@@ -7,8 +7,9 @@
             <h2>READY TO SHARE  <br/>  YOUR PROJECT WITH US?</h2>
             <p>Ready to showcase your UI masterpiece? Share your project with us and let it shine on our platform! Our community of developers awaits to discover and be inspired by your creativity. Upload your project now and become a part of our vibrant design community.</p>
             <div class="ready__content-buttons">
-                <button routerLink="/auth/signUp">Create Profile</button> 
-                <span>or</span>
+                <button *ngIf="!isLoggedIn" routerLink="/auth/signUp">Create Profile</button> 
+                <button *ngIf="isLoggedIn" routerLink="/contacts">Create Project</button>
+                <span *ngIf="!isLoggedIn">or</span>
                 <button class="button" id="drop__btn" routerLink="/contacts">Drop us a line</button>
             </div>
         </div>

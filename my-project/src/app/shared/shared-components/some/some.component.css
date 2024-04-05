@@ -68,6 +68,8 @@
     margin-top: 35px;
     gap: 16px;
     overflow-x: hidden;
+    overflow-x: auto; /* Allow horizontal scrolling */
+  scroll-behavior: smooth;
 }
 
 .some__work-right-div {
@@ -169,6 +171,18 @@
     cursor: pointer;
     text-transform: uppercase;
 }
+
+.slide-in {
+    transform: translateX(0%);
+  }
+  
+  .slide-out-left {
+    transform: translateX(-100%);
+  }
+  
+  .slide-out-right {
+    transform: translateX(100%);
+  }
 
 @media screen and (max-width:768px) {
     .some {

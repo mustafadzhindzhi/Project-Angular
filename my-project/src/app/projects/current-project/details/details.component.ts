@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/types/project';
-import { ApiService } from 'src/app/api-service.service';
+import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-  project: Project = {} as Project; // Ensure proper initialization
+  project: Project = {} as Project; 
 
   constructor(private apiService: ApiService, private activeRouter: ActivatedRoute) {}
 

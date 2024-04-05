@@ -8,7 +8,7 @@ import { CurrentProjectModule } from './current-project/current-project.module';
 import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
 import { DateFormatPipe } from '../shared/pipes/time.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [ProjectsComponent, WorkComponent, FeaturesCardsComponent, DateFormatPipe],
   imports: [
@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProjectsRouting,
     MatDialogModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   exports: [FeaturesCardsComponent] 
 })

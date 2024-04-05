@@ -1,51 +1,28 @@
 <section class="some">
     <div class="some__work-left">
-        <div>
-            <h3>SOME OF <br/> OUR CUSTOMERS WORK</h3>
-            <div class="buttons">
-                <button><span>←</span></button>
-                <button><span>→</span></button>
-            </div>
+      <div>
+        <h3>SOME OF <br /> OUR CUSTOMERS WORK</h3>
+        <div class="buttons">
+          <button (click)="moveProjectsLeft()"><span>←</span></button>
+          <button (click)="moveProjectsRight()"><span>→</span></button>
         </div>
-       
-        <button>SEE ALL PROJECTS</button>
+      </div>
+      <button>SEE ALL PROJECTS</button>
     </div>
-    <div class="some__work-right">
-        <div class="some__work-right-div">
-            <img src="/assets/laptop2.jpeg" alt="">
-            <div class="name">
-                <h2>PROJECT NAME</h2>
-                <div class="data">
-                    <button>UI/UX</button>
-                    <button>eCommerce</button>
-                    <p>Berlin, Germany</p>
-                </div>
+    <div class="some__work-right" #projectsContainer>
+        <div class="some__work-right-div" *ngFor="let project of randomProjects; let i = index" 
+             [@slideLeftRight]="i - currentIndex">
+          <img [src]="project.mainPhoto" alt="">
+          <div class="name">
+            <h2>{{project.projectName}}</h2>
+            <div class="data">
+              <button>{{project.deliverables}}</button>
+              <button>{{project.industry}}</button>
+              <p>{{project._ownerId.username}}</p>
             </div>
+          </div>
         </div>
-        <div class="some__work-right-div">
-            <img src="/assets/laptop2.jpeg" alt="">
-            <div class="name">
-                <h2>PROJECT NAME</h2>
-                <div class="data">
-                    <button>UI/UX</button>
-                    <button>eCommerce</button>
-
-                    <p>Berlin, Germany</p>
-                </div>
-            </div>
-        </div>
-        <div class="some__work-right-div">
-            <img src="/assets/laptop2.jpeg" alt="">
-            <div class="name">
-                <h2>PROJECT NAME</h2>
-                <div class="data">
-                    <button>UI/UX</button>
-                    <button>eCommerce</button>
-
-                    <p>Berlin, Germany</p>
-                </div>
-            </div>
-        </div>
-</div>
-<button id="some__btn">see all</button>
-</section>
+      </div>
+    <button id="some__btn" routerLink="/contacts">See All</button>
+  </section>
+  

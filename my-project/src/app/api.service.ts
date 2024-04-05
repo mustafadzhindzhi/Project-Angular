@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { Project } from './types/project';
 import { User } from './types/user';
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +22,26 @@ export class ApiService {
     const { apiUrl } = environment;
     return this.http.get<Project>(`${apiUrl}/projects/${id}`);
   }
+
+  getRandomProjects (count: number) {
+    const { apiUrl } = environment;
+    const randomPage = Math.floor(Math.random() * 10) + 1; 
+    const params = new HttpParams()
+      .set('_page', randomPage.toString())
+      .set('_limit', count.toString());
+    return this.http.get<Project[]>(`${apiUrl}/projects`, { params });
+  }
+
+  searchProjects(searchTerm: string): Observable<Project[]> { 
+    const { apiUrl } = environment;
+
+    if (searchTerm.trim() !== '') {
+      return this.http.get<Project[]>(`${apiUrl}/projects/search`, { params: new HttpParams().set('searchTerm', searchTerm) });
+    } else {
+      return this.getProjects(); 
+    }
+  }
+
   createProject(projectData: any) { 
     console.log("Creating project...", projectData); 
     return this.http.post<Project>(`/api/projects`, projectData);
