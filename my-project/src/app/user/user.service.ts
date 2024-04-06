@@ -3,8 +3,6 @@ import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, catchError, tap } from 'rxjs';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -36,19 +34,14 @@ export class UserService implements OnDestroy {
         localStorage.setItem('token',token)
         console.log('token',token);
         
-      this.loadUserFromCookie(); 
+      // this.loadUserFromCookie(); 
         
-        const cookieValue = this.getCookie('auth-cookie');
-        console.log('Cookie value:', cookieValue);
+        // const cookieValue = this.getCookie('auth-cookie');
         
         this.user$$.next(user);
       })
     );
   }  
-  
-  // private setCookie(name: string, value: string) {
-  //   document.cookie = `${name}=${value}; path=/;`;
-  // }
 
   register(
     username: string,
@@ -81,10 +74,7 @@ export class UserService implements OnDestroy {
   getProfile() {
     return this.http
       .get<UserForAuth>('/api/users/profile', { withCredentials: true })
-      .pipe(tap((user) => this.user$$.next(user)),
-      // catchError(() => of(null))
-      tap(console.log)
-      
+      .pipe(tap((user) => this.user$$.next(user)),     
     )   
   }
 
@@ -106,46 +96,46 @@ export class UserService implements OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  private loadUserFromCookie(): void {
-    const cookieName = 'auth-cookie'; 
-    const cookieData = this.parseCookie(cookieName);
+  // private loadUserFromCookie(): void {
+  //   const cookieName = 'auth-cookie'; 
+  //   const cookieData = this.parseCookie(cookieName);
     
-    if (cookieData) {
-      console.log(`${cookieName} value:`, cookieData);
-      this.user$$.next(cookieData);
-    } else {
-      this.user$$.next(undefined);
-    }
-  }
+  //   if (cookieData) {
+  //     console.log(`${cookieName} value:`, cookieData);
+  //     this.user$$.next(cookieData);
+  //   } else {
+  //     this.user$$.next(undefined);
+  //   }
+  // }
 
-  private parseCookie(cookieName: string): UserForAuth | null {
-    const cookieString = document.cookie;
-    const cookies = cookieString.split(';');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === cookieName) {
-        try {
-          return JSON.parse(decodeURIComponent(value));
-        } catch (error) {
-          console.error('Error parsing cookie:', error);
-          return null;
-        }
-      }
-    }
-    return null;
-  }
+  // private parseCookie(cookieName: string): UserForAuth | null {
+  //   const cookieString = document.cookie;
+  //   const cookies = cookieString.split(';');
+  //   for (const cookie of cookies) {
+  //     const [name, value] = cookie.trim().split('=');
+  //     if (name === cookieName) {
+  //       try {
+  //         return JSON.parse(decodeURIComponent(value));
+  //       } catch (error) {
+  //         console.error('Error parsing cookie:', error);
+  //         return null;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  private getCookie(name: string): string | null {
-    const cookieString = document.cookie;
-    const cookies = cookieString.split(';');
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.trim().split('=');
-      if (cookieName === name) {
-        return decodeURIComponent(cookieValue);
-      }
-    }
-    return null;
-  }
+  // private getCookie(name: string): string | null {
+  //   const cookieString = document.cookie;
+  //   const cookies = cookieString.split(';');
+  //   for (const cookie of cookies) {
+  //     const [cookieName, cookieValue] = cookie.trim().split('=');
+  //     if (cookieName === name) {
+  //       return decodeURIComponent(cookieValue);
+  //     }
+  //   }
+  //   return null;
+  // }
   
   
 }
