@@ -1,4 +1,4 @@
-<section class="features">
+<section class="features" *ngIf="isLoggedIn">
   <div class="features__contain">
     <div class="features__contain-first">
       <h2>Best Projects for this month</h2>
@@ -7,60 +7,27 @@
         platform that captivates, we're committed to surpassing your every expectation.</p>
     </div>
     <div class="features__contain-second">
-      <button>see all projects</button>
+      <button routerLink="/projects">see all projects</button>
     </div>
   </div>
 
-  <div class="features__cards-container" #cardsContainer>
+  <div class="features__cards-container" #cardsContainer [@slide]="currentIndex">
 
     <div class="features__cards">
 
-      <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="">
+      <div *ngFor="let project of projects" class="features__cards-card">
+        <img src="{{project.mainPhoto}}" alt="">
         <div class="name">
-          <h2>PROJECT NAME</h2>
+          <h2>{{project.projectName}}</h2>
           <div class="data">
-            <button>UI/UX</button>
-            <button>eCommerce</button>
+            <button>{{project.deliverables}}</button>
+            <button>{{project.industry}}</button>
 
-            <p>Berlin, Germany</p>
+            <p>{{project._ownerId.username}}</p>
           </div>
         </div>
       </div>
-      <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="">
-        <div class="name">
-          <h3>PROJECT NAME</h3>
-          <div class="data">
-            <button>UI/UX</button>
-            <button>eCommerce</button>
 
-            <p>Berlin, Germany</p>
-          </div>
-        </div>
-      </div>
-      <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="">
-        <div class="name">
-          <h3>PROJECT NAME</h3>
-          <div class="data">
-            <button>UI/UX</button>
-            <button>eCommerce</button>
-            <p>Berlin, Germany</p>
-          </div>
-        </div>
-      </div>
-      <div class="features__cards-card">
-        <img src="/assets/laptop.jpeg" alt="">
-        <div class="name">
-          <h3>PROJECT NAME</h3>
-          <div class="data">
-            <button>UI/UX</button>
-            <button>eCommerce</button>
-            <p>Berlin, Germany</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="feature__button">

@@ -55,6 +55,7 @@
     display: flex;
     gap: 16px;
     padding-top: 10px;
+    transition: transform 0.3s ease;
 }
 
 .features__cards-card {
@@ -156,6 +157,12 @@
 
 .arrow-button:hover {
     color: #FFFFFF;
+}
+
+.features__cards-container {
+    display: flex;
+    overflow-x: hidden; /* Hide overflowing content horizontally */
+    scroll-behavior: smooth; /* Smooth scrolling */
 }
 
 @media screen and (max-width:768px) {

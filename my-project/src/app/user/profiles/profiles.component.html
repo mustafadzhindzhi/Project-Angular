@@ -1,35 +1,37 @@
 <section class="customers">
-    <div class="customers__title">
-        <h2>Your Profile</h2>
+  <div class="customers__title">
+    <h2>Your Profile</h2>
+  </div>
+  <div class="customers__card" *ngIf="ownerProfile">
+    <div class="customer__card-container">
+      <img src="{{ ownerProfile.image }}" alt="Customer Image">
+      <div class="customer__card-name">
+        <h2>{{ ownerProfile.username }}</h2>
+      </div>
+      <div class="customer__card-social">
+        <a (click)="openInstagram(ownerProfile.instagram)" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a (click)="openFacebook(ownerProfile.facebook)" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a (click)="openEmailClient(ownerProfile.email)" class="social-icon"><i class="fas fa-envelope"></i>{{ ownerProfile.email }}</a>
     </div>
-    <div class="customers__card" *ngIf="ownerProfile">
-        <div class="customer__card-container">
-            <img src="{{ownerProfile.image}}" alt="Customer Image">
-            <div class="customer__card-name">
-                <h2>{{ ownerProfile.username }}</h2>
-            </div>
-            <div class="customer__card-social">
-                <a href="#" class="social-icon"><i class="fa fa-facebook"></i></a>
-                <a href="#" class="social-icon"><i class="fa fa-instagram"></i></a>
-                <a href="mailto:{{ ownerProfile.email }}" class="social-icon"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
     </div>
+  </div>
 </section>
 
 <section class="ready">
-    <div class="ready__image">
-        <img src="/assets/ready.png" alt="ready">
+  <div class="ready__image">
+    <img src="/assets/ready.png" alt="ready">
+  </div>
+  <div class="ready__content">
+    <div class="ready__text">
+      <h2>READY TO SHARE <br /> YOUR PROJECT WITH US?</h2>
+      <p>Ready to showcase your UI masterpiece? Share your project with us and let it shine on our platform! Our
+        community of developers awaits to discover and be inspired by your creativity. Upload your project now and
+        become a part of our vibrant design community.</p>
+      <div class="ready__content-buttons">
+        <button>Start with a simple discovery</button>
+        <span>or</span>
+        <button class="button" id="drop__btn">Drop us a line</button>
+      </div>
     </div>
-    <div class="ready__content">
-        <div class="ready__text">
-            <h2>READY TO SHARE  <br/>  YOUR PROJECT WITH US?</h2>
-            <p>Ready to showcase your UI masterpiece? Share your project with us and let it shine on our platform! Our community of developers awaits to discover and be inspired by your creativity. Upload your project now and become a part of our vibrant design community.</p>
-            <div class="ready__content-buttons">
-                <button>Start with a simple discovery</button> 
-                <span>or</span>
-                <button class="button" id="drop__btn">Drop us a line</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </section>

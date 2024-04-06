@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { UserForAuth } from 'src/app/types/user';
+
 @Component({
   selector: 'app-profiles',
   templateUrl: './profiles.component.html',
@@ -24,5 +25,17 @@ export class ProfilesComponent implements OnInit {
         console.error('Error fetching owner profile:', error);
       }
     );
+  }
+
+  openEmailClient(email: string) {
+    window.location.href = `mailto:${email}`;
+  }
+
+  openInstagram(username: string) {
+    window.open(`https://instagram.com/${username}`, '_blank');
+  }
+
+  openFacebook(username: string) {
+    window.open(`https://facebook.com/${username}`, '_blank');
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
+import { UserService } from 'src/app/user/user.service';
 import { Project } from 'src/app/types/project';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, query, animateChild } from '@angular/animations';
 
 @Component({
   selector: 'app-some',
@@ -9,25 +10,24 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./some.component.css'],
   animations: [
     trigger('slideLeftRight', [
-      transition(':increment', [
-        animate('0.3s ease-in-out', style({ transform: 'translateX(-33%)' })),
-        animate('0.2s', style({ opacity: 0 })),
-      ]),
-      transition(':decrement', [
-        animate('0.3s ease-in-out', style({ transform: 'translateX(33%)' })),
-        animate('0.2s', style({ opacity: 0 })),
-      ]),
-    ]),
-  ],
+      transition(':increment', animateSlide(300, 'translateX(100%)', 'translateX(-100%)')),
+      transition(':decrement', animateSlide(300, 'translateX(-100%)', 'translateX(100%)')),
+    ])
+  ]
 })
 export class SomeComponent implements OnInit {
+  @ViewChild('projectsContainer') projectsContainer!: ElementRef;
   randomProjects: Project[] = [];
   currentIndex = 0;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getRandomProjects(3); 
+    this.getRandomProjects(3);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.userService.isLogged;
   }
 
   getRandomProjects(count: number): void {
@@ -41,13 +41,25 @@ export class SomeComponent implements OnInit {
     );
   }
 
-  moveProjectsLeft(): void {
-    const lastProject = this.randomProjects.pop();
-    this.randomProjects.unshift(lastProject!);
-  }
+  moveProjects(direction: 'left' | 'right'): void {
+    const container = this.projectsContainer.nativeElement;
+    const scrollAmount = 300;
+    const scrollDirection = direction === 'left' ? -scrollAmount : scrollAmount;
 
-  moveProjectsRight(): void {
-    const firstProject = this.randomProjects.shift();
-    this.randomProjects.push(firstProject!);
+    // Reset animation state
+    this.currentIndex = direction === 'left' ? this.currentIndex + 1 : this.currentIndex - 1;
+
+    container.scrollBy({ left: scrollDirection, behavior: 'smooth' });
   }
+}
+
+function animateSlide(duration: number, enterTransform: string, leaveTransform: string) {
+  return [
+    query(':enter, :leave', style({ position: 'absolute', top: 0, width: '100%' }), { optional: true }),
+    query(':enter', style({ transform: enterTransform }), { optional: true }),
+    query(':leave', animateChild(), { optional: true }),
+    query(':leave', animate(duration + 'ms ease-out', style({ transform: leaveTransform })), { optional: true }),
+    query(':enter', animate(duration + 'ms ease-out', style({ transform: 'translateX(0)' })), { optional: true }),
+    query(':enter', animateChild(), { optional: true })
+  ];
 }

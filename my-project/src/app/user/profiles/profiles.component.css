@@ -1,3 +1,5 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
 .customers {
     width: 95%;
     margin: 0 auto;
@@ -10,9 +12,11 @@
 }
 
 .customers__card {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
     width: calc(32% - 30px);
-    margin: 20px;
+    margin: 20px auto; 
     border: 2px solid #ddd;
     border-radius: 10px;
 }
@@ -24,8 +28,8 @@
 }
 
 .customer__card-container img {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     margin-bottom: 20px;
 }
@@ -42,9 +46,23 @@
 }
 
 .social-icon {
-    font-size: 24px;
-    color: #FFF;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #333; 
+    border-radius: 50%;
+    text-align: center; 
+    line-height: 40px; 
+    font-size: 20px; 
+    color: #fff;
+    transition: background-color 0.3s ease; 
+    cursor: pointer;
 }
+
+.social-icon:hover {
+    background-color: #555; 
+}
+
 
 .ready {
     display: flex;
@@ -149,6 +167,7 @@
     .customers__card {
         width: 40%;
         margin: 4%;
+        
     }
 
     .customers__card-container {
@@ -183,7 +202,7 @@
 
     .ready__content {
         margin-top: 0;
-        height: auto
+        height: auto;
     }
 
     .ready__content-buttons {

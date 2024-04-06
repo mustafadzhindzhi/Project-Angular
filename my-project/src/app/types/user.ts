@@ -18,6 +18,8 @@ export interface UserForAuth {
     id: string;
     image: string; 
     token: string;
+    instagram: string; 
+    facebook: string;
 }
 
 
