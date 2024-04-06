@@ -18,7 +18,6 @@ export class DetailsComponent implements OnInit {
       const id = data['projectId'];
 
       this.apiService.getProject(id).subscribe((project) => {
-        console.log('Project data:', project); 
         this.project = project;
     });
     })

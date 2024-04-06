@@ -10,7 +10,7 @@ import { SharedComponentsModule } from 'src/app/shared/shared-components/shared-
   declarations: [CurrentProjectComponent, DetailsComponent, ChallengesComponent, ImagesComponent],
   imports: [
     CommonModule,
-    SharedComponentsModule
+    SharedComponentsModule,
   ]
 })
 export class CurrentProjectModule { }

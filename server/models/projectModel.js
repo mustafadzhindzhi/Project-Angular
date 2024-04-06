@@ -53,10 +53,7 @@ const projectSchema = new Schema({
     _ownerId: {
         type: Types.ObjectId,
         ref: 'User',
-        required: true,
-    },
-    _id: {
-        type: String
+        required: true
     }
 });
 

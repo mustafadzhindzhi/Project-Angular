@@ -31,46 +31,37 @@ function getProjects(req, res, next) {
 function getProject(req, res, next) {
     const { projectId } = req.params;
     
-    console.log('Requested projectId:', projectId); 
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
-        console.log('Invalid projectId format');
         return res.status(400).json({ error: 'Invalid projectId format' });
     }
 
 
     if (!req.user || !req.user.id) {
-        console.log('User not authenticated'); 
         return res.status(401).json({ error: 'User not authenticated' });
     }
 
     const userId = req.user.id;
 
     projectModel.findOne({_id: projectId})
-        .then(project => {
-            if (!project) {
-                console.log('Project not found');
-                return res.status(404).json({ error: 'Project not found' });
-            }
+    .then(project => {
+        if (!project) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
 
-            if (project._ownerId.toString() !== userId) {
-                console.log('Unauthorized access to project');
-                return res.status(403).json({ error: 'Unauthorized access to project' });
-            }
-            
-            console.log('Project found:', project);
-            res.json(project);
-        })
-        .catch(error => {
-            console.error('Error fetching project:', error);
-            next(error);
-        });
+        res.json(project);
+    })
+    .catch(error => {
+        console.error('Error fetching project:', error);
+        next(error);
+    });
 }
 
 
 function createProject(req, res, next) {
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
-    const { _id: userId } = req.user; 
+
+    const userId = req.user.id;
 
     const projectData = {
       projectName,
@@ -95,6 +86,7 @@ function createProject(req, res, next) {
         res.status(500).json({ error: 'Failed to create project' });
       });
   }
+
   
 function editProject(req, res, next) {
     const projectId = req.params.projectId;
@@ -161,7 +153,6 @@ function like(req, res, next) {
     const { projectId } = req.params;
     const { id: userId } = req.user;
 
-    console.log('like');
 
     projectModel.updateOne({ id: projectId }, { $addToSet: { likes: userId } }, { new: true })
         .then(() => res.status(200).json({ message: 'Liked successful!' }))

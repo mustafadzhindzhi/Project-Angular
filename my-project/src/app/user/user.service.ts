@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subscription, catchError, tap } from 'rxjs';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Subscription, tap } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +12,7 @@ export class UserService implements OnDestroy {
 
   user: UserForAuth | undefined;
   USER_KEY = '[user]';
+  TOKEN_KEY = 'token'; 
 
   userSubscription: Subscription;
 
@@ -23,25 +24,19 @@ export class UserService implements OnDestroy {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
     });
-   
+
+    this.loadUserFromLocalStorage();
   }
 
   login(email: string, password: string) {
     return this.http.post<UserForAuth>('/api/login', { email, password }, { withCredentials: true }).pipe(
       tap((user) => {
-        console.log('User:', user);
         const token = user.token;
-        localStorage.setItem('token',token)
-        console.log('token',token);
-        
-      // this.loadUserFromCookie(); 
-        
-        // const cookieValue = this.getCookie('auth-cookie');
-        
+        localStorage.setItem(this.TOKEN_KEY, token);
         this.user$$.next(user);
       })
     );
-  }  
+  }
 
   register(
     username: string,
@@ -64,9 +59,10 @@ export class UserService implements OnDestroy {
   }
 
   logout() {
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.user$$.next(undefined); 
     return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
-        this.user$$.next(undefined);
       })
     );
   }
@@ -74,11 +70,10 @@ export class UserService implements OnDestroy {
   getProfile() {
     return this.http
       .get<UserForAuth>('/api/users/profile', { withCredentials: true })
-      .pipe(tap((user) => this.user$$.next(user)),     
-    )   
+      .pipe(tap((user) => this.user$$.next(user)));
   }
 
-  getProfiles(): Observable<UserForAuth[]> {
+  getProfiles() {
     return this.http.get<UserForAuth[]>('/api/users/profiles');
   }
 
@@ -96,46 +91,18 @@ export class UserService implements OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  // private loadUserFromCookie(): void {
-  //   const cookieName = 'auth-cookie'; 
-  //   const cookieData = this.parseCookie(cookieName);
-    
-  //   if (cookieData) {
-  //     console.log(`${cookieName} value:`, cookieData);
-  //     this.user$$.next(cookieData);
-  //   } else {
-  //     this.user$$.next(undefined);
-  //   }
-  // }
-
-  // private parseCookie(cookieName: string): UserForAuth | null {
-  //   const cookieString = document.cookie;
-  //   const cookies = cookieString.split(';');
-  //   for (const cookie of cookies) {
-  //     const [name, value] = cookie.trim().split('=');
-  //     if (name === cookieName) {
-  //       try {
-  //         return JSON.parse(decodeURIComponent(value));
-  //       } catch (error) {
-  //         console.error('Error parsing cookie:', error);
-  //         return null;
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // }
-
-  // private getCookie(name: string): string | null {
-  //   const cookieString = document.cookie;
-  //   const cookies = cookieString.split(';');
-  //   for (const cookie of cookies) {
-  //     const [cookieName, cookieValue] = cookie.trim().split('=');
-  //     if (cookieName === name) {
-  //       return decodeURIComponent(cookieValue);
-  //     }
-  //   }
-  //   return null;
-  // }
-  
-  
+  private loadUserFromLocalStorage(): void {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (token) {
+      this.getProfile().subscribe({
+        next: (user) => {
+          this.user$$.next(user);
+        },
+        error: () => {
+          localStorage.removeItem(this.TOKEN_KEY);
+          this.user$$.next(undefined);
+        },
+      });
+    }
+  }
 }
