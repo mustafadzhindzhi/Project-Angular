@@ -107,7 +107,25 @@ export class WorkComponent {
       this.selectedImage = files[0];
       if (this.selectedImage) {
         this.readImage(this.selectedImage);
+        event.target.disabled = true;
       }
+    }
+  }
+
+  clearMainPhoto() {
+    this.mainPhotoSrc = null;
+    const mainPhotoInput = document.getElementById('mainPhoto') as HTMLInputElement;
+    if (mainPhotoInput) {
+      mainPhotoInput.value = ''; 
+      mainPhotoInput.disabled = false; 
+    }
+  }
+
+  clearImage(index: number) {
+    this.imageSrc[index] = null;
+    const imageInput = document.getElementById(`imageInput${index}`) as HTMLInputElement;
+    if (imageInput) {
+      imageInput.value = ''; 
     }
   }
   

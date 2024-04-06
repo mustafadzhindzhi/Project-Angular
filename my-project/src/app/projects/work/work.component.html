@@ -1,6 +1,6 @@
 <section class="our_work">
   <h2>Our Customers Work</h2>
-  <div class="buttons">    
+  <div class="buttons">
     <div class="right-end">
       <button class="our_work__btn-right" (click)="openShareProjectModal()">Share your projects with US!</button>
     </div>
@@ -16,7 +16,7 @@
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
     <form [formGroup]="projectForm" (ngSubmit)="submitProject()">
-        <div class="form-group">
+      <div class="form-group">
         <label for="projectName">Project Name</label>
         <input type="text" id="projectName" formControlName="projectName" name="projectName"
           placeholder="Enter Project Name">
@@ -24,21 +24,23 @@
 
       <div class="form-group">
         <label for="mainPhoto">Main Photo</label>
-        <input type="file" id="mainPhoto" (change)="onMainPhotoSelected($event)" accept="image/*">
+        <input type="file" id="mainPhoto" (change)="onMainPhotoSelected($event)" accept="image/*"
+          [disabled]="mainPhotoSrc !== null">
         <div class="main-photo-preview" *ngIf="mainPhotoSrc">
           <img [src]="mainPhotoSrc" alt="Main Photo Preview">
+          <button class="clear-image" (click)="clearMainPhoto()">Clear</button>
         </div>
       </div>
 
       <div class="form-group">
         <label for="bigDescription">Main Description</label>
-        <textarea id="bigDescription" formControlName="bigDescription" name="bigDescription" placeholder="More Information"></textarea>
+        <textarea id="bigDescription" formControlName="bigDescription" name="bigDescription"
+          placeholder="More Information"></textarea>
       </div>
 
       <div class="form-group">
         <label for="smallDesc">Small Description</label>
-        <textarea id="smallDesc" formControlName="smallDesc" name="smallDesc"
-          placeholder="More Details"></textarea>
+        <textarea id="smallDesc" formControlName="smallDesc" name="smallDesc" placeholder="More Details"></textarea>
       </div>
 
       <div class="form-group">
@@ -54,19 +56,21 @@
 
       <div formArrayName="systems">
         <label for="approach">Systems</label>
-        <div *ngFor="let system of getFormArrayControls('systems'); let i = index">
-            <input type="text" [formControlName]="i" id="system{{i}}" placeholder="Enter Your Used Systems">
+        <div *ngFor="let system of getFormArrayControls('systems'); let i = index" class="input-container">
+          <input type="text" [formControlName]="i" id="system{{i}}" placeholder="Enter Your Used Systems">
         </div>
-        <button type="button" [disabled]="getFormArrayControls('systems').length >= 3" class="add-button" (click)="addInput('systems')">+</button>
-    </div>
+        <button type="button" [disabled]="getFormArrayControls('systems').length >= 3" class="add-button"
+          (click)="addInput('systems')">+</button>
+      </div>
 
-    <div formArrayName="challenges">
+      <div formArrayName="challenges">
         <label for="approach">Challenges</label>
-        <div *ngFor="let challenge of getFormArrayControls('challenges'); let i = index">
-            <input type="text" [formControlName]="i" id="challenge{{i}}" placeholder="Enter Your Challenges">
+        <div *ngFor="let challenge of getFormArrayControls('challenges'); let i = index" class="input-container">
+          <input type="text" [formControlName]="i" id="challenge{{i}}" placeholder="Enter Your Challenges">
         </div>
-        <button type="button" [disabled]="getFormArrayControls('challenges').length >= 3" class="add-button" (click)="addInput('challenges')">+</button>
-    </div>
+        <button type="button" [disabled]="getFormArrayControls('challenges').length >= 3" class="add-button"
+          (click)="addInput('challenges')">+</button>
+      </div>
 
       <div class="form-group">
         <label for="approach">Approach</label>
@@ -75,16 +79,20 @@
 
       <div formArrayName="images">
         <label for="images">Images</label>
-        <div *ngFor="let image of getFormArrayControls('images'); let i = index">
-          <input type="file" (change)="onImageSelected($event, i)" accept="image/*">
+        <div *ngFor="let image of getFormArrayControls('images'); let i = index" class="image-input-container">
+          <div class="image-upload">
+            <input type="file" id="imageInput{{i}}" (change)="onImageSelected($event, i)" accept="image/*">
+            <label for="imageInput{{i}}">Choose file</label>
+          </div>
           <div class="image-preview" *ngIf="imageSrc[i]">
             <img [src]="imageSrc[i]" alt="Image Preview">
+            <button class="clear-image" (click)="clearImage(i)">Clear</button>
           </div>
         </div>
         <button type="button" [disabled]="getFormArrayControls('images').length >= 3" class="add-button" (click)="addInput('images')">+</button>
       </div>
       
-      
+
 
       <button class="submit" type="submit">Submit</button>
       <button class="cancel" type="submit" (click)="closeModal()">Cancel</button>

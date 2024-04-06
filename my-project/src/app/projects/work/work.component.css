@@ -171,6 +171,7 @@
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.3s ease; 
+    margin-top: 5px;
   }
   
   .add-button:hover {
@@ -219,6 +220,43 @@
     background-color: #c6a539;
   }
 
+  .image-upload input[type="file"] {
+    display: none;
+  }
+  
+  .image-upload label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px 5px;
+    background-color: #0DB14B;
+    color: #ffffff;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .clear-image {
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: #FF4F4F;
+    color: #ffffff;
+    border-radius: 5px;
+    border: none;
+    margin-left: 5px;
+  }
+  
+  .clear-image:hover {
+    background-color: #FF7F7F;
+  }
+  
+  .image-input-container {
+    margin-bottom: 10px;
+  }
+
+  .input-container {
+    margin-bottom: 10px;
+  }
+  
 @media screen and (max-width:768px) {
     .our_work h2 {
         font-size: 50px;

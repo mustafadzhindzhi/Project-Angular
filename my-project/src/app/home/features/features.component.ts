@@ -1,53 +1,26 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/user/user.service';
-import Swiper from 'swiper';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-features',
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.css']
 })
-export class FeaturesComponent implements AfterViewInit {
+export class FeaturesComponent {
   @ViewChild('cardsContainer') cardsContainer!: ElementRef;
-  private swiper: Swiper | undefined;
 
-  constructor(private userService: UserService) { }
+  constructor() { }
 
-  get isLoggedIn(): boolean {
-    return this.userService.isLogged;
-  }
-
-  ngAfterViewInit(): void {
-    if (this.cardsContainer && this.cardsContainer.nativeElement) {
-      console.log("Container element found:", this.cardsContainer.nativeElement);
-      
-      // Initialize Swiper
-      this.swiper = new Swiper(this.cardsContainer.nativeElement, {
-        navigation: {
-          nextEl: '.arrow-button--next',
-          prevEl: '.arrow-button--prev',
-        },
-        slidesPerView: 1,
-        spaceBetween: 16, 
-        breakpoints: {
-          768: {
-            slidesPerView: 2,
-          },
-        }
-      });
-
-      console.log("Swiper initialized:", this.swiper);
-    } else {
-      console.error("Container element not found or undefined.");
-    }
-  }
+  
 
   moveProjects(direction: 'left' | 'right'): void {
-    if (this.swiper) {
+    if (this.cardsContainer && this.cardsContainer.nativeElement) {
+      const container = this.cardsContainer.nativeElement;
+      const scrollAmount = 300; 
+      
       if (direction === 'left') {
-        this.swiper.slidePrev();
+        container.scrollLeft -= scrollAmount;
       } else {
-        this.swiper.slideNext();
+        container.scrollLeft += scrollAmount;
       }
     }
   }

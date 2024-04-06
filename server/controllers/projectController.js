@@ -72,15 +72,12 @@ function createProject(req, res, next) {
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
     const { _id: userId } = req.user; 
 
-    const mainPhotoFilename = `${Date.now()}_main_photo.jpg`;
-    fs.writeFileSync(path.join(__dirname, 'images', mainPhotoFilename), mainPhoto, 'base64');
-    
     const projectData = {
       projectName,
       smallDesc,
       bigDescription,
       images: images,
-      mainPhoto: `images/${mainPhotoFilename}`, 
+      mainPhoto: mainPhoto, 
       industry,
       deliverables,
       systems,

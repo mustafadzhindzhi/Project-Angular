@@ -68,14 +68,11 @@
     margin-top: 35px;
     gap: 16px;
     overflow-x: hidden;
-    overflow-x: auto; /* Allow horizontal scrolling */
-  scroll-behavior: smooth;
 }
 
 .some__work-right-div {
     display: flex;
     flex-direction: column;
-    transition: opacity 0.3s ease-in-out;
 }
 
 .some__work-right-div img {
@@ -171,18 +168,6 @@
     cursor: pointer;
     text-transform: uppercase;
 }
-
-.slide-in {
-    transform: translateX(0%);
-  }
-  
-  .slide-out-left {
-    transform: translateX(-100%);
-  }
-  
-  .slide-out-right {
-    transform: translateX(100%);
-  }
 
 @media screen and (max-width:768px) {
     .some {

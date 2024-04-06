@@ -10,8 +10,8 @@
       <button>SEE ALL PROJECTS</button>
     </div>
     <div class="some__work-right" #projectsContainer>
-        <div class="some__work-right-div" *ngFor="let project of randomProjects; let i = index" 
-             [@slideLeftRight]="i - currentIndex">
+      <div class="some__work-right-div" *ngFor="let project of randomProjects; let i = index"
+      [@slideLeftRight]="i - currentIndex">
           <img [src]="project.mainPhoto" alt="">
           <div class="name">
             <h2>{{project.projectName}}</h2>

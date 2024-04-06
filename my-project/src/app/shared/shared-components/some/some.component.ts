@@ -10,12 +10,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('slideLeftRight', [
       transition(':increment', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('0.5s ease-in', style({ transform: 'translateX(0%)' })),
+        animate('0.3s ease-in-out', style({ transform: 'translateX(-33%)' })),
+        animate('0.2s', style({ opacity: 0 })),
       ]),
       transition(':decrement', [
-        style({ transform: 'translateX(100%)' }),
-        animate('0.5s ease-out', style({ transform: 'translateX(0%)' })),
+        animate('0.3s ease-in-out', style({ transform: 'translateX(33%)' })),
+        animate('0.2s', style({ opacity: 0 })),
       ]),
     ]),
   ],
@@ -27,7 +27,7 @@ export class SomeComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.getRandomProjects(5); 
+    this.getRandomProjects(3); 
   }
 
   getRandomProjects(count: number): void {
@@ -42,14 +42,12 @@ export class SomeComponent implements OnInit {
   }
 
   moveProjectsLeft(): void {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    }
+    const lastProject = this.randomProjects.pop();
+    this.randomProjects.unshift(lastProject!);
   }
 
   moveProjectsRight(): void {
-    if (this.currentIndex < this.randomProjects.length - 1) {
-      this.currentIndex++;
-    }
+    const firstProject = this.randomProjects.shift();
+    this.randomProjects.push(firstProject!);
   }
 }
