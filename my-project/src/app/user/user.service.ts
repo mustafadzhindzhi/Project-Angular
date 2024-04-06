@@ -1,8 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, tap } from 'rxjs';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,10 @@ export class UserService implements OnDestroy {
       tap((user) => {
         console.log('User:', user);
         const token = user.token;
-        // this.setCookie('auth-cookie', token);
-        this.loadUserFromCookie(); 
+        localStorage.setItem('token',token)
+        console.log('token',token);
+        
+      this.loadUserFromCookie(); 
         
         const cookieValue = this.getCookie('auth-cookie');
         console.log('Cookie value:', cookieValue);
@@ -78,7 +81,11 @@ export class UserService implements OnDestroy {
   getProfile() {
     return this.http
       .get<UserForAuth>('/api/users/profile', { withCredentials: true })
-      .pipe(tap((user) => this.user$$.next(user)));
+      .pipe(tap((user) => this.user$$.next(user)),
+      // catchError(() => of(null))
+      tap(console.log)
+      
+    )   
   }
 
   getProfiles(): Observable<UserForAuth[]> {
@@ -102,7 +109,6 @@ export class UserService implements OnDestroy {
   private loadUserFromCookie(): void {
     const cookieName = 'auth-cookie'; 
     const cookieData = this.parseCookie(cookieName);
-    console.log(cookieData);
     
     if (cookieData) {
       console.log(`${cookieName} value:`, cookieData);
@@ -131,9 +137,7 @@ export class UserService implements OnDestroy {
 
   private getCookie(name: string): string | null {
     const cookieString = document.cookie;
-    console.log('Cookie string:', cookieString);
     const cookies = cookieString.split(';');
-    console.log('Cookies:', cookies);
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.trim().split('=');
       if (cookieName === name) {

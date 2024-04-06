@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Project',
     }],
+    token: String,
 }, { timestamps: { createdAt: 'created_at' } });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

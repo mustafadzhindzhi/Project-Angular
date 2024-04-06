@@ -10,6 +10,7 @@ import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { ErrorService } from './core/error/error.service';
 import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 
 const { apiUrl } = environment;
 
@@ -29,6 +30,9 @@ export class AppInterceptor implements HttpInterceptor {
         withCredentials: true,
       });
     }
+    req = req.clone({
+      setHeaders: { 'Authorization': localStorage.getItem('token') ?? ''}
+    })
 
     return next.handle(req).pipe(
       catchError((err) => {

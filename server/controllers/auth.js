@@ -58,7 +58,12 @@ function login(req, res, next) {
                 return;
             }
             const token = utils.jwt.createToken({ id: user._id });
-            res.cookie(authCookieName, token, { httpOnly: true });
+            res.body = user;
+            user.token = token;
+            console.log('token',token)
+            console.log('user',user)
+            // res.cookie(authCookieName, token, { httpOnly: true });
+            res.locals.user = user;
             res.status(200).send(user);
         })
         .catch(next);
@@ -76,7 +81,9 @@ function logout(req, res) {
 
 
 function getProfileInfo(req, res, next) {
-    const { _id: userId } = req.user;
+    const { id: userId } = req.user;
+    console.log('iiiiiddd', userId)
+    console.log('req usser',req.user)
 
     userModel.findOne({ _id: userId }, { password: 0, __v: 0 })
         .then(user => { res.status(200).json(user) })
