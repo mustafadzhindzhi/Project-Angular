@@ -60,4 +60,14 @@ export class ApiService {
     const { apiUrl } = environment;
     return this.http.get<User>(`${apiUrl}/users/${_ownerId}`);
   }
+
+  like(projectId: string): Observable<any> {
+    const { apiUrl } = environment;
+    return this.http.put<Project>(`${apiUrl}/projects/${projectId}/likes`, {});
+  }
+
+  unlike(id: string) {
+    const { apiUrl } = environment;
+    return this.http.put<Project>(`${apiUrl}/projects/${id}/unlike`, {});
+  }
 }

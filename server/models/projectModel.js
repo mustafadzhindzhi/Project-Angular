@@ -46,10 +46,10 @@ const projectSchema = new Schema({
         type: String,
         required: false
     }],
-    likes: {
-        type: Number,
-        default: 0,
-    },
+    likes: [{
+        type: Types.ObjectId,
+        ref: 'User'
+    }],
     _ownerId: {
         type: Types.ObjectId,
         ref: 'User',

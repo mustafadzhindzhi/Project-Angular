@@ -20,6 +20,12 @@ export class UserService implements OnDestroy {
     return !!this.user;
   }
 
+  get currentUserId(): string | undefined {
+    if (this.user && this.user.id) {
+      return this.user.id;
+    }
+    return undefined;
+  }
   constructor(private http: HttpClient) {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;

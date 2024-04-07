@@ -2,8 +2,8 @@
     <div class="details__name">
         <h2>{{ project.projectName}}</h2>
         <p>{{ project.smallDesc }}</p>
-        <button class="submit" type="submit" (click)="openEditModal()">Edit</button>
-        <button class="cancel" type="submit" (click)="openDeleteModal()">Delete</button>
+        <button  *ngIf="isCurrentUserOwner()" class="submit" type="submit" (click)="openEditModal()">Edit</button>
+        <button  *ngIf="isCurrentUserOwner()" class="cancel" type="submit" (click)="openDeleteModal()">Delete</button>
         <img [src]="project.mainPhoto" alt="Project Image">
     </div>
     <div class="details__project-info">
@@ -12,6 +12,12 @@
                 <h3>Date</h3>
                 <p>{{project.createdAt }}</p>
             </div>
+            <h2>Do you like my project?</h2>
+            <button (click)="toggleLike()" class="like-button">
+              <span [ngClass]="{'clicked': isLiked}" class="thumb-icon">Like</span>
+          </button>
+          <span>{{ likesCount }} likes</span>
+
             <div class="details__project-info_left-line"></div>
         </div>
         <div class="details__project-info-right">

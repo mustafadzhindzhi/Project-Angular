@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '
 import { ApiService } from 'src/app/api.service';
 import { Router } from '@angular/router';
 import { Project } from 'src/app/types/project';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-details',
@@ -18,8 +19,10 @@ export class DetailsComponent implements OnInit {
   imageSrc: (string | ArrayBuffer | null)[] = [];
   mainPhotoSrc: string | ArrayBuffer | null = null;
   selectedImage: File | null = null;
+  isLiked: boolean = false;
+  likesCount: number = 0;
 
-  constructor(private apiService: ApiService, private activeRouter: ActivatedRoute, private fb: FormBuilder, private router: Router) {
+  constructor(private apiService: ApiService, private activeRouter: ActivatedRoute, private fb: FormBuilder, private router: Router, private userService: UserService) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
       mainPhoto: [''],
@@ -40,6 +43,7 @@ export class DetailsComponent implements OnInit {
   
       this.apiService.getProject(id).subscribe((project) => {
         this.project = project;
+        this.likesCount = project.likes;
         this.projectForm.patchValue(project);
   
         this.populateImageArray(project.images);
@@ -52,6 +56,10 @@ export class DetailsComponent implements OnInit {
         this.populateFormArray('challenges', project.challenges);
       });
     });
+  }
+
+  isCurrentUserOwner(): boolean {
+    return this.userService.currentUserId === this.project._ownerId.id;
   }
 
   populateFormArray(formArrayName: string, values: string[]) {
@@ -171,6 +179,47 @@ export class DetailsComponent implements OnInit {
     }
     this.isDeleteModalOpen = false;
   }
+
+  toggleThumb() {
+    const icon = document.querySelector('.thumb-icon');
+    if (icon) {
+      icon.classList.toggle('clicked');
+    }
+  }
+
+  toggleLike() {
+    const projectId = this.project._id;
+
+    if (this.isLiked) {
+        this.unlikeProject(projectId);
+    } else {
+        this.likeProject(projectId);
+    }
+}
+  
+likeProject(projectId: string) {
+  this.apiService.like(projectId).subscribe(
+    () => {
+      this.project.likes++;
+      this.isLiked = true;
+    },
+    (error) => {
+      console.error("Error liking project:", error);
+    }
+  );
+}
+  
+unlikeProject(projectId: string) {
+  this.apiService.unlike(projectId).subscribe(
+    () => {
+      this.project.likes--;
+      this.isLiked = false;
+    },
+    (error) => {
+      console.error("Error unliking project:", error);
+    }
+  );
+}
 
   submitProject() {
     const projectId = this.project._id;

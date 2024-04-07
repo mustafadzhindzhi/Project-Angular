@@ -1,5 +1,6 @@
 const { projectModel } = require('../models');
 const mongoose = require('mongoose')
+const { ObjectId } = require('mongoose').Types;
 
 function getProjects(req, res, next) {
     const searchTerm = req.query.searchTerm;
@@ -143,15 +144,30 @@ function getLatestProjects(req, res, next) {
         })
         .catch(next);
 }
-
 function like(req, res, next) {
-    const { projectId } = req.params;
-    const { id: userId } = req.user;
+    const projectId = req.params.projectId;
+    const userId = req.user.id;
 
+    projectModel.findById(projectId)
+    .then(project => {
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
 
-    projectModel.updateOne({ id: projectId }, { $addToSet: { likes: userId } }, { new: true })
-        .then(() => res.status(200).json({ message: 'Liked successful!' }))
-        .catch(next);
+        if (!project.likes) {
+            project.likes = [];
+        }
+
+        project.likes.push(userId);
+        return project.save()
+            .then(() => {
+                res.status(200).json({ message: 'Liked successful!' });
+            });
+    })
+    .catch(error => {
+        next(error);
+    });
+
 }
 
 module.exports = {
