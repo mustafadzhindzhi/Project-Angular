@@ -9,6 +9,7 @@ import { UserForAuth } from '../types/user';
 })
 export class CustomersComponent implements OnInit {
   profiles: UserForAuth[] = [];
+  ownerProfile: UserForAuth | undefined;
 
   constructor(private userService: UserService) {}
 
@@ -25,5 +26,17 @@ export class CustomersComponent implements OnInit {
         console.error('Error fetching profiles:', error);
       }
     );
+  }
+
+  openEmailClient(email: string) {
+    window.location.href = `mailto:${email}`;
+  }
+
+  openInstagram(username: string) {
+    window.open(`https://instagram.com/${username}`, '_blank');
+  }
+
+  openFacebook(username: string) {
+    window.open(`https://facebook.com/${username}`, '_blank');
   }
 }

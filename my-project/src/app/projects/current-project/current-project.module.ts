@@ -4,13 +4,13 @@ import { CurrentProjectComponent } from './current-project.component';
 import { DetailsComponent } from './details/details.component';
 import { ChallengesComponent } from './challenges/challenges.component';
 import { ImagesComponent } from './images/images.component';
-import { SharedComponentsModule } from 'src/app/shared/shared-components/shared-components.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CurrentProjectComponent, DetailsComponent, ChallengesComponent, ImagesComponent],
   imports: [
     CommonModule,
-    SharedComponentsModule,
+    ReactiveFormsModule
   ]
 })
 export class CurrentProjectModule { }

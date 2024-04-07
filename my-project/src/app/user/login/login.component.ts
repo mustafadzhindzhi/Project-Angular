@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { UserService } from '../user.service';
 import { EMAIL_DOMAINS } from 'src/app/constants';
-import { phoneNumberValidator } from 'src/app/shared/utils/phone-number.validator';
-import { usernameValidator } from 'src/app/shared/utils/username.validator';
-import { passwordValidator } from 'src/app/shared/utils/password.validator';
+import { phoneNumberValidator } from 'src/app/shared/validations/phone-number.validator';
+import { usernameValidator } from 'src/app/shared/validations/username.validator';
+import { passwordValidator } from 'src/app/shared/validations/password.validator';
 
 @Component({
   selector: 'app-login',

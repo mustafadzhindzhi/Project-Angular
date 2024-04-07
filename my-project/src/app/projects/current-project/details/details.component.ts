@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/types/project';
-import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { ApiService } from 'src/app/api.service';
+import { Router } from '@angular/router';
+import { Project } from 'src/app/types/project';
 
 @Component({
   selector: 'app-details',
@@ -10,16 +12,197 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetailsComponent implements OnInit {
   project: Project = {} as Project; 
+  projectForm: FormGroup;
+  isModalOpen: boolean = false;
+  isDeleteModalOpen: boolean = false;
+  imageSrc: (string | ArrayBuffer | null)[] = [];
+  mainPhotoSrc: string | ArrayBuffer | null = null;
+  selectedImage: File | null = null;
 
-  constructor(private apiService: ApiService, private activeRouter: ActivatedRoute) {}
+  constructor(private apiService: ApiService, private activeRouter: ActivatedRoute, private fb: FormBuilder, private router: Router) {
+    this.projectForm = this.fb.group({
+      projectName: ['', Validators.required],
+      mainPhoto: [''],
+      smallDesc: ['', Validators.required],
+      bigDescription: ['', Validators.required],
+      industry: ['', Validators.required],
+      deliverables: ['', Validators.required],
+      systems: this.fb.array([this.fb.control('')]),
+      challenges: this.fb.array([this.fb.control('')]),
+      approach: ['', Validators.required],
+      images: this.fb.array([])
+    });
+  }
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((data) => {
       const id = data['projectId'];
-
+  
       this.apiService.getProject(id).subscribe((project) => {
         this.project = project;
+        this.projectForm.patchValue(project);
+  
+        this.populateImageArray(project.images);
+
+        if (project.mainPhoto) {
+          this.mainPhotoSrc = project.mainPhoto;
+        }
+  
+        this.populateFormArray('systems', project.systems);
+        this.populateFormArray('challenges', project.challenges);
+      });
     });
-    })
+  }
+
+  populateFormArray(formArrayName: string, values: string[]) {
+    const controlArray = this.projectForm.get(formArrayName) as FormArray;
+    for (let i = 0; i < values.length; i++) {
+      if (i > 0 || controlArray.length === 0) {
+        controlArray.push(this.fb.control(values[i]));
+      }
+    }
+  }
+
+  populateImageArray(images: string[]) {
+    const imagesArray = this.projectForm.get('images') as FormArray;
+    imagesArray.clear(); 
+    
+    images.forEach((image) => {
+      this.imageSrc.push(image); 
+  
+      const isAttached = this.imageSrc.includes(image);
+      if (!isAttached) {
+        imagesArray.push(this.fb.control('')); 
+      }
+    });
+  
+    if (imagesArray.length < 3) {
+      for (let i = imagesArray.length; i < 3; i++) {
+        imagesArray.push(this.fb.control(''));
+      }
+    }
+  }
+  
+  openEditModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  getFormArrayControls(formArrayName: string): AbstractControl[] {
+    return (this.projectForm.get(formArrayName) as FormArray).controls;
+  }
+
+  addInput(controlName: string) {
+    const controlArray = this.projectForm.get(controlName) as FormArray;
+    controlArray.push(this.fb.control(''));
+  }
+
+  onImageSelected(event: any, index: number) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imageData = reader.result;
+        if (typeof imageData === 'string') {
+          this.imageSrc[index] = imageData;
+          const imagesArray = this.projectForm.get('images') as FormArray;
+          imagesArray.at(index).setValue(imageData); 
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onMainPhotoSelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedImage = files[0];
+      if (this.selectedImage) {
+        this.readImage(this.selectedImage);
+        event.target.disabled = true;
+      }
+    }
+  }
+
+  clearMainPhoto() {
+    this.mainPhotoSrc = null;
+    const mainPhotoInput = document.getElementById('mainPhoto') as HTMLInputElement;
+    if (mainPhotoInput) {
+      mainPhotoInput.value = ''; 
+      mainPhotoInput.disabled = false; 
+    }
+  }
+
+  clearImage(index: number) {
+    this.imageSrc[index] = null;
+    const imagesArray = this.projectForm.get('images') as FormArray;
+    imagesArray.at(index).reset(); 
+  }
+  
+  readImage(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        this.mainPhotoSrc = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  openDeleteModal() {
+    console.log("Delete modal opened");
+    this.isDeleteModalOpen = true;
+  }
+
+  confirmDelete() {
+    this.closeDeleteModal(true); 
+  }
+  
+  closeDeleteModal(confirmed: boolean) {
+    if (confirmed) {
+      this.apiService.deleteProject(this.project._id).subscribe(() => {
+        this.router.navigate(['/projects']);
+      }, (error) => {
+        console.error("Error deleting project:", error);
+      });
+    }
+    this.isDeleteModalOpen = false;
+  }
+
+  submitProject() {
+    const projectId = this.project._id;
+    const originalImages = this.project.images;  
+    const imagesArray = this.projectForm.get('images') as FormArray;
+    const newImages = imagesArray.value.filter((image: string | null) => image !== null);
+    if (newImages.length === 0) {
+      console.error("At least one new image is required");
+      return;
+    }
+    const combinedImages = [...originalImages, ...newImages];  
+    const imagesData = combinedImages.map((image: string | ArrayBuffer | null) => image?.toString());
+    const { projectName, smallDesc, bigDescription, industry, deliverables, systems, challenges, approach } = this.projectForm.value;
+  
+    const updatedProjectData = {
+      projectName,
+      smallDesc,
+      bigDescription,
+      industry,
+      deliverables,
+      systems,
+      challenges,
+      approach,
+      mainPhoto: this.mainPhotoSrc?.toString(),
+      images: imagesData
+    };
+  
+    this.apiService.editProject(projectId, updatedProjectData).subscribe(() => {
+      this.closeModal();
+      this.router.navigate(['/projects']);
+    }, (error) => {
+      console.error("Error updating project:", error);
+    });
   }
 }

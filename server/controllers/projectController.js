@@ -31,17 +31,13 @@ function getProjects(req, res, next) {
 function getProject(req, res, next) {
     const { projectId } = req.params;
     
-
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
         return res.status(400).json({ error: 'Invalid projectId format' });
     }
 
-
     if (!req.user || !req.user.id) {
         return res.status(401).json({ error: 'User not authenticated' });
     }
-
-    const userId = req.user.id;
 
     projectModel.findOne({_id: projectId})
     .then(project => {
@@ -86,24 +82,28 @@ function createProject(req, res, next) {
         res.status(500).json({ error: 'Failed to create project' });
       });
   }
-
   
 function editProject(req, res, next) {
     const projectId = req.params.projectId;
-    const userId = req.userId._id;
-    const { projectName, miniDescription, largeDescription, images } = req.body;
+    const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
 
     const update = {
         $set: {
             projectName: projectName,
-            miniDescription: miniDescription,
-            largeDescription: largeDescription,
-            images: images
+            smallDesc: smallDesc,
+            bigDescription: bigDescription,
+            images: images,
+            mainPhoto: mainPhoto, 
+            industry: industry, 
+            deliverables: deliverables, 
+            systems: systems, 
+            challenges: challenges,
+            approach: approach
         }
     };
 
-    projectModel.findOneAndUpdate({ _id: projectId, userId: userId }, update, { new: true })
-        .then(updatedProject => {
+    projectModel.findByIdAndUpdate(projectId, update, { new: true, runValidators: true })
+    .then(updatedProject => {
             if (!updatedProject) {
                 return res.status(404).json({ error: 'Project not found or user not authorized to edit' });
             }
@@ -117,18 +117,13 @@ function editProject(req, res, next) {
 
 function deleteProject(req, res, next) {
     const projectId = req.params.projectId;
-    const userId = req.userId._id;
-
-    projectModel.findOne({ _id: projectId, userId: userId })
+    
+    projectModel.findByIdAndDelete(projectId)
         .then(project => {
             if (!project) {
                 return res.status(404).json({ error: 'Project not found or user not authorized to delete' });
             }
-
-            return projectModel.deleteOne({ _id: projectId })
-                .then(() => {
-                    res.status(200).json({ message: 'Project deleted successfully' });
-                });
+            res.status(200).json({ message: 'Project deleted successfully' });
         })
         .catch(error => {
             console.error('Error deleting project:', error);

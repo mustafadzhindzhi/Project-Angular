@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 
 export function usernameValidator(control: AbstractControl): { [key: string]: any } | null {
   if (Validators.required(control)) {
