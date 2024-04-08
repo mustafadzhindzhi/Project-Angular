@@ -136,17 +136,18 @@ function deleteProject(req, res, next) {
 }
 
 function getLatestProjects(req, res, next) {
-    const limit = Number(req.query.limit) || 0;
-
+    const limit = 3; 
+    console.log(limit);
     projectModel.find()
-        .sort({ created_at: -1 })
+        .sort({ likes: -1 }) 
         .limit(limit)
-        .populate('projectId userId')
+        .populate('_ownerId', 'username')
         .then(projects => {
             res.status(200).json(projects);
         })
         .catch(next);
 }
+
 function like(req, res, next) {
     const projectId = req.params.projectId;
     const userId = req.user.id;

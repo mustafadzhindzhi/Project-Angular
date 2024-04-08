@@ -70,4 +70,9 @@ export class ApiService {
     const { apiUrl } = environment;
     return this.http.put<Project>(`${apiUrl}/projects/${id}/unlike`, {});
   }
+
+  getLatestProjects(): Observable<Project[]>{
+    const { apiUrl } = environment;
+    return this.http.get<Project[]>(`${apiUrl}/projects/top`)
+  }
 }

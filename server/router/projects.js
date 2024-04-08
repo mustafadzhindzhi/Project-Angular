@@ -11,5 +11,6 @@ router.put('/:projectId', projectController.editProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/likes', projectController.like);
 router.put('/:projectId/unlike', projectController.unlike); 
+router.get('/top', projectController.getLatestProjects);
 
 module.exports = router

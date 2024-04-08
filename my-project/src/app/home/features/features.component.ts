@@ -31,14 +31,16 @@ export class FeaturesComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.apiService.getProjects().subscribe(
-      (projects: Project[]) => {
-        this.projects = projects;
-      },
-      (error) => {
-        console.error('Error fetching projects:', error);
-      }
-    );
+    if (this.userService.isLogged) {
+      this.apiService.getProjects().subscribe(
+        (projects: Project[]) => {
+          this.projects = projects;
+        },
+        (error) => {
+          console.error('Error fetching projects:', error);
+        }
+      );
+    }
   }
 
   moveProjects(direction: 'left' | 'right'): void {
