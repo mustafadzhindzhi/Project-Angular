@@ -12,10 +12,7 @@ const authMiddleware = async (req, res, next) => {
             console.error("Error verifying token:", error);
             return res.status(401).json({ error: "Unauthorized" });
         }
-    } else {
-        console.log("No token provided");
-        return res.status(401).json({ error: "Unauthorized" });
-    }
+    } 
 }
 
 module.exports = { authMiddleware };

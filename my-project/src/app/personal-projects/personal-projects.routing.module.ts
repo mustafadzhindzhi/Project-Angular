@@ -1,12 +1,13 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { PersonalProjectsComponent } from "./personal-projects.component";
+import { AuthActivate } from "../guards/auth.activate";
 
 const routes: Routes = [
     {
-        path:'personalProjects', 
+        path: 'personalProjects',
         children: [
-            {path: '', pathMatch:'full', component: PersonalProjectsComponent},
+            { path: '', pathMatch: 'full', component: PersonalProjectsComponent, canActivate: [AuthActivate] },
         ]
     },
 ];
@@ -16,4 +17,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class PersonalProjectsRouting {}
+export class PersonalProjectsRouting { }

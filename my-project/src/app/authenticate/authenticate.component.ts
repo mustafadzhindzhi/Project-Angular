@@ -8,12 +8,13 @@ import { UserService } from '../user/user.service';
 })
 export class AuthenticateComponent implements OnInit {
   isAuthenticating = true;
+  isLoggedIn = false;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (this.isLoggedIn) {
       this.userService.getProfile().subscribe({
         next: () => {
           this.isAuthenticating = false;

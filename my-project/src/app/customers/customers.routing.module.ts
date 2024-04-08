@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path:'customers', 
         children: [
-            {path: '', pathMatch:'full', component: CustomersComponent},
+            {path: '', pathMatch:'full', component: CustomersComponent, canActivate: [AuthActivate]},
         ]
     },
 ];

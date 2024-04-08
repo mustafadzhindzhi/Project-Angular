@@ -8,7 +8,7 @@ const routes: Routes = [
     {
         path:'projects', 
         children: [
-            { path: '', pathMatch:'full', component: ProjectsComponent },
+            { path: '', pathMatch:'full', component: ProjectsComponent, canActivate: [AuthActivate] },
             { path: ':projectId', component: CurrentProjectComponent, canActivate: [AuthActivate] }
         ]
     },

@@ -1,54 +1,55 @@
+<!-- contacts.component.html -->
+
 <section class="contacts">
     <div class="contacts-title">
-        <h2>Contacts</h2>
-        <p>We're here to help, and we'd love to hear from you! Whether you have a question, a comment, or just want
-            to say hello, our team is always happy to chat.</p>
+      <h2>Contacts</h2>
+      <p>We're here to help, and we'd love to hear from you! Whether you have a question, a comment, or just want to say hello, our team is always happy to chat.</p>
     </div>
     <div class="contacts-content">
-        <div class="contacts-content-left">
-            <div class="contacts-content-left-addres">
-                <div class="contacts-content-left-addres-up">
-                    <h2>Call Us</h2>
-                    <p>(123)456-789</p>
-                </div>
-                <div class="contacts-content-left-addres-up">
-                    <h2>Call Us</h2>
-                    <p>(123)456-789</p>
-                </div>
-                <div class="contacts-content-left-addres-up">
-                    <h2>Call Us</h2>
-                    <p>(123)456-789</p>
-                </div>
-            </div>
-            <img src="/assets/ready.png" alt="">
-            <h2>Have a project?</h2>
-                <button routerLink="/aboutUs">Start with a simple discovery</button>
+      <div class="contacts-content-left">
+        <div class="contacts-content-left-address">
+          <div class="contacts-content-left-address-up">
+            <h2>Call Us</h2>
+            <p>(123)456-789</p>
+          </div>
+          <div class="contacts-content-left-address-up">
+            <h2>Call Us</h2>
+            <p>(123)456-789</p>
+          </div>
+          <div class="contacts-content-left-address-up">
+            <h2>Call Us</h2>
+            <p>(123)456-789</p>
+          </div>
         </div>
-        <div class="contacts-content-right">
-            <form action="">
-                <h2>Drop us a line</h2>
-                <div class="contacts-content-right-input">
-                <label for="">Your Name</label>
-                <input type="text" placeholder="Name">
-        </div>
-        <div class="contacts-content-right-input">
-                <label for="">Your Email</label>
-                <input type="text" placeholder="Email">
-        </div>
-        <div class="contacts-content-right-input">
-                <label for="">Information</label>
-                <input type="text" placeholder="Information" id="textarea">
-        </div>
-        <div class="contacts-content-right-input_bottom">
+        <img src="/assets/ready.png" alt="">
+        <h2>Have a project?</h2>
+        <button routerLink="/aboutUs">Start with a simple discovery</button>
+      </div>
+      <div class="contacts-content-right">
+        <form (submit)="saveMessage()">
+          <div class="contacts-content-right-input">
+            <label for="userName">Your Name</label>
+            <input type="text" placeholder="Name" id="userName" name="userName" [(ngModel)]="userName">
+          </div>
+          <div class="contacts-content-right-input">
+            <label for="userEmail">Your Email</label>
+            <input type="text" placeholder="Email" id="userEmail" name="userEmail" [(ngModel)]="userEmail">
+          </div>
+          <div class="contacts-content-right-input">
+            <label for="message">Message</label>
+            <textarea placeholder="Message" id="message" name="message" [(ngModel)]="message"></textarea>
+          </div>
+          <div class="contacts-content-right-input_bottom">
             <div class="checkbox-container">
-                <input type="checkbox">
-                <p>I agree with the terms of use and privacy policy</p>
+              <input type="checkbox" id="termsAgreed" name="termsAgreed">
+              <label for="termsAgreed">I agree with the terms of use and privacy policy</label>
             </div>
             <div class="button-container">
-                <button class="button">Send message</button>
+              <button type="submit" class="button">Send message</button>
             </div>
-        </div>
+          </div>
         </form>
+      </div>
     </div>
-    </div>
-</section>
+  </section>
+  

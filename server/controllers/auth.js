@@ -1,7 +1,9 @@
 const {
     userModel,
-    tokenBlacklistModel
+    tokenBlacklistModel,
+    messageModel
 } = require('../models');
+const nodemailer = require('nodemailer');
 
 const utils = require('../utils');
 const { authCookieName } = require('../app-config');
@@ -76,7 +78,6 @@ function logout(req, res) {
         .catch(err => res.send(err));
 }
 
-
 function getProfileInfo(req, res, next) {
     const { id: userId } = req.user;
 
@@ -102,6 +103,45 @@ function editProfileInfo(req, res, next) {
         .catch(next);
 }
 
+async function saveMessage(req, res, next) {
+    const { name, email, message } = req.body;
+  
+    try {
+        const newMessage = await messageModel.create({ name, email, message });
+        await sendEmail(email, 'Message Confirmation', 'Thank you for your message. We will get back to you soon.');
+        res.status(201).json({ newMessage });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+function sendEmail(to, subject, message) {
+    let transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    let mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: to,
+        subject: subject,
+        text: message
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+            // Handle the error here, you may want to send a response back to the client or retry sending the email
+        } else {
+            console.log('Email sent:', info.response);
+        }
+    });
+}
+
 module.exports = {
     login,
     register,
@@ -109,4 +149,6 @@ module.exports = {
     getProfileInfo,
     getAllProfiles,
     editProfileInfo,
+    saveMessage,
+    sendEmail
 }

@@ -1,13 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AboutUsComponent } from "./about-us.component";
-import { AuthActivate } from "../guards/auth.activate";
 
 const routes: Routes = [
     {
         path:'aboutUs', 
         children: [
-            {path: '', pathMatch:'full', component: AboutUsComponent,canActivate: [AuthActivate]}
+            {path: '', pathMatch:'full', component: AboutUsComponent}
         ]
     }
 ];

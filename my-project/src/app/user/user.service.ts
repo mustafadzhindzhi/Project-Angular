@@ -1,18 +1,20 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { UserForAuth } from '../types/user';
+import { Message, UserForAuth } from '../types/user';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService implements OnDestroy {
   private user$$ = new BehaviorSubject<UserForAuth | undefined>(undefined);
-  private user$ = this.user$$.asObservable();
+  public user$ = this.user$$.asObservable();
 
   user: UserForAuth | undefined;
   USER_KEY = '[user]';
-  TOKEN_KEY = 'token'; 
+  TOKEN_KEY = 'token';
 
   userSubscription: Subscription;
 
@@ -23,19 +25,18 @@ export class UserService implements OnDestroy {
 
   get currentUserId(): string | undefined {
     if (!!this.user) {
-      console.log('User object:', this.user); 
-      if (this.user.hasOwnProperty('_id')) { 
-        return this.user.id;
+      if (this.user.hasOwnProperty('_id')) {
+        return this.user._id;
       } else {
-        console.error('User object is missing id property:', this.user);
         return undefined;
       }
     } else {
-      console.warn('User object is undefined.'); 
-      return undefined; 
+      console.warn('User object is undefined.');
+      return undefined;
     }
   }
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private router: Router) {
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
     });
@@ -75,12 +76,15 @@ export class UserService implements OnDestroy {
 
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
-    this.user$$.next(undefined); 
+    this.user$$.next(undefined);
+
     return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
-      })
+        this.router.navigateByUrl('/auth/signUp');
+      }),
     );
   }
+
 
   getProfile() {
     return this.http
@@ -119,5 +123,12 @@ export class UserService implements OnDestroy {
         },
       });
     }
+  }
+
+  saveMessage(name: string, email: string, message: string) {
+    const { apiUrl } = environment;
+    return this.http.post<Message>(`${apiUrl}/messages`, { name, email, message }).pipe(
+      tap(() => console.log('Message saved successfully'))
+    );
   }
 }

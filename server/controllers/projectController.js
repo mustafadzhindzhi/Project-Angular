@@ -10,9 +10,13 @@ function getProjects(req, res, next) {
         query = {
             $or: [
                 { projectName: { $regex: searchTerm, $options: 'i' } },
+                {smallDesc: {$regex:searchTerm, $options:'i'}},
                 { industry: { $regex: searchTerm, $options: 'i' } },
-                //da dobavq drugi
-
+                { deliverables: { $regex: searchTerm, $options: 'i' } },
+                { systems: { $regex: searchTerm, $options: 'i' } },
+                { bigDescription: { $regex: searchTerm, $options: 'i' } },
+                { challenges: { $regex: searchTerm, $options: 'i' } },
+                { approach: { $regex: searchTerm, $options: 'i' } },
             ],
         };
     }
@@ -192,7 +196,6 @@ function unlike(req, res, next) {
         next(error);
     });
 }
-
 
 module.exports = {
     getProjects,
