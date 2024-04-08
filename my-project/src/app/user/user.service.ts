@@ -71,8 +71,15 @@ export class UserService implements OnDestroy {
         rePassword,
         image,
       })
-      .pipe(tap((user) => this.user$$.next(user)));
+      .pipe(
+        tap((user) => {
+          const token = user.token;
+          localStorage.setItem(this.TOKEN_KEY, token);
+          this.user$$.next(user);
+        })
+      );
   }
+  
 
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);

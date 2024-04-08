@@ -15,9 +15,9 @@ const removePassword = (data) => {
 }
 
 function register(req, res, next) {
-    const { tel, email, username, password,image, repeatPassword } = req.body;
+    const { tel, email, username, password, image, repeatPassword } = req.body;
 
-    return userModel.create({ tel, email, username, password,image })
+    userModel.create({ tel, email, username, password, image })
         .then((createdUser) => {
             createdUser = bsonToJson(createdUser);
             createdUser = removePassword(createdUser);
@@ -28,8 +28,8 @@ function register(req, res, next) {
             } else {
                 res.cookie(authCookieName, token, { httpOnly: true })
             }
-            res.status(200)
-                .send(createdUser);
+            // Send the token along with the user data
+            res.status(200).send({ user: createdUser, token }); // Sending both user data and token
         })
         .catch(err => {
             if (err.name === 'MongoError' && err.code === 11000) {
