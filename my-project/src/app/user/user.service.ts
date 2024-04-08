@@ -20,11 +20,20 @@ export class UserService implements OnDestroy {
     return !!this.user;
   }
 
+
   get currentUserId(): string | undefined {
-    if (this.user && this.user.id) {
-      return this.user.id;
+    if (!!this.user) {
+      console.log('User object:', this.user); 
+      if (this.user.hasOwnProperty('_id')) { 
+        return this.user.id;
+      } else {
+        console.error('User object is missing id property:', this.user);
+        return undefined;
+      }
+    } else {
+      console.warn('User object is undefined.'); 
+      return undefined; 
     }
-    return undefined;
   }
   constructor(private http: HttpClient) {
     this.userSubscription = this.user$.subscribe((user) => {

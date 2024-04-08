@@ -14,9 +14,8 @@
             </div>
             <h2>Do you like my project?</h2>
             <button (click)="toggleLike()" class="like-button">
-              <span [ngClass]="{'clicked': isLiked}" class="thumb-icon">Like</span>
-          </button>
-          <span>{{ likesCount }} likes</span>
+                <span [ngClass]="{'clicked': isLiked}" class="thumb-icon">Like</span>
+              </button>            <span>{{project.likes}} likes</span>
 
             <div class="details__project-info_left-line"></div>
         </div>

@@ -59,8 +59,14 @@ export class DetailsComponent implements OnInit {
   }
 
   isCurrentUserOwner(): boolean {
-    return this.userService.currentUserId === this.project._ownerId.id;
+    console.log('Checking current user owner status...');
+    console.log('Current User ID:', this.userService.currentUserId); // Add this line to check if currentUserId is accessed
+    if (this.project && this.project._ownerId && this.project._ownerId.id) {
+      return this.userService.currentUserId === this.project._ownerId.id;
+    }
+    return false; // Or handle this case according to your requirements
   }
+  
 
   populateFormArray(formArrayName: string, values: string[]) {
     const controlArray = this.projectForm.get(formArrayName) as FormArray;
