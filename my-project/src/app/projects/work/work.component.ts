@@ -17,6 +17,7 @@ export class WorkComponent {
   selectedImage: File | null = null;
   projects: Project[] = [];
   searchTerm: string = '';
+  areFourImagesUploaded: boolean = false;
 
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
@@ -86,6 +87,12 @@ export class WorkComponent {
   }
 
   onImageSelected(event: any, index: number) {
+    const imagesArray = this.projectForm.get('images') as FormArray;
+  
+    if (imagesArray.length >= 5) { 
+      return;
+    }
+  
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -93,8 +100,12 @@ export class WorkComponent {
         const imageData = reader.result;
         if (typeof imageData === 'string') {
           this.imageSrc[index] = imageData;
-          const imagesArray = this.projectForm.get('images') as FormArray;
           imagesArray.push(this.fb.control(imageData));
+          if (imagesArray.length === 4) {
+            // You may want to define this property in your component class
+            // This line assumes you have defined it as a boolean property
+            this.areFourImagesUploaded = true;
+          }
         }
       };
       reader.readAsDataURL(file);

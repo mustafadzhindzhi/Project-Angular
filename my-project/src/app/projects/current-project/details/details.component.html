@@ -10,7 +10,7 @@
         <div class="details__project-info_left">
             <div class="details__project-info_left-info">
                 <h3>Date</h3>
-                <p>{{project.createdAt }}</p>
+                <p>{{project.createdAt | dateFormat}}</p>
             </div>
             <h2 *ngIf="!isCurrentUserOwner()">Do you like my project?</h2>
             <i *ngIf="!isCurrentUserOwner()" class="fas fa-thumbs-up thumb-icon" (click)="toggleLike()" [ngClass]="{'move-thumb': isLiked}"></i>

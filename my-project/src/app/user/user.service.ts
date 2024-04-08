@@ -22,7 +22,6 @@ export class UserService implements OnDestroy {
     return !!this.user;
   }
 
-
   get currentUserId(): string | undefined {
     if (!!this.user) {
       if (this.user.hasOwnProperty('_id')) {
@@ -47,8 +46,7 @@ export class UserService implements OnDestroy {
   login(email: string, password: string) {
     return this.http.post<UserForAuth>('/api/login', { email, password }, { withCredentials: true }).pipe(
       tap((user) => {
-        const token = user.token;
-        localStorage.setItem(this.TOKEN_KEY, token);
+        this.setToken(user.token);
         this.user$$.next(user);
       })
     );
@@ -62,27 +60,23 @@ export class UserService implements OnDestroy {
     rePassword: string,
     image: string
   ) {
-    return this.http
-      .post<UserForAuth>('/api/register', {
-        username,
-        email,
-        tel,
-        password,
-        rePassword,
-        image,
+    return this.http.post<UserForAuth>('/api/register', {
+      username,
+      email,
+      tel,
+      password,
+      rePassword,
+      image,
+    }).pipe(
+      tap((user) => {
+        this.setToken(user.token);
+        this.user$$.next(user);
       })
-      .pipe(
-        tap((user) => {
-          const token = user.token;
-          localStorage.setItem(this.TOKEN_KEY, token);
-          this.user$$.next(user);
-        })
-      );
+    );
   }
-  
 
   logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
+    this.removeToken();
     this.user$$.next(undefined);
 
     return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
@@ -92,11 +86,10 @@ export class UserService implements OnDestroy {
     );
   }
 
-
   getProfile() {
-    return this.http
-      .get<UserForAuth>('/api/users/profile', { withCredentials: true })
-      .pipe(tap((user) => this.user$$.next(user)));
+    return this.http.get<UserForAuth>('/api/users/profile', { withCredentials: true }).pipe(
+      tap((user) => this.user$$.next(user))
+    );
   }
 
   getProfiles() {
@@ -104,13 +97,9 @@ export class UserService implements OnDestroy {
   }
 
   updateProfile(username: string, email: string, tel?: string) {
-    return this.http
-      .put<UserForAuth>('/api/users/profile', {
-        username,
-        email,
-        tel,
-      })
-      .pipe(tap((user) => this.user$$.next(user)));
+    return this.http.put<UserForAuth>('/api/users/profile', { username, email, tel }).pipe(
+      tap((user) => this.user$$.next(user))
+    );
   }
 
   ngOnDestroy(): void {
@@ -119,17 +108,25 @@ export class UserService implements OnDestroy {
 
   private loadUserFromLocalStorage(): void {
     const token = localStorage.getItem(this.TOKEN_KEY);
-    if (token) {
+    if (token || this.isLogged) {
       this.getProfile().subscribe({
         next: (user) => {
           this.user$$.next(user);
         },
         error: () => {
-          localStorage.removeItem(this.TOKEN_KEY);
+          this.removeToken();
           this.user$$.next(undefined);
         },
       });
     }
+  }
+
+  private setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  private removeToken(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
   }
 
   saveMessage(name: string, email: string, message: string) {

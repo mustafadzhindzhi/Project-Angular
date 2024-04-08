@@ -6,11 +6,11 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.development';
 import { ErrorService } from './core/error/error.service';
 import { Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
 
 const { apiUrl } = environment;
 
@@ -18,7 +18,7 @@ const { apiUrl } = environment;
 export class AppInterceptor implements HttpInterceptor {
   API = '/api';
 
-  constructor(private errorService: ErrorService, private router: Router) { }
+  constructor(private errorService: ErrorService, private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -30,9 +30,13 @@ export class AppInterceptor implements HttpInterceptor {
         withCredentials: true,
       });
     }
-    req = req.clone({
-      setHeaders: { 'Authorization': localStorage.getItem('token') ?? ''}
-    })
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      req = req.clone({
+        setHeaders: { Authorization: token },
+      });
+    }
 
     return next.handle(req).pipe(
       catchError((err) => {
@@ -43,7 +47,7 @@ export class AppInterceptor implements HttpInterceptor {
           this.router.navigate(['/error']);
         }
 
-        return [err];
+        return throwError(err);
       })
     );
   }
