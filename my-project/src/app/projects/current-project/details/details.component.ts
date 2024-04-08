@@ -39,22 +39,22 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((data) => {
-      const id = data['projectId'];
-  
-      this.apiService.getProject(id).subscribe((project) => {
-        this.project = project;
-        this.likesCount = project.likes;
-        this.projectForm.patchValue(project);
-  
-        this.populateImageArray(project.images);
+        const id = data['projectId'];
 
-        if (project.mainPhoto) {
-          this.mainPhotoSrc = project.mainPhoto;
-        }
-  
-        this.populateFormArray('systems', project.systems);
-        this.populateFormArray('challenges', project.challenges);
-      });
+        this.apiService.getProject(id).subscribe((project) => {
+            this.project = project;
+            this.likesCount = project.likes.length; 
+            this.projectForm.patchValue(project);
+
+            this.populateImageArray(project.images);
+
+            if (project.mainPhoto) {
+                this.mainPhotoSrc = project.mainPhoto;
+            }
+
+            this.populateFormArray('systems', project.systems);
+            this.populateFormArray('challenges', project.challenges);
+        });
     });
   }
 
@@ -64,9 +64,8 @@ export class DetailsComponent implements OnInit {
     if (this.project && this.project._ownerId && this.project._ownerId.id) {
       return this.userService.currentUserId === this.project._ownerId.id;
     }
-    return false; // Or handle this case according to your requirements
+    return false; 
   }
-  
 
   populateFormArray(formArrayName: string, values: string[]) {
     const controlArray = this.projectForm.get(formArrayName) as FormArray;
@@ -96,7 +95,7 @@ export class DetailsComponent implements OnInit {
       }
     }
   }
-  
+
   openEditModal() {
     this.isModalOpen = true;
   }
@@ -186,10 +185,11 @@ export class DetailsComponent implements OnInit {
     this.isDeleteModalOpen = false;
   }
 
-  toggleThumb() {
+  toggleThumbAnimation() {
     const icon = document.querySelector('.thumb-icon');
     if (icon) {
       icon.classList.toggle('clicked');
+      icon.classList.toggle('move-thumb'); // Toggle the animation class
     }
   }
 
@@ -201,63 +201,64 @@ export class DetailsComponent implements OnInit {
     } else {
         this.likeProject(projectId);
     }
-}
+  }
   
-likeProject(projectId: string) {
-  this.apiService.like(projectId).subscribe(
-    () => {
-      this.project.likes++;
-      this.isLiked = true;
-    },
-    (error) => {
-      console.error("Error liking project:", error);
-    }
-  );
-}
-  
-unlikeProject(projectId: string) {
-  this.apiService.unlike(projectId).subscribe(
-    () => {
-      this.project.likes--;
-      this.isLiked = false;
-    },
-    (error) => {
-      console.error("Error unliking project:", error);
-    }
-  );
-}
+  likeProject(projectId: string) {
+    this.apiService.like(projectId).subscribe(
+      () => {
+        this.likesCount++;
+        this.isLiked = true;
+        this.toggleThumbAnimation(); // Add this line
+      },
+      (error) => {
+        console.error("Error liking project:", error);
+      }
+    );
+  }
+
+  unlikeProject(projectId: string) {
+    this.apiService.unlike(projectId).subscribe(
+      () => {
+        this.likesCount--;
+        this.isLiked = false;
+        this.toggleThumbAnimation(); // Add this line
+      },
+      (error) => {
+        console.error("Error unliking project:", error);
+      }
+    );
+  }
 
   submitProject() {
     const projectId = this.project._id;
-    const originalImages = this.project.images;  
-    const imagesArray = this.projectForm.get('images') as FormArray;
-    const newImages = imagesArray.value.filter((image: string | null) => image !== null);
-    if (newImages.length === 0) {
-      console.error("At least one new image is required");
-      return;
-    }
-    const combinedImages = [...originalImages, ...newImages];  
-    const imagesData = combinedImages.map((image: string | ArrayBuffer | null) => image?.toString());
-    const { projectName, smallDesc, bigDescription, industry, deliverables, systems, challenges, approach } = this.projectForm.value;
-  
-    const updatedProjectData = {
-      projectName,
-      smallDesc,
-      bigDescription,
-      industry,
-      deliverables,
-      systems,
-      challenges,
-      approach,
-      mainPhoto: this.mainPhotoSrc?.toString(),
-      images: imagesData
+    const formData = this.projectForm.value;
+    const formValues = {
+      ...formData,
+      mainPhoto: this.mainPhotoSrc,
+      images: formData.images.filter((image: string) => !!image),
     };
-  
-    this.apiService.editProject(projectId, updatedProjectData).subscribe(() => {
-      this.closeModal();
+    this.apiService.editProject(projectId, formValues).subscribe(() => {
       this.router.navigate(['/projects']);
     }, (error) => {
       console.error("Error updating project:", error);
     });
+  }
+
+  removeSystem(index: number) {
+    const controlArray = this.projectForm.get('systems') as FormArray;
+    controlArray.removeAt(index);
+  }
+
+  removeChallenge(index: number) {
+    const controlArray = this.projectForm.get('challenges') as FormArray;
+    controlArray.removeAt(index);
+  }
+
+  get systems(): FormArray {
+    return this.projectForm.get('systems') as FormArray;
+  }
+
+  get challenges(): FormArray {
+    return this.projectForm.get('challenges') as FormArray;
   }
 }

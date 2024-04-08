@@ -10,5 +10,6 @@ router.post('/', projectController.createProject);
 router.put('/:projectId', projectController.editProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/likes', projectController.like);
+router.put('/:projectId/unlike', projectController.unlike); 
 
 module.exports = router

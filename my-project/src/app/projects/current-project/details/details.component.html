@@ -13,9 +13,9 @@
                 <p>{{project.createdAt }}</p>
             </div>
             <h2>Do you like my project?</h2>
-            <button (click)="toggleLike()" class="like-button">
-                <span [ngClass]="{'clicked': isLiked}" class="thumb-icon">Like</span>
-              </button>            <span>{{project.likes}} likes</span>
+            <i class="fas fa-thumbs-up thumb-icon" (click)="toggleLike()" [ngClass]="{'move-thumb': isLiked}"></i>
+
+          <span>{{likesCount}} likes</span>           
 
             <div class="details__project-info_left-line"></div>
         </div>

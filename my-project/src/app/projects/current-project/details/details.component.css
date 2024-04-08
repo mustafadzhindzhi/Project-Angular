@@ -353,17 +353,21 @@ button[type="submit"] {
 
   .thumb-icon {
     font-size: 60px;
-    color: #555; 
-    transition: transform 0.4s ease, color 0.4s ease; 
+    color: #555;
+    transition: transform 0.4s ease, color 0.4s ease;
   }
   
   .thumb-icon.clicked {
-    animation: moveThumb 0.5s ease; 
-    color: #4CAF50; 
+    color: #4CAF50;
+    animation: moveThumb 0.5s ease, pulse 1s infinite;
   }
   
   .thumb-icon:hover {
-    cursor: pointer; 
+    cursor: pointer;
+  }
+  
+  .animate {
+    animation: moveThumb 0.5s ease;
   }
   
   @keyframes moveThumb {
@@ -378,4 +382,3 @@ button[type="submit"] {
     }
   }
   
-

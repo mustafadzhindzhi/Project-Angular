@@ -1,6 +1,5 @@
 const { projectModel } = require('../models');
 const mongoose = require('mongoose')
-const { ObjectId } = require('mongoose').Types;
 
 function getProjects(req, res, next) {
     const searchTerm = req.query.searchTerm;
@@ -167,8 +166,33 @@ function like(req, res, next) {
     .catch(error => {
         next(error);
     });
-
 }
+
+function unlike(req, res, next) {
+    const projectId = req.params.projectId;
+    const userId = req.user.id;
+
+    projectModel.findById(projectId)
+    .then(project => {
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        const index = project.likes.indexOf(userId);
+        if (index !== -1) {
+            project.likes.splice(index, 1);
+        }
+
+        return project.save()
+            .then(() => {
+                res.status(200).json({ message: 'Unliked successful!' });
+            });
+    })
+    .catch(error => {
+        next(error);
+    });
+}
+
 
 module.exports = {
     getProjects,
@@ -178,4 +202,5 @@ module.exports = {
     deleteProject,
     getLatestProjects,
     like,
+    unlike
 }

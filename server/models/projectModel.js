@@ -57,4 +57,11 @@ const projectSchema = new Schema({
     }
 });
 
+projectSchema.methods.unlike = function(userId) {
+    const index = this.likes.indexOf(userId);
+    if (index !== -1) {
+        this.likes.splice(index, 1);
+    }
+};
+
 module.exports = mongoose.model('Project', projectSchema);

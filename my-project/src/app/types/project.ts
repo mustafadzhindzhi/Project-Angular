@@ -13,7 +13,7 @@ export interface Project {
     challenges: string[];
     approach: string;
     images: string[];
-    likes: number;
+    likes: string[];
     userId: string; 
     updatedAt: string;
     __v: number;
