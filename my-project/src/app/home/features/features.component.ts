@@ -32,16 +32,18 @@ export class FeaturesComponent implements OnInit {
 
   loadProjects(): void {
     if (this.userService.isLogged) {
-      this.apiService.getProjects().subscribe(
-        (projects: Project[]) => {
-          this.projects = projects;
-        },
-        (error) => {
-          console.error('Error fetching projects:', error);
-        }
-      );
+        this.apiService.getLatestProjects().subscribe(
+            (projects: Project[]) => {
+                console.log('Fetched projects:', projects); 
+                this.projects = projects.sort((a, b) => b.likes.length - a.likes.length);
+                this.projects = projects;
+            },
+            (error) => {
+                console.error('Error fetching projects:', error);
+            }
+        );
     }
-  }
+} 
 
   moveProjects(direction: 'left' | 'right'): void {
     const container = this.cardsContainer.nativeElement;

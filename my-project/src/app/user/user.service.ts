@@ -19,8 +19,10 @@ export class UserService implements OnDestroy {
   userSubscription: Subscription;
 
   get isLogged(): boolean {
-    return !!this.user;
+    const isLoggedIn = !!this.user;
+    return isLoggedIn;
   }
+  
 
   get currentUserId(): string | undefined {
     if (!!this.user) {

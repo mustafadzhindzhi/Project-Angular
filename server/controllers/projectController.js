@@ -10,7 +10,7 @@ function getProjects(req, res, next) {
         query = {
             $or: [
                 { projectName: { $regex: searchTerm, $options: 'i' } },
-                {smallDesc: {$regex:searchTerm, $options:'i'}},
+                { smallDesc: { $regex: searchTerm, $options: 'i' } },
                 { industry: { $regex: searchTerm, $options: 'i' } },
                 { deliverables: { $regex: searchTerm, $options: 'i' } },
                 { systems: { $regex: searchTerm, $options: 'i' } },
@@ -31,10 +31,10 @@ function getProjects(req, res, next) {
         })
         .catch(next);
 }
-  
+
 function getProject(req, res, next) {
     const { projectId } = req.params;
-    
+
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
         return res.status(400).json({ error: 'Invalid projectId format' });
     }
@@ -43,18 +43,18 @@ function getProject(req, res, next) {
         return res.status(401).json({ error: 'User not authenticated' });
     }
 
-    projectModel.findOne({_id: projectId})
-    .then(project => {
-        if (!project) {
-            return res.status(404).json({ error: 'Project not found' });
-        }
+    projectModel.findOne({ _id: projectId })
+        .then(project => {
+            if (!project) {
+                return res.status(404).json({ error: 'Project not found' });
+            }
 
-        res.json(project);
-    })
-    .catch(error => {
-        console.error('Error fetching project:', error);
-        next(error);
-    });
+            res.json(project);
+        })
+        .catch(error => {
+            console.error('Error fetching project:', error);
+            next(error);
+        });
 }
 
 
@@ -64,29 +64,29 @@ function createProject(req, res, next) {
     const userId = req.user.id;
 
     const projectData = {
-      projectName,
-      smallDesc,
-      bigDescription,
-      images: images,
-      mainPhoto: mainPhoto, 
-      industry,
-      deliverables,
-      systems,
-      challenges,
-      approach,
-      _ownerId: userId, 
+        projectName,
+        smallDesc,
+        bigDescription,
+        images: images,
+        mainPhoto: mainPhoto,
+        industry,
+        deliverables,
+        systems,
+        challenges,
+        approach,
+        _ownerId: userId,
     };
-  
+
     projectModel.create(projectData)
-      .then(project => {
-        res.status(201).json({ project: project });
-      })
-      .catch(err => {
-        console.error('Error creating project:', err);
-        res.status(500).json({ error: 'Failed to create project' });
-      });
-  }
-  
+        .then(project => {
+            res.status(201).json({ project: project });
+        })
+        .catch(err => {
+            console.error('Error creating project:', err);
+            res.status(500).json({ error: 'Failed to create project' });
+        });
+}
+
 function editProject(req, res, next) {
     const projectId = req.params.projectId;
     const { projectName, smallDesc, bigDescription, images, mainPhoto, industry, deliverables, systems, challenges, approach } = req.body;
@@ -97,17 +97,17 @@ function editProject(req, res, next) {
             smallDesc: smallDesc,
             bigDescription: bigDescription,
             images: images,
-            mainPhoto: mainPhoto, 
-            industry: industry, 
-            deliverables: deliverables, 
-            systems: systems, 
+            mainPhoto: mainPhoto,
+            industry: industry,
+            deliverables: deliverables,
+            systems: systems,
             challenges: challenges,
             approach: approach
         }
     };
 
     projectModel.findByIdAndUpdate(projectId, update, { new: true, runValidators: true })
-    .then(updatedProject => {
+        .then(updatedProject => {
             if (!updatedProject) {
                 return res.status(404).json({ error: 'Project not found or user not authorized to edit' });
             }
@@ -121,7 +121,7 @@ function editProject(req, res, next) {
 
 function deleteProject(req, res, next) {
     const projectId = req.params.projectId;
-    
+
     projectModel.findByIdAndDelete(projectId)
         .then(project => {
             if (!project) {
@@ -137,7 +137,6 @@ function deleteProject(req, res, next) {
 
 function getLatestProjects(req, res, next) {
     const limit = 3; 
-    console.log(limit);
     projectModel.find()
         .sort({ likes: -1 }) 
         .limit(limit)
@@ -153,24 +152,24 @@ function like(req, res, next) {
     const userId = req.user.id;
 
     projectModel.findById(projectId)
-    .then(project => {
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
-        }
+        .then(project => {
+            if (!project) {
+                return res.status(404).json({ message: 'Project not found' });
+            }
 
-        if (!project.likes) {
-            project.likes = [];
-        }
+            if (!project.likes) {
+                project.likes = [];
+            }
 
-        project.likes.push(userId);
-        return project.save()
-            .then(() => {
-                res.status(200).json({ message: 'Liked successful!' });
-            });
-    })
-    .catch(error => {
-        next(error);
-    });
+            project.likes.push(userId);
+            return project.save()
+                .then(() => {
+                    res.status(200).json({ message: 'Liked successful!' });
+                });
+        })
+        .catch(error => {
+            next(error);
+        });
 }
 
 function unlike(req, res, next) {
@@ -178,24 +177,24 @@ function unlike(req, res, next) {
     const userId = req.user.id;
 
     projectModel.findById(projectId)
-    .then(project => {
-        if (!project) {
-            return res.status(404).json({ message: 'Project not found' });
-        }
+        .then(project => {
+            if (!project) {
+                return res.status(404).json({ message: 'Project not found' });
+            }
 
-        const index = project.likes.indexOf(userId);
-        if (index !== -1) {
-            project.likes.splice(index, 1);
-        }
+            const index = project.likes.indexOf(userId);
+            if (index !== -1) {
+                project.likes.splice(index, 1);
+            }
 
-        return project.save()
-            .then(() => {
-                res.status(200).json({ message: 'Unliked successful!' });
-            });
-    })
-    .catch(error => {
-        next(error);
-    });
+            return project.save()
+                .then(() => {
+                    res.status(200).json({ message: 'Unliked successful!' });
+                });
+        })
+        .catch(error => {
+            next(error);
+        });
 }
 
 module.exports = {

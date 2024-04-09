@@ -3,6 +3,7 @@ const router = express.Router();
 const { auth } = require('../utils');
 const { projectController } = require('../controllers');
 
+router.get('/top', projectController.getLatestProjects);
 router.get('/', projectController.getProjects);
 router.get('/search', projectController.getProjects); 
 router.get('/:projectId', projectController.getProject);
@@ -11,6 +12,5 @@ router.put('/:projectId', projectController.editProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/likes', projectController.like);
 router.put('/:projectId/unlike', projectController.unlike); 
-router.get('/top', projectController.getLatestProjects);
 
 module.exports = router

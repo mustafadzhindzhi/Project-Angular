@@ -16,17 +16,17 @@
     <div class="features__cards">
 
       <div *ngFor="let project of projects" class="features__cards-card">
-        <img src="{{project.mainPhoto}}" alt="">
+        <img [src]="project.mainPhoto" alt="">
         <div class="name">
-          <h2>{{project.projectName}}</h2>
-          <div class="data">
-            <button>{{project.deliverables}}</button>
-            <button>{{project.industry}}</button>
-
-            <p>{{project._ownerId.username}}</p>
-          </div>
+            <h2>{{ project.projectName }}</h2>
+            <div class="data">
+                <button>{{ project.deliverables }}</button>
+                <button>{{ project.industry }}</button>
+                <p>{{ project._ownerId.username }}</p>
+                <p>Likes: {{ project.likes.length }}</p> <!-- Display the number of likes for debugging -->
+            </div>
         </div>
-      </div>
+    </div>
 
     </div>
   </div>

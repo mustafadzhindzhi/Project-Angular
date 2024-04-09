@@ -5,6 +5,8 @@ import { Project } from './types/project';
 import { User } from './types/user';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap,of } from 'rxjs';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -71,8 +73,15 @@ export class ApiService {
     return this.http.put<Project>(`${apiUrl}/projects/${id}/unlike`, {});
   }
 
-  getLatestProjects(): Observable<Project[]>{
+  getLatestProjects(): Observable<Project[]> {
     const { apiUrl } = environment;
-    return this.http.get<Project[]>(`${apiUrl}/projects/top`)
+    console.log('API URL:', apiUrl); 
+    return this.http.get<Project[]>(`${apiUrl}/projects/top`).pipe(
+      tap((projects) => console.log('Fetched projects:', projects)), 
+      catchError((error) => {
+        console.error('Error fetching projects:', error); 
+        return of([]);
+      })
+    );
   }
 }
