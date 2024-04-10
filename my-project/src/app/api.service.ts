@@ -75,7 +75,6 @@ export class ApiService {
 
   getLatestProjects(): Observable<Project[]> {
     const { apiUrl } = environment;
-    console.log('API URL:', apiUrl); 
     return this.http.get<Project[]>(`${apiUrl}/projects/top`).pipe(
       tap((projects) => console.log('Fetched projects:', projects)), 
       catchError((error) => {
