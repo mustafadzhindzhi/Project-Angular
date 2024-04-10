@@ -52,30 +52,52 @@ To unlock the full potential of Web Design Studio, designers are encouraged to r
 - **Angular Framework:** Leveraging the power of Angular for building dynamic and interactive user interfaces, ensuring a smooth and engaging user experience.
 - **Node.js Backend:** Utilizing Node.js to provide a scalable and efficient backend infrastructure, enabling seamless communication between the frontend and backend components.
 
-## Client Application Setup
+### Client Application Setup
+**Clone the Repository:**  
+ You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
 
-### Clone the Repository
+git clone https://github.com/mustafadzhindzhi/Project-Angular.git
 
-You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
-
-```bash
-git clone <repository_url>
-
-- **Navigate to the Project Directory:**    
+Navigate to the Project Directory:
 Use the terminal to navigate to the project directory.
 
-cd web-design-studio
-
-- **Install Dependencies** 
+cd travel-frame
+Install Dependencies:
 Install all the necessary dependencies by running the following command in your terminal:
+
+npm install 
+
+Run the Client Part: Start the Angular development server with this command:
+
+ng s 
+
+Open the Project: Access the application by opening the following URL in a web browser:
+
+http://localhost:4200/
+
+### Server part Setup
+## Navigate to the Server Directory:
+
+cd server
+
+Install Server Dependencies and Start the Server Execute the following commands in order to start the server.
 
 npm install
 
-- **Run the Client Part: Start the Angular development server with this command:** 
+npm run client
 
-ng serve
+npm run build
 
-- **Open the Project: Access the application by opening the following URL in a web browser: http://localhost:4200/** 
+npm start
+
+## Running the Server:
+Once the server is started, it will listen for requests on:
+
+http://localhost:3030/
+
+
+
+
 
 
 
