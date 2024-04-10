@@ -54,14 +54,17 @@ To unlock the full potential of Web Design Studio, designers are encouraged to r
 
 ### Client Application Setup
 
--Clone the Repository: You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
+## Clone the Repository: 
+You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
 
-git clone https://github.com/bebo13133/TravelFrame.git
+git clone https://github.com/mustafadzhindzhi/Project-Angular.git
 
-1. **Navigate to the Project Directory:**
+1. Navigate to the Project Directory:
    Use the terminal to navigate to the project directory.
    ```bash
-   cd TravelFrame
+   **cd travel-frame**
+
+
 
 
 
