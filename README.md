@@ -61,8 +61,8 @@ git clone https://github.com/mustafadzhindzhi/Project-Angular.git
 
 1. Navigate to the Project Directory:
    Use the terminal to navigate to the project directory.
-   ```bash
-cd my-project
+   ```bash cd my-project
+
 
 
 
