@@ -46,7 +46,6 @@ export class SomeComponent implements OnInit {
     const scrollAmount = 300;
     const scrollDirection = direction === 'left' ? -scrollAmount : scrollAmount;
 
-    // Reset animation state
     this.currentIndex = direction === 'left' ? this.currentIndex + 1 : this.currentIndex - 1;
 
     container.scrollBy({ left: scrollDirection, behavior: 'smooth' });

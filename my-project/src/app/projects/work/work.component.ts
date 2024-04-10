@@ -102,8 +102,6 @@ export class WorkComponent {
           this.imageSrc[index] = imageData;
           imagesArray.push(this.fb.control(imageData));
           if (imagesArray.length === 4) {
-            // You may want to define this property in your component class
-            // This line assumes you have defined it as a boolean property
             this.areFourImagesUploaded = true;
           }
         }

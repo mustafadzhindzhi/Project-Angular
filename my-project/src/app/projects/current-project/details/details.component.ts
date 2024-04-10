@@ -39,24 +39,31 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((data) => {
-        const id = data['projectId'];
-
-        this.apiService.getProject(id).subscribe((project) => {
-            this.project = project;
-            this.likesCount = project.likes.length; 
-            this.projectForm.patchValue(project);
-
-            this.populateImageArray(project.images);
-
-            if (project.mainPhoto) {
-                this.mainPhotoSrc = project.mainPhoto;
-            }
-
-            this.populateFormArray('systems', project.systems);
-            this.populateFormArray('challenges', project.challenges);
-        });
+      const id = data['projectId'];
+  
+      this.apiService.getProject(id).subscribe((project) => {
+        this.project = project;
+        this.likesCount = project.likes.length; 
+        this.projectForm.patchValue(project);
+  
+        this.populateImageArray(project.images);
+  
+        if (project.mainPhoto) {
+          this.mainPhotoSrc = project.mainPhoto;
+        }
+  
+        this.populateFormArray('systems', project.systems);
+        this.populateFormArray('challenges', project.challenges);
+      });
     });
+  
+    const storedLikeStatus = localStorage.getItem('isLiked');
+    this.isLiked = storedLikeStatus ? JSON.parse(storedLikeStatus) : false;
+  
+    this.toggleThumbAnimation();
+
   }
+  
 
   isCurrentUserOwner(): boolean {
     return !!this.project._ownerId && this.userService.currentUserId === this.project._ownerId.toString();
@@ -183,8 +190,12 @@ export class DetailsComponent implements OnInit {
   toggleThumbAnimation() {
     const icon = document.querySelector('.thumb-icon');
     if (icon) {
-      icon.classList.toggle('clicked');
-      icon.classList.toggle('move-thumb'); // Toggle the animation class
+      if (this.isLiked) {
+        icon.classList.add('clicked');
+      } else {
+        icon.classList.remove('clicked');
+      }
+      icon.classList.toggle('move-thumb'); 
     }
   }
 
@@ -203,7 +214,9 @@ export class DetailsComponent implements OnInit {
       () => {
         this.likesCount++;
         this.isLiked = true;
-        this.toggleThumbAnimation(); // Add this line
+        this.toggleThumbAnimation();
+        
+        localStorage.setItem('isLiked', JSON.stringify(this.isLiked));
       },
       (error) => {
         console.error("Error liking project:", error);
@@ -216,7 +229,9 @@ export class DetailsComponent implements OnInit {
       () => {
         this.likesCount--;
         this.isLiked = false;
-        this.toggleThumbAnimation(); // Add this line
+        this.toggleThumbAnimation();
+        
+        localStorage.setItem('isLiked', JSON.stringify(this.isLiked));
       },
       (error) => {
         console.error("Error unliking project:", error);
