@@ -65,19 +65,32 @@ cd travel-frame
 Install Dependencies:
 Install all the necessary dependencies by running the following command in your terminal:
 
-npm install   
+npm install 
+
 Run the Client Part: Start the Angular development server with this command:
+
 ng s 
-Open the Project: Access the application by opening the following URL in a web browser: http://localhost:4200/
-Server part Setup
-Navigate to the Server Directory:
+
+Open the Project: Access the application by opening the following URL in a web browser:
+
+http://localhost:4200/
+
+### Server part Setup
+## Navigate to the Server Directory:
+
 cd server
+
 Install Server Dependencies and Start the Server Execute the following commands in order to start the server.
+
 npm install
+
 npm run client
+
 npm run build
+
 npm start
-Running the Server:
+
+## Running the Server:
 Once the server is started, it will listen for requests on:
 
 http://localhost:3030/
