@@ -52,30 +52,18 @@ To unlock the full potential of Web Design Studio, designers are encouraged to r
 - **Angular Framework:** Leveraging the power of Angular for building dynamic and interactive user interfaces, ensuring a smooth and engaging user experience.
 - **Node.js Backend:** Utilizing Node.js to provide a scalable and efficient backend infrastructure, enabling seamless communication between the frontend and backend components.
 
-## Client Application Setup
+### Client Application Setup
 
-### Clone the Repository
+-Clone the Repository: You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
 
-You can clone the repository using the following command or download it as a ZIP file and extract it on your computer.
+git clone https://github.com/bebo13133/TravelFrame.git
 
-```bash
-git clone <repository_url>
+1. **Navigate to the Project Directory:**
+   Use the terminal to navigate to the project directory.
+   ```bash
+   cd TravelFrame
 
-- **Navigate to the Project Directory:**    
-Use the terminal to navigate to the project directory.
 
-cd web-design-studio
-
-- **Install Dependencies** 
-Install all the necessary dependencies by running the following command in your terminal:
-
-npm install
-
-- **Run the Client Part: Start the Angular development server with this command:** 
-
-ng serve
-
-- **Open the Project: Access the application by opening the following URL in a web browser: http://localhost:4200/** 
 
 
 
